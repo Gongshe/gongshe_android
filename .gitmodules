@@ -1,0 +1,3 @@
+[submodule "cardslib"]
+	path = cardslib
+	url = https://github.com/gabrielemariotti/cardslib.git

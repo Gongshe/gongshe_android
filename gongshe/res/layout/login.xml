@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:focusable="true">
+
+    <LinearLayout android:id="@+id/frame_login"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_centerHorizontal="true"
+                  android:layout_alignParentTop="true"
+                  android:layout_marginTop="100dip">
+
+        <EditText android:id="@+id/user_name_input"
+                  android:layout_width="300dip"
+                  android:layout_height="40dip"
+                  android:inputType="text"
+                  android:hint="@string/input_user_name"/>
+
+        <EditText android:id="@+id/user_passwd_input"
+                  android:layout_height="40dip"
+                  android:layout_width="300dip"
+                  android:inputType="text"
+                  android:password="true"
+                  android:hint="@string/input_user_password"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/frame_login"
+                  android:layout_marginTop="40dip"
+                  android:orientation="horizontal">
+
+        <Button android:id="@+id/btn_signup"
+                android:layout_width="100dip"
+                android:layout_height="40dip"
+                android:layout_weight="1"
+                android:text="@string/sing_up"
+                android:layout_gravity="center"/>
+
+        <Button android:id="@+id/btn_login"
+                android:layout_width="100dip"
+                android:layout_height="40dip"
+                android:layout_weight="1"
+                android:text="@string/sign_in"
+                android:layout_gravity="center"/>
+    </LinearLayout>
+
+
+    <Button android:id="@+id/btn_login_weibo"
+            android:layout_width="300dip"
+            android:layout_height="40dip"
+            android:text="@string/weibo_login"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dip"/>
+</RelativeLayout>
+
