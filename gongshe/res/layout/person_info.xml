@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout android:id="@+id/content_title_bar"
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:orientation="horizontal"
+                  android:background="@color/grey">
+
+        <Button android:id="@+id/btn_back"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:layout_gravity="center_vertical"
+                android:text="back"
+                android:src="@drawable/icon"/>
+
+        <TextView android:id="@+id/txview_title_bar"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:text="title"/>
+
+        <ImageView android:id="@+id/icon_title_bar_right"
+                   android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:layout_weight="0"
+                   android:layout_gravity="center_vertical"
+                   android:visibility="invisible"
+                   android:src="@drawable/icon"/>
+    </LinearLayout>
+
+    <ImageView android:id="@+id/imv_avatar"
+               android:layout_width="150dp"
+               android:layout_height="150dp"
+               android:src="@drawable/icon"
+               android:scaleType="fitCenter"/>
+
+    <TextView android:id="@+id/txv_self_introduction"
+              android:layout_height="200dp"
+              android:layout_width="match_parent"
+              android:text="self introduction"/>
+
+    <Button android:id="@+id/btn_link_weido"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="link weibo"
+            android:layout_gravity="center_horizontal"/>
+
+    <TextView android:id="@+id/txv_username"
+              android:layout_width="200dp"
+              android:layout_height="50dp"
+              android:text="user name"/>
+
+    <TextView android:id="@+id/txv_password"
+              android:layout_width="200dp"
+              android:layout_height="50dp"
+              android:text="pass word"/>
+</LinearLayout>

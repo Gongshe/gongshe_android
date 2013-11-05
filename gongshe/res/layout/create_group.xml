@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout android:id="@+id/content_title_bar"
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:orientation="horizontal"
+                  android:background="@color/grey"
+                  android:layout_alignParentTop="true">
+
+        <Button android:id="@+id/btn_back"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:layout_gravity="center_vertical"
+                android:text="back"
+                android:src="@drawable/icon"/>
+
+        <TextView android:id="@+id/txview_title_bar"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:gravity="center"
+                  android:text="Create Group"/>
+
+        <ImageView android:id="@+id/icon_title_bar_right"
+                   android:layout_width="30dp"
+                   android:layout_height="30dp"
+                   android:layout_weight="0"
+                   android:layout_gravity="center_vertical"
+                   android:visibility="invisible"
+                   android:src="@drawable/icon"/>
+    </LinearLayout>
+
+    <EditText android:id="@+id/etxv_group_info"
+              android:layout_width="match_parent"
+              android:layout_height="200dp"
+              android:editable="false"/>
+
+    <ListView android:id="@+id/lsv_group_members"
+              android:layout_weight="1"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
+
+    <Button android:id="@+id/btn_add_member"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="add more members"
+            android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

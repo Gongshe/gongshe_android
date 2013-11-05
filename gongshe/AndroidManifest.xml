@@ -21,5 +21,23 @@
         <activity android:name=".controller.MainUIActivity"
                   android:screenOrientation="portrait"/>
 
+        <activity android:name=".controller.EditPostActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.GroupManageActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.PersonInfoActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.CreateGroupActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.FriendListActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.ChatActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 </manifest>

@@ -4,12 +4,8 @@
                 android:background="@color/yellow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-    <TextView android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:layout_centerInParent="true"
-              android:textSize="50dp"
-              android:text="Friends Friends"/>
-
+    <ListView android:id="@+id/lsv_friend_list"
+              android:layout_below="@id/content_title_bar"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
 </RelativeLayout>

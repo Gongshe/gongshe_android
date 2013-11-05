@@ -1,15 +1,13 @@
 package com.gongshe.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import com.gongshe.R;
 
 public class MenuListFragment extends ListFragment {
@@ -19,13 +17,34 @@ public class MenuListFragment extends ListFragment {
     }
 
     OnMenuItemSelectedListener mOnMenuItemSelectedListener;
+    Button mBtnGroupManage;
+    Button mBtnPersonalInfo;
 
     public void setOnMenuItemSelectedListener (OnMenuItemSelectedListener listener) {
         mOnMenuItemSelectedListener = listener;
     }
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.list, null);
+		View view = inflater.inflate(R.layout.list, null);
+
+        mBtnGroupManage = (Button) view.findViewById(R.id.btn_group_manage);
+        mBtnGroupManage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GroupManageActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        mBtnPersonalInfo = (Button) view.findViewById(R.id.btn_personal_info);
+        mBtnPersonalInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+        return view;
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState) {

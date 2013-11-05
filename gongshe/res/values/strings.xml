@@ -13,4 +13,12 @@
     <string name="btn_message">消息</string>
     <string name="btn_post">发起</string>
     <string name="btn_friends">好友</string>
+    <string name="btn_activities">动态</string>
+
+    <!-- EditPostActivity -->
+    <string name="hint_input_title">再次输入标题</string>
+
+    <!-- HeaderFragment -->
+    <string name="btn_back">返回</string>
+
 </resources>

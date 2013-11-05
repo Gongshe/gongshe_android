@@ -1,4 +1,4 @@
-package com.gongshe.model;
+package com.gongshe.controller;
 
 import android.content.Context;
 import android.view.View;

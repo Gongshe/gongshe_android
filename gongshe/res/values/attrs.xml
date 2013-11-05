@@ -26,4 +26,19 @@
         <attr name="selectorDrawable" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="CommonHeader">
+        <attr name="left_button">
+            <enum name="invisible" value="0"/>
+            <enum name="back" value="1"/>
+            <enum name="icon" value="2"/>
+        </attr>
+
+        <attr name="right_button">
+            <enum name="invisible" value="0"/>
+            <enum name="icon" value="1"/>
+        </attr>
+
+        <attr name="title_text" format="string"/>
+    </declare-styleable>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.gongshe.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,9 +24,11 @@ public class MainUIActivity extends FragmentActivity {
 
     private ImageView mAppIcon;
     private ImageView mTitleBarRightIcon;
+    private TextView mTitle;
     private Button mBtnPost;
     private Button mBtnMessage;
     private Button mBtnFriends;
+    private Button mBtnActivities;
     private SlidingMenu mSlideMenu;
     private MessageFragment mMessageFrame;
     private ContentFrameFragment mContentFrame;
@@ -38,6 +42,7 @@ public class MainUIActivity extends FragmentActivity {
                 getSupportFragmentManager().beginTransaction()
                                            .replace(R.id.content_frame, mContentFrame)
                                            .commit();
+                mTitle.setText(R.string.btn_activities);
             }
             mSlideMenu.showContent();
         }
@@ -65,6 +70,8 @@ public class MainUIActivity extends FragmentActivity {
 
         mAppIcon = (ImageView) findViewById(R.id.icon_title_bar);
         mTitleBarRightIcon = (ImageView) findViewById(R.id.icon_title_bar_right);
+        mTitle = (TextView) findViewById(R.id.txview_title_bar);
+        mTitle.setText(R.string.btn_activities);
 
         mBtnFriends = (Button) findViewById(R.id.btn_friends);
         mBtnFriends.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +94,14 @@ public class MainUIActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 onPostButton();
+            }
+        });
+
+        mBtnActivities = (Button) findViewById(R.id.btn_activities);
+        mBtnActivities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onActivities();
             }
         });
     }
@@ -112,15 +127,32 @@ public class MainUIActivity extends FragmentActivity {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, mMessageFrame)
                     .commit();
+            mTitle.setText(R.string.btn_message);
         }
     }
 
     private void onPostButton() {
+        Intent intent = new Intent(this, EditPostActivity.class);
+        startActivity(intent);
+    }
+
+    private void onFriendsButton() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.findFragmentById(R.id.content_frame) != mFriendsFrame) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, mFriendsFrame)
+                    .commit();
+            mTitle.setText(R.string.btn_friends);
+        }
+    }
+
+    private void onActivities() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.findFragmentById(R.id.content_frame) != mContentFrame) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, mContentFrame)
                     .commit();
+            mTitle.setText(R.string.btn_activities);
         }
         RequestQueue myQueue = Volley.newRequestQueue(this, new OkHttpStack());
         Request request = new StringRequest("http://www.baidu.com", new Response.Listener<String>() {
@@ -131,14 +163,5 @@ public class MainUIActivity extends FragmentActivity {
         }, null);
         myQueue.add(request);
         myQueue.start();
-    }
-
-    private void onFriendsButton() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentById(R.id.content_frame) != mFriendsFrame) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, mFriendsFrame)
-                    .commit();
-        }
     }
 }
