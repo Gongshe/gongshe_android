@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <View android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:background="@color/grey"/>
+
+    <ListView android:background="@color/darkblue"
+              android:id="@android:id/list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:cacheColorHint="#00000000"
+              android:paddingLeft="@dimen/list_padding"
+              android:paddingRight="@dimen/list_padding"/>
+
+    <LinearLayout android:id="@+id/menu_function_bar"
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  android:background="@color/grey"
+                  android:orientation="horizontal">
+        <Button android:id="@+id/btn_group_manage"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="my group"/>
+        <Button android:id="@+id/btn_personal_info"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="personal"/>
+    </LinearLayout>
+</LinearLayout>

@@ -21,4 +21,8 @@
     <!-- HeaderFragment -->
     <string name="btn_back">返回</string>
 
+    <!-- LeftMenuItem -->
+    <string name="menu_all_activities">所有动态</string>
+    <string name="menu_all_involved_me">所有我参与的</string>
+    <string name="menu_all_mention_me">所有@我的</string>
 </resources>

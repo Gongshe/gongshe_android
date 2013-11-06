@@ -12,12 +12,12 @@
               xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
               gongshe:left_button="back"
               gongshe:right_button="invisible"
-              gongshe:title_text="chat"/>
+              gongshe:title_text="参与讨论者"/>
 
-    <ListView android:id="@+id/lsv_chat_content"
+    <GridView android:id="@+id/gdv_people_grid"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:cacheColorHint="#00000000"
               android:layout_weight="1"
-              android:background="@color/wheat"/>
+              android:numColumns="3"
+              android:cacheColorHint="#00000000"/>
 </LinearLayout>

@@ -77,8 +77,8 @@ public class CustomViewBehind extends ViewGroup {
 	}
 
 	/**
-	 * Sets the secondary (right) menu for use when setMode is called with SlidingMenu.LEFT_RIGHT.
-	 * @param v the right menu
+	 * Sets the secondary (right) left_menu for use when setMode is called with SlidingMenu.LEFT_RIGHT.
+	 * @param v the right left_menu
 	 */
 	public void setSecondaryContent(View v) {
 		if (mSecondaryContent != null)

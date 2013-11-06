@@ -36,13 +36,37 @@ public class MainUIActivity extends FragmentActivity {
 
     private MenuListFragment.OnMenuItemSelectedListener mOnMenuItemSelectedListener = new MenuListFragment.OnMenuItemSelectedListener() {
         @Override
-        public void onItemSelected() {
+        public void onItemSelected(int position) {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-            if (mContentFrame != null && fragment != null && fragment != mContentFrame) {
-                getSupportFragmentManager().beginTransaction()
-                                           .replace(R.id.content_frame, mContentFrame)
-                                           .commit();
-                mTitle.setText(R.string.btn_activities);
+            if (mContentFrame != null && fragment != null) {
+                if (fragment != mContentFrame) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.content_frame, mContentFrame)
+                            .commit();
+                }
+                switch (position) {
+                    case 0:
+                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
+                        mTitle.setText(R.string.menu_all_activities);
+                        break;
+                    case 1:
+                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_INVOLVED);
+                        mTitle.setText(R.string.menu_all_involved_me);
+                        break;
+                    case 2:
+                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_MENTIONED);
+                        mTitle.setText(R.string.menu_all_mention_me);
+                        break;
+                    case 3:
+                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.GROUP_1);
+                        mTitle.setText("行行摄色");
+                        break;
+                    case 4:
+                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.GROUP_2);
+                        mTitle.setText("荐书");
+                        break;
+                    default:
+                }
             }
             mSlideMenu.showContent();
         }
@@ -51,7 +75,9 @@ public class MainUIActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_ui);
+
         mContentFrame = new ContentFrameFragment();
+        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
         mMessageFrame = new MessageFragment();
         mFriendsFrame = new FriendsFragment();
         setupUILayout();
@@ -71,7 +97,7 @@ public class MainUIActivity extends FragmentActivity {
         mAppIcon = (ImageView) findViewById(R.id.icon_title_bar);
         mTitleBarRightIcon = (ImageView) findViewById(R.id.icon_title_bar_right);
         mTitle = (TextView) findViewById(R.id.txview_title_bar);
-        mTitle.setText(R.string.btn_activities);
+        mTitle.setText(R.string.menu_all_activities);
 
         mBtnFriends = (Button) findViewById(R.id.btn_friends);
         mBtnFriends.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +141,8 @@ public class MainUIActivity extends FragmentActivity {
         mSlideMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         mSlideMenu.setFadeDegree(0.35f);
         mSlideMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        mSlideMenu.setMenu(R.layout.menu);
-        // setup menu listener
+        mSlideMenu.setMenu(R.layout.left_menu);
+        // setup left_menu listener
         MenuListFragment menu = (MenuListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_menu_list);
         menu.setOnMenuItemSelectedListener(mOnMenuItemSelectedListener);
     }

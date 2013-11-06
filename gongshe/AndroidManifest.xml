@@ -39,5 +39,11 @@
         <activity android:name=".controller.ChatActivity"
                   android:screenOrientation="portrait"/>
 
+        <activity android:name=".controller.PeopleGroupActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.PostBrowseActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 </manifest>

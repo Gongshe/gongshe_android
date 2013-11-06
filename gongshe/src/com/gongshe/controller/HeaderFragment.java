@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,11 @@ import com.gongshe.R;
 
 public class HeaderFragment extends Fragment {
     private static final String TAG = HeaderFragment.class.getSimpleName();
+
+    public interface OnButtonListener {
+        public void onLeftButtonClicked();
+        public void onRightButtonClicked();
+    }
 
     private static enum LeftButtonType {
         INVISIBLE,
@@ -31,6 +35,22 @@ public class HeaderFragment extends Fragment {
     private LeftButtonType mLeftButtonType;
     private RightButtonType mRightButtonType;
     private String mTitleText;
+    private OnButtonListener mOnButtonListener;
+
+    public void setOnButtonListener(OnButtonListener listener) {
+        mOnButtonListener = listener;
+    }
+
+    public void setTitle(String title) {
+        if (mTitleText != null) {
+            mTitleText = title;
+        }
+        View view = getView();
+        if (view != null) {
+            TextView textView = (TextView) view.findViewById(R.id.txv_title);
+            textView.setText(mTitleText);
+        }
+    }
 
     @Override
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
@@ -68,6 +88,14 @@ public class HeaderFragment extends Fragment {
                     imageButton.setImageResource(R.drawable.icon);
                     break;
             }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnButtonListener != null) {
+                        mOnButtonListener.onLeftButtonClicked();
+                    }
+                }
+            });
         }
         if (mRightButtonType != null) {
             ImageButton imageButton = (ImageButton) view.findViewById(R.id.btn_right);
@@ -79,6 +107,14 @@ public class HeaderFragment extends Fragment {
                     imageButton.setVisibility(View.VISIBLE);
                     break;
             }
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnButtonListener != null) {
+                        mOnButtonListener.onRightButtonClicked();
+                    }
+                }
+            });
         }
         return view;
     }

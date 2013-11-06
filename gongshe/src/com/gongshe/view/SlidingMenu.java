@@ -53,11 +53,11 @@ public class SlidingMenu extends RelativeLayout {
 	 */
 	public static final int TOUCHMODE_NONE = 2;
 
-	/** Constant value for use with setMode(). Puts the menu to the left of the content.
+	/** Constant value for use with setMode(). Puts the left_menu to the left of the content.
 	 */
 	public static final int LEFT = 0;
 
-	/** Constant value for use with setMode(). Puts the menu to the right of the content.
+	/** Constant value for use with setMode(). Puts the left_menu to the right of the content.
 	 */
 	public static final int RIGHT = 1;
 
@@ -367,7 +367,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the behind view (menu) content from a layout resource. The resource will be inflated, adding all top-level views
+	 * Set the behind view (left_menu) content from a layout resource. The resource will be inflated, adding all top-level views
 	 * to the behind view.
 	 *
 	 * @param res the new content
@@ -377,7 +377,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the behind view (menu) content to the given View.
+	 * Set the behind view (left_menu) content to the given View.
 	 *
 	 * @param view The desired content to display.
 	 */
@@ -386,15 +386,15 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Retrieves the main menu.
-	 * @return the main menu
+	 * Retrieves the main left_menu.
+	 * @return the main left_menu
 	 */
 	public View getMenu() {
 		return mViewBehind.getContent();
 	}
 
 	/**
-	 * Set the secondary behind view (right menu) content from a layout resource. The resource will be inflated, adding all top-level views
+	 * Set the secondary behind view (right left_menu) content from a layout resource. The resource will be inflated, adding all top-level views
 	 * to the behind view.
 	 *
 	 * @param res the new content
@@ -404,7 +404,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Set the secondary behind view (right menu) content to the given View.
+	 * Set the secondary behind view (right left_menu) content to the given View.
 	 *
 	 * @param view The desired content to display.
 	 */
@@ -414,8 +414,8 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Retrieves the current secondary menu (right).
-	 * @return the current menu
+	 * Retrieves the current secondary left_menu (right).
+	 * @return the current left_menu
 	 */
 	public View getSecondaryMenu() {
 		return mViewBehind.getSecondaryContent();
@@ -479,14 +479,14 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Opens the menu and shows the menu view.
+	 * Opens the left_menu and shows the left_menu view.
 	 */
 	public void showMenu() {
 		showMenu(true);
 	}
 
 	/**
-	 * Opens the menu and shows the menu view.
+	 * Opens the left_menu and shows the left_menu view.
 	 *
 	 * @param animate true to animate the transition, false to ignore animation
 	 */
@@ -495,7 +495,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Opens the menu and shows the secondary menu view. Will default to the regular menu
+	 * Opens the left_menu and shows the secondary left_menu view. Will default to the regular left_menu
 	 * if there is only one.
 	 */
 	public void showSecondaryMenu() {
@@ -503,7 +503,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Opens the menu and shows the secondary (right) menu view. Will default to the regular menu
+	 * Opens the left_menu and shows the secondary (right) left_menu view. Will default to the regular left_menu
 	 * if there is only one.
 	 *
 	 * @param animate true to animate the transition, false to ignore animation
@@ -513,14 +513,14 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Closes the menu and shows the above view.
+	 * Closes the left_menu and shows the above view.
 	 */
 	public void showContent() {
 		showContent(true);
 	}
 
 	/**
-	 * Closes the menu and shows the above view.
+	 * Closes the left_menu and shows the above view.
 	 *
 	 * @param animate true to animate the transition, false to ignore animation
 	 */
@@ -593,7 +593,7 @@ public class SlidingMenu extends RelativeLayout {
 	 * Sets the behind offset.
 	 *
 	 * @param resID The dimension resource id to be set as the behind offset.
-	 * The menu, when open, will leave this width margin on the right of the screen.
+	 * The left_menu, when open, will leave this width margin on the right of the screen.
 	 */
 	public void setBehindOffsetRes(int resID) {
 		int i = (int) getContext().getResources().getDimension(resID);
@@ -646,7 +646,7 @@ public class SlidingMenu extends RelativeLayout {
 	 * Sets the behind width.
 	 *
 	 * @param res The dimension resource id to be set as the behind width offset.
-	 * The menu, when open, will open this wide.
+	 * The left_menu, when open, will open this wide.
 	 */
 	public void setBehindWidthRes(int res) {
 		int i = (int) getContext().getResources().getDimension(res);
@@ -868,7 +868,7 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * Clear the list of Views ignored by the Touch Down event when mode is Fullscreen
+	 * Clear the left_menu_list of Views ignored by the Touch Down event when mode is Fullscreen
 	 */
 	public void clearIgnoredViews() {
 		mViewAbove.clearIgnoredViews();
@@ -886,7 +886,7 @@ public class SlidingMenu extends RelativeLayout {
 
 	
 	/**
-	 * Sets the OnOpenListner for secondary menu  {@link OnOpenListener#onOpen() OnOpenListener.onOpen()} will be called when the secondary SlidingMenu is opened
+	 * Sets the OnOpenListner for secondary left_menu  {@link OnOpenListener#onOpen() OnOpenListener.onOpen()} will be called when the secondary SlidingMenu is opened
 	 * 
 	 * @param listener the new OnOpenListener
 	 */
