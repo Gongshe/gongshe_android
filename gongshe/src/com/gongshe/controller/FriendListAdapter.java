@@ -7,12 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import com.gongshe.R;
 
 import java.util.ArrayList;
 
 public class FriendListAdapter extends BaseAdapter {
+
+    public enum DisplayMode {
+        NONE,
+        MESSAGE,
+        SELECTION;
+    }
+
     public static class FriendInfo {
         public String mName;
 
@@ -23,6 +31,12 @@ public class FriendListAdapter extends BaseAdapter {
 
     ArrayList<FriendInfo> mFriendsList;
     Context mContext;
+
+    private DisplayMode mDisplayMode = DisplayMode.MESSAGE;
+
+    public void setDisplayMode(DisplayMode displayMode) {
+        mDisplayMode = displayMode;
+    }
 
     public FriendListAdapter(Context context) {
         mFriendsList = new ArrayList<FriendInfo>();
@@ -65,6 +79,18 @@ public class FriendListAdapter extends BaseAdapter {
             }
         });
 
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.cb_selection);
+
+        if (mDisplayMode == DisplayMode.SELECTION) {
+            checkBox.setVisibility(View.VISIBLE);
+            button.setVisibility(View.GONE);
+        } else if (mDisplayMode == DisplayMode.MESSAGE) {
+            checkBox.setVisibility(View.GONE);
+            button.setVisibility(View.VISIBLE);
+        } else {
+            checkBox.setVisibility(View.GONE);
+            button.setVisibility(View.GONE);
+        }
         return view;
     }
 

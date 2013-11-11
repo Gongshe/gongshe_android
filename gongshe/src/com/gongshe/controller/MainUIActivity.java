@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -22,8 +23,8 @@ import com.gongshe.view.SlidingMenu;
 public class MainUIActivity extends FragmentActivity {
     private final static String TAG = MainUIActivity.class.getSimpleName();
 
-    private ImageView mAppIcon;
-    private ImageView mTitleBarRightIcon;
+    private ImageButton mAppIcon;
+    private ImageButton mTitleBarRightIcon;
     private TextView mTitle;
     private Button mBtnPost;
     private Button mBtnMessage;
@@ -80,6 +81,7 @@ public class MainUIActivity extends FragmentActivity {
         mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
         mMessageFrame = new MessageFragment();
         mFriendsFrame = new FriendsFragment();
+        mFriendsFrame.setDisplayMode(FriendListAdapter.DisplayMode.MESSAGE);
         setupUILayout();
     }
 
@@ -94,9 +96,25 @@ public class MainUIActivity extends FragmentActivity {
                                    .add(R.id.content_frame, mContentFrame)
                                    .commit();
 
-        mAppIcon = (ImageView) findViewById(R.id.icon_title_bar);
-        mTitleBarRightIcon = (ImageView) findViewById(R.id.icon_title_bar_right);
-        mTitle = (TextView) findViewById(R.id.txview_title_bar);
+        HeaderFragment fragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
+        fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
+            @Override
+            public void onLeftButtonClicked() {
+                if (mSlideMenu != null) {
+                    mSlideMenu.toggle();
+                }
+            }
+
+            @Override
+            public void onRightButtonClicked() {
+                Intent intent = new Intent(MainUIActivity.this, ImportContactActivity.class);
+                MainUIActivity.this.startActivity(intent);
+            }
+        });
+
+        mAppIcon = (ImageButton) findViewById(R.id.btn_left_image);
+        mTitleBarRightIcon = (ImageButton) findViewById(R.id.btn_right);
+        mTitle = (TextView) findViewById(R.id.txv_title);
         mTitle.setText(R.string.menu_all_activities);
 
         mBtnFriends = (Button) findViewById(R.id.btn_friends);
@@ -154,6 +172,7 @@ public class MainUIActivity extends FragmentActivity {
                     .replace(R.id.content_frame, mMessageFrame)
                     .commit();
             mTitle.setText(R.string.btn_message);
+            mTitleBarRightIcon.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -169,6 +188,7 @@ public class MainUIActivity extends FragmentActivity {
                     .replace(R.id.content_frame, mFriendsFrame)
                     .commit();
             mTitle.setText(R.string.btn_friends);
+            mTitleBarRightIcon.setVisibility(View.VISIBLE);
         }
     }
 
@@ -179,6 +199,7 @@ public class MainUIActivity extends FragmentActivity {
                     .replace(R.id.content_frame, mContentFrame)
                     .commit();
             mTitle.setText(R.string.btn_activities);
+            mTitleBarRightIcon.setVisibility(View.INVISIBLE);
         }
         RequestQueue myQueue = Volley.newRequestQueue(this, new OkHttpStack());
         Request request = new StringRequest("http://www.baidu.com", new Response.Listener<String>() {

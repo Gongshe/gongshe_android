@@ -5,35 +5,14 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content_title_bar"
-                  android:layout_width="match_parent"
-                  android:layout_height="40dp"
-                  android:orientation="horizontal"
-                  android:background="@color/grey">
-
-        <Button android:id="@+id/btn_back"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_weight="0"
-                android:layout_gravity="center_vertical"
-                android:text="back"
-                android:src="@drawable/icon"/>
-
-        <TextView android:id="@+id/txview_title_bar"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:gravity="center"
-                  android:text="title"/>
-
-        <ImageView android:id="@+id/icon_title_bar_right"
-                   android:layout_width="30dp"
-                   android:layout_height="30dp"
-                   android:layout_weight="0"
-                   android:layout_gravity="center_vertical"
-                   android:visibility="invisible"
-                   android:src="@drawable/icon"/>
-    </LinearLayout>
+    <fragment android:name="com.gongshe.controller.HeaderFragment"
+              android:id="@+id/common_header"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
+              gongshe:left_button="back"
+              gongshe:right_button="invisible"
+              gongshe:title_text="我的群组"/>
 
     <ListView android:id="@+id/lsv_group_list"
               android:layout_height="match_parent"

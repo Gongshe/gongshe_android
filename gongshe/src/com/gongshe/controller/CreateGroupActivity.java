@@ -3,6 +3,7 @@ package com.gongshe.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,7 +15,9 @@ public class CreateGroupActivity extends Activity {
         setContentView(R.layout.create_group);
 
         ListView listView = (ListView) findViewById(R.id.lsv_group_members);
-        listView.setAdapter(new FriendListAdapter(this));
+        FriendListAdapter adapter = new FriendListAdapter(this);
+        adapter.setDisplayMode(FriendListAdapter.DisplayMode.NONE);
+        listView.setAdapter(adapter);
 
         Button button = (Button) findViewById(R.id.btn_back);
         button.setOnClickListener(new View.OnClickListener() {

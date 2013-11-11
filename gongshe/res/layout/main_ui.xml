@@ -1,49 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-        <LinearLayout android:id="@+id/content_title_bar"
-                      android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:orientation="horizontal"
-                      android:background="@color/grey"
-                      android:layout_alignParentTop="true">
+    <fragment xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
+              android:name="com.gongshe.controller.HeaderFragment"
+              android:id="@+id/common_header"
+              gongshe:left_button="icon"
+              gongshe:right_button="invisible"
+              gongshe:title_text="动态"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
 
-            <ImageView android:id="@+id/icon_title_bar"
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:layout_weight="0"
-                       android:layout_gravity="center_vertical"
-                       android:src="@drawable/icon"/>
-
-            <TextView android:id="@+id/txview_title_bar"
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_weight="1"
-                      android:gravity="center"
-                      android:text="title"/>
-
-            <ImageView android:id="@+id/icon_title_bar_right"
-                       android:layout_width="30dp"
-                       android:layout_height="30dp"
-                       android:layout_weight="0"
-                       android:layout_gravity="center_vertical"
-                       android:visibility="invisible"
-                       android:src="@drawable/icon"/>
-        </LinearLayout>
-
-        <FrameLayout android:id="@+id/content_frame"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:layout_below="@id/content_title_bar"/>
+    <FrameLayout android:id="@+id/content_frame"
+                 android:layout_weight="1"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"/>
 
         <LinearLayout android:id="@+id/content_bottom_bar"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="horizontal"
-                      android:background="@color/grey"
-                      android:layout_alignParentBottom="true">
+                      android:background="@color/grey">
 
             <Button android:id="@+id/btn_activities"
                     android:layout_width="60dp"
@@ -73,4 +52,4 @@
                     android:layout_weight="1"
                     android:text="@string/btn_friends"/>
         </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

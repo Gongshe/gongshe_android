@@ -41,4 +41,11 @@
         <attr name="title_text" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="FriendsFragment">
+        <attr name="item_mode">
+            <enum name="none" value="0"/>
+            <enum name="message" value="1"/>
+            <enum name="selection" value="2"/>
+        </attr>
+    </declare-styleable>
 </resources>

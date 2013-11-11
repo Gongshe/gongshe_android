@@ -96,6 +96,14 @@ public class HeaderFragment extends Fragment {
                     }
                 }
             });
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnButtonListener != null) {
+                        mOnButtonListener.onLeftButtonClicked();
+                    }
+                }
+            });
         }
         if (mRightButtonType != null) {
             ImageButton imageButton = (ImageButton) view.findViewById(R.id.btn_right);
