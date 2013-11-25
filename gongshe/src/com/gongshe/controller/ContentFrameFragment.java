@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gongshe.R;
-import it.gmariotti.cardslib.library.internal.*;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.internal.CardThumbnail;
 import it.gmariotti.cardslib.library.view.CardListView;
-import it.gmariotti.cardslib.library.view.CardView;
 
 import java.util.ArrayList;
 

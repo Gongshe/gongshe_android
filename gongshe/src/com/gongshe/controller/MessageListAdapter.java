@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.gongshe.R;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class MessageListAdapter extends BaseAdapter {
     static public class MessageBrief {
