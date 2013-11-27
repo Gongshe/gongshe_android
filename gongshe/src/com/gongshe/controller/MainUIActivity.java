@@ -16,7 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.gongshe.R;
-import com.gongshe.network.OkHttpStack;
+import com.gongshe.model.network.OkHttpStack;
 import com.gongshe.view.SlidingMenu;
 
 public class MainUIActivity extends FragmentActivity {
@@ -34,43 +34,43 @@ public class MainUIActivity extends FragmentActivity {
     private ContentFrameFragment mContentFrame;
     private FriendsFragment mFriendsFrame;
 
-    private MenuListFragment.OnMenuItemSelectedListener mOnMenuItemSelectedListener = new MenuListFragment.OnMenuItemSelectedListener() {
-        @Override
-        public void onItemSelected(int position) {
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-            if (mContentFrame != null && fragment != null) {
-                if (fragment != mContentFrame) {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.content_frame, mContentFrame)
-                            .commit();
-                }
-                switch (position) {
-                    case 0:
-                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
-                        mTitle.setText(R.string.menu_all_activities);
-                        break;
-                    case 1:
-                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_INVOLVED);
-                        mTitle.setText(R.string.menu_all_involved_me);
-                        break;
-                    case 2:
-                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_MENTIONED);
-                        mTitle.setText(R.string.menu_all_mention_me);
-                        break;
-                    case 3:
-                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.GROUP_1);
-                        mTitle.setText("行行摄色");
-                        break;
-                    case 4:
-                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.GROUP_2);
-                        mTitle.setText("荐书");
-                        break;
-                    default:
-                }
-            }
-            mSlideMenu.showContent();
-        }
-    };
+//    private MenuListFragment.OnMenuItemSelectedListener mOnMenuItemSelectedListener = new MenuListFragment.OnMenuItemSelectedListener() {
+//        @Override
+//        public void onItemSelected(int position) {
+//            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+//            if (mContentFrame != null && fragment != null) {
+//                if (fragment != mContentFrame) {
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.content_frame, mContentFrame)
+//                            .commit();
+//                }
+//                switch (position) {
+//                    case 0:
+//                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
+//                        mTitle.setText(R.string.menu_all_activities);
+//                        break;
+//                    case 1:
+//                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_INVOLVED);
+//                        mTitle.setText(R.string.menu_all_involved_me);
+//                        break;
+//                    case 2:
+//                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_MENTIONED);
+//                        mTitle.setText(R.string.menu_all_mention_me);
+//                        break;
+//                    case 3:
+//                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.GROUP_1);
+//                        mTitle.setText("行行摄色");
+//                        break;
+//                    case 4:
+//                        mContentFrame.setGroupInfo(ContentFrameFragment.GroupInfo.GROUP_2);
+//                        mTitle.setText("荐书");
+//                        break;
+//                    default:
+//                }
+//            }
+//            mSlideMenu.showContent();
+//        }
+//    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +114,6 @@ public class MainUIActivity extends FragmentActivity {
         mAppIcon = (ImageButton) findViewById(R.id.btn_left_image);
         mTitleBarRightIcon = (ImageButton) findViewById(R.id.btn_right);
         mTitle = (TextView) findViewById(R.id.txv_title);
-        mTitle.setText(R.string.menu_all_activities);
 
         mBtnFriends = (Button) findViewById(R.id.btn_friends);
         mBtnFriends.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +160,7 @@ public class MainUIActivity extends FragmentActivity {
         mSlideMenu.setMenu(R.layout.left_menu);
         // setup left_menu listener
         MenuListFragment menu = (MenuListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_menu_list);
-        menu.setOnMenuItemSelectedListener(mOnMenuItemSelectedListener);
+        //menu.setOnMenuItemSelectedListener(mOnMenuItemSelectedListener);
     }
 
     private void onMessageButton() {

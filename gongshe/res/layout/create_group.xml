@@ -36,10 +36,14 @@
                    android:src="@drawable/icon"/>
     </LinearLayout>
 
-    <EditText android:id="@+id/etxv_group_info"
+    <EditText android:id="@+id/etx_group_name"
+              android:layout_height="50dp"
+              android:layout_width="match_parent"/>
+
+
+    <EditText android:id="@+id/etx_group_introduction"
               android:layout_width="match_parent"
-              android:layout_height="200dp"
-              android:editable="false"/>
+              android:layout_height="200dp"/>
 
     <ListView android:id="@+id/lsv_group_members"
               android:layout_weight="1"
@@ -47,10 +51,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"/>
 
-    <Button android:id="@+id/btn_add_member"
+    <Button android:id="@+id/btn_create_group"
             android:layout_width="150dp"
             android:layout_height="60dp"
-            android:text="add more members"
+            android:text="create"
             android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

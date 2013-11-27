@@ -1,4 +1,4 @@
-package com.gongshe.network;
+package com.gongshe.model.network;
 
 import com.android.volley.toolbox.HurlStack;
 import com.squareup.okhttp.OkHttpClient;

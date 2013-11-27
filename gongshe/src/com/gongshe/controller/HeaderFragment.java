@@ -35,6 +35,7 @@ public class HeaderFragment extends Fragment {
     private LeftButtonType mLeftButtonType;
     private RightButtonType mRightButtonType;
     private String mTitleText;
+    private String mLeftButtonText;
     private OnButtonListener mOnButtonListener;
 
     public void setOnButtonListener(OnButtonListener listener) {
@@ -42,7 +43,7 @@ public class HeaderFragment extends Fragment {
     }
 
     public void setTitle(String title) {
-        if (mTitleText != null) {
+        if (title != null) {
             mTitleText = title;
         }
         View view = getView();
@@ -57,6 +58,7 @@ public class HeaderFragment extends Fragment {
         super.onInflate(activity, attrs, savedInstanceState);
         TypedArray styles = activity.obtainStyledAttributes(attrs, R.styleable.CommonHeader);
         mTitleText = styles.getString(R.styleable.CommonHeader_title_text);
+        mLeftButtonText = styles.getString(R.styleable.CommonHeader_left_text);
         mLeftButtonType = LeftButtonType.values()[styles.getInt(R.styleable.CommonHeader_left_button, 0)];
         mRightButtonType = RightButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_button, 0)];
         styles.recycle();
@@ -80,6 +82,7 @@ public class HeaderFragment extends Fragment {
                 case BACK:
                     button.setText(getText(R.string.btn_back));
                     button.setVisibility(View.VISIBLE);
+                    if (mLeftButtonText != null) button.setText(mLeftButtonText);
                     imageButton.setVisibility(View.GONE);
                     break;
                 case ICON:

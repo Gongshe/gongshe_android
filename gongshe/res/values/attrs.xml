@@ -39,6 +39,7 @@
         </attr>
 
         <attr name="title_text" format="string"/>
+        <attr name="left_text" format="string" />
     </declare-styleable>
 
     <declare-styleable name="FriendsFragment">
