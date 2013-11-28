@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.gongshe.R;
 import com.gongshe.model.User;
 import com.gongshe.model.UserManager;
-import com.gongshe.model.network.OnNetListener;
 
 public class LoginActivity extends Activity {
 

@@ -8,8 +8,10 @@
               android:name="com.gongshe.controller.HeaderFragment"
               android:id="@+id/common_header"
               gongshe:left_button="icon"
-              gongshe:right_button="invisible"
-              gongshe:title_text="动态"
+              gongshe:left_btn_img="@drawable/icon"
+              gongshe:right_button_one="icon"
+              gongshe:right_one_img="@drawable/icon"
+              gongshe:title_text="@string/btn_activities"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>
 
@@ -31,6 +33,14 @@
                     android:layout_weight="1"
                     android:text="@string/btn_activities"/>
 
+            <Button android:id="@+id/btn_friends"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/btn_friends"/>
+
+
             <Button android:id="@+id/btn_message"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
@@ -38,18 +48,12 @@
                     android:layout_weight="1"
                     android:text="@string/btn_message"/>
 
-            <Button android:id="@+id/btn_post"
+            <Button android:id="@+id/btn_setting"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/btn_post"/>
+                    android:text="@string/btn_settings"/>
 
-            <Button android:id="@+id/btn_friends"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:text="@string/btn_friends"/>
         </LinearLayout>
 </LinearLayout>

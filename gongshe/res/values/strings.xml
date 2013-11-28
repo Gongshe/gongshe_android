@@ -10,9 +10,9 @@
 
     <!-- MainActivity -->
     <string name="btn_message">消息</string>
-    <string name="btn_post">发起</string>
     <string name="btn_friends">好友</string>
     <string name="btn_activities">动态</string>
+    <string name="btn_settings">设置</string>
 
     <!-- sliding menu -->
     <string name="menu_all_involved_me">我的讨论</string>
@@ -20,6 +20,8 @@
     <string name="txt_my_group">我创建的群组</string>
     <string name="txt_belong_group">我加入的群组</string>
     <string name="btn_group_manage">群组管理</string>
+    <string name="txt_empty_my_group">您还没有创建群组</string>
+    <string name="txt_empty_belong_group">您还没有加入群组</string>
 
     <!-- EditPostActivity -->
     <string name="hint_input_title">再次输入标题</string>

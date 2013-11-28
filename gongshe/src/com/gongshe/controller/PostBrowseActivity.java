@@ -23,12 +23,12 @@ public class PostBrowseActivity extends FragmentActivity {
         fragment.setTitle("荐书");
         fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftButtonClicked() {
+            public void onLeftBtnClicked() {
                 onBackPressed();
             }
 
             @Override
-            public void onRightButtonClicked() {
+            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
                 Intent intent = new Intent(PostBrowseActivity.this, PeopleGroupActivity.class);
                 PostBrowseActivity.this.startActivity(intent);
             }

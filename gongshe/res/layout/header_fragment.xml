@@ -6,38 +6,55 @@
               android:orientation="horizontal"
               android:background="@color/grey">
 
-    <Button
-            android:id="@+id/btn_left"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_weight="0"
-            android:layout_gravity="center_vertical"
-            android:text="back"
-            android:src="@drawable/icon"/>
-    <ImageButton
-            android:id="@+id/btn_left_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="0"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_vertical"
-            android:visibility="gone"/>
+    <FrameLayout android:layout_width="80dp"
+                 android:layout_height="40dp">
+        <Button
+                android:id="@+id/btn_left"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_gravity="left|center_vertical"
+                android:visibility="gone"/>
+
+        <ImageButton
+                android:id="@+id/btn_left_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                android:layout_gravity="left|center_vertical"
+                android:visibility="gone"/>
+    </FrameLayout>
 
     <TextView
             android:id="@+id/txv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="title"/>
+            android:gravity="center"/>
 
-    <ImageButton
-            android:id="@+id/btn_right"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="0"
-            android:layout_gravity="center_vertical"
-            android:visibility="invisible"
-            android:scaleType="fitCenter"
-            android:src="@drawable/icon"/>
+    <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="40dp">
+
+        <Button android:id="@+id/btn_right_text"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:visibility="gone"/>
+        <ImageButton
+                android:id="@+id/btn_right_one"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+        <ImageButton
+                android:id="@+id/btn_right_two"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@id/btn_right_one"
+                android:layout_alignWithParentIfMissing="true"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+    </RelativeLayout>
 </LinearLayout>

@@ -3,22 +3,17 @@ package com.gongshe.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.gongshe.GongSheApp;
-
-import static com.gongshe.model.GongSheConstant.*;
-
 import com.gongshe.model.network.OnNetListener;
 import com.gongshe.model.network.UserGroupFetcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.gongshe.model.GongSheConstant.RESULT_AUTH_ERROR;
 
 public class UserManager {
 
@@ -61,6 +56,8 @@ public class UserManager {
                     sInstance.mPreference = sInstance.mContext
                                                      .getSharedPreferences(FILE_KEY_USER_DATA, Context.MODE_PRIVATE);
                     sInstance.mUpdateListener = new ArrayList<OnDataChangeListener>();
+                    sInstance.mMyGroup = new ArrayList<Group>();
+                    sInstance.mBelongGroup = new ArrayList<Group>();
                 }
             }
         }
@@ -100,8 +97,9 @@ public class UserManager {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            mUser = objectMapper.readValue(userString.getBytes("UTF-8"), User.class);
-            if (mUser != null && mUser.isValidUser()) {
+            User user = objectMapper.readValue(userString.getBytes("UTF-8"), User.class);
+            if (user != null && user.isValidUser()) {
+                mUser = user;
                 Log.d(TAG, "load user=" + mUser.toString());
                 return;
             }
@@ -142,7 +140,11 @@ public class UserManager {
 
     public List<Group> getMyGroup() {
         if (mMyGroup != null && !mMyGroup.isEmpty()) return mMyGroup;
-        mMyGroup = loadGroupList(MY_GROUP_LIST_KEY);
+        List<Group> list = loadGroupList(MY_GROUP_LIST_KEY);
+        if (list != null && !list.isEmpty()) {
+            mMyGroup.clear();
+            mMyGroup.addAll(list);
+        }
         return mMyGroup;
     }
 
@@ -153,7 +155,11 @@ public class UserManager {
 
     public List<Group> getBelongGroup() {
         if (mBelongGroup != null && !mBelongGroup.isEmpty()) return mBelongGroup;
-        mBelongGroup = loadGroupList(BELONG_GROUP_LIST_KEY);
+        List<Group> list = loadGroupList(BELONG_GROUP_LIST_KEY);
+        if (list != null && !list.isEmpty()) {
+            mBelongGroup.clear();
+            mBelongGroup.addAll(list);
+        }
         return mBelongGroup;
     }
 
@@ -293,9 +299,13 @@ public class UserManager {
             @Override
             public void onError(String errorMessage) {
                 if (errorMessage.equals(RESULT_AUTH_ERROR)) {
+                    Log.e("yafan", "on auth error.");
                     mUser = null;
                     // TODO: clear data here, need the user to log in again.
                     clearUserData();
+                    clearGroupData(MY_GROUP_LIST_KEY);
+                    clearGroupData(BELONG_GROUP_LIST_KEY);
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
                 if (listener != null) listener.onError();
             }
@@ -329,4 +339,12 @@ public class UserManager {
         };
     }
 
+    public void logOut() {
+        clearUserData();
+        clearGroupData(MY_GROUP_LIST_KEY);
+        clearGroupData(BELONG_GROUP_LIST_KEY);
+        mUser = null;
+        mMyGroup.clear();
+        mBelongGroup.clear();
+    }
 }

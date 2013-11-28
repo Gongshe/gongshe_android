@@ -1,19 +1,14 @@
 package com.gongshe.model.network;
 
-import android.net.Uri;
 import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gongshe.GongSheApp;
-import com.gongshe.model.User;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +88,12 @@ public class UserGroupFetcher {
     }
 
     public void fetchMyGroup(int userId, String token, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+
         String url = BASE_URL + PATH_GROUP + PATH_MY_GROUP + "?uid=" + userId + "&token=" + token;
         StringRequest request = new StringRequest(url, getResponseListener(listener),
                 getResponseErrorListener(listener));
@@ -100,6 +101,12 @@ public class UserGroupFetcher {
     }
 
     public void fetchBelongGroup(int userId, String token, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+
         String url = BASE_URL + PATH_GROUP + PATH_BELONG_GROUP + "?uid=" + userId + "&token=" + token;
         StringRequest request = new StringRequest(url, getResponseListener(listener),
                 getResponseErrorListener(listener));
@@ -109,6 +116,7 @@ public class UserGroupFetcher {
     public void createGroup(int userId, String token, String groupName, String introduction, final OnNetListener listener) {
         try {
             groupName = URLEncoder.encode(groupName, "UTF-8");
+            token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
             une.printStackTrace();
         }

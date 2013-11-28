@@ -16,18 +16,16 @@ public class GroupManageActivity extends FragmentActivity {
         HeaderFragment fragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftButtonClicked() {
+            public void onLeftBtnClicked() {
                 onBackPressed();
             }
 
             @Override
-            public void onRightButtonClicked() {
+            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
                 // do nothing here
             }
         });
 
-        ListView listView = (ListView) findViewById(R.id.lsv_group_list);
-        listView.setAdapter(new GroupListAdapter(this));
 
         Button button = (Button) findViewById(R.id.btn_create_group);
         button.setOnClickListener(new View.OnClickListener() {

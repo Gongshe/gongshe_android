@@ -4,36 +4,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.gongshe.R;
-import com.gongshe.model.Group;
-import com.gongshe.model.UserManager;
-
-import java.util.Collections;
-import java.util.List;
 
 public class MenuListFragment extends Fragment {
 
+    public enum SpecialMenuType {
+        AT_ME,
+        INVOLVED_ME;
+    }
+
+    public interface OnSpecialMenuListener {
+        public void onSpecialMenu(SpecialMenuType menuType);
+    }
+
     private Button mBtnGroupManage;
     private ListView mSpecialListView;
-    private ListView mMygroupListView;
-    private ListView mBelongGroupListView;
-    private TextView mTxvMyGroup;
-    private TextView mTxvBelongGroup;
     private SpecialMenuAdapter mSpecialMenuAdapter;
-    private GroupListAdapter mMyGroupAdapter;
-    private GroupListAdapter mBelongGroupAdapter;
-    private UserManager.OnDataChangeListener mDataChangeListener = new UserManager.OnDataChangeListener() {
-        @Override
-        public void onDataChanged() {
-            mMyGroupAdapter.notifyDataSetChanged();
-            mBelongGroupAdapter.notifyDataSetChanged();
-        }
-    };
+    private OnSpecialMenuListener mOnSpecialMenuListener;
+    private GroupListFragment mGroupListFragment;
+
+    public void setOnSpecialMenuListener(OnSpecialMenuListener listener) {
+        mOnSpecialMenuListener = listener;
+    }
+
+    public void setOnGroupSelectedListener(GroupListFragment.OnGroupSelectedListener listener) {
+        mGroupListFragment.setOnGroupSelectedListener(listener);
+    }
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,10 +49,6 @@ public class MenuListFragment extends Fragment {
         });
 
         mSpecialListView = (ListView) view.findViewById(R.id.list_menu_special);
-        mMygroupListView = (ListView) view.findViewById(R.id.list_menu_my_group);
-        mBelongGroupListView = (ListView) view.findViewById(R.id.list_menu_belong_group);
-        mTxvMyGroup = (TextView) view.findViewById(R.id.txv_my_group);
-        mTxvBelongGroup = (TextView) view.findViewById(R.id.txv_belong_group);
         return view;
 	}
 
@@ -62,94 +58,43 @@ public class MenuListFragment extends Fragment {
         // setup special
 		mSpecialMenuAdapter = new SpecialMenuAdapter(getActivity());
         mSpecialListView.setAdapter(mSpecialMenuAdapter);
-        // setup my group
-        mMyGroupAdapter = new GroupListAdapter(getActivity(), UserManager.getInstance().getMyGroup());
-        mMygroupListView.setAdapter(mMyGroupAdapter);
-        // setup belong group
-        mBelongGroupAdapter = new GroupListAdapter(getActivity(), UserManager.getInstance().getBelongGroup());
-        mBelongGroupListView.setAdapter(mBelongGroupAdapter);
-
-        // setup data change listener
-        UserManager.getInstance().registerDataChangeListener(mDataChangeListener);
-
-        // update group data
-        UserManager.getInstance().updateMyGroup(null);
-        UserManager.getInstance().updateBelongGroup(null);
+        mSpecialListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    mOnSpecialMenuListener.onSpecialMenu(SpecialMenuType.AT_ME);
+                } else if (position == 1) {
+                    mOnSpecialMenuListener.onSpecialMenu(SpecialMenuType.INVOLVED_ME);
+                }
+            }
+        });
+        mGroupListFragment = (GroupListFragment) getFragmentManager().findFragmentById(R.id.group_list_fragment);
 	}
 
-	private class LeftMenuItem {
-		public String tag;
-		public int iconRes;
-		public LeftMenuItem(String tag, int iconRes) {
-			this.tag = tag; 
-			this.iconRes = iconRes;
-		}
-	}
+    private class SpecialMenuItem {
+        public String tag;
+        public SpecialMenuItem(String tag) {
+            this.tag = tag;
+        }
+    }
 
-	private class SpecialMenuAdapter extends ArrayAdapter<LeftMenuItem> {
+    private class SpecialMenuAdapter extends ArrayAdapter<SpecialMenuItem> {
 
 		public SpecialMenuAdapter(Context context) {
 			super(context, 0);
-            add(new LeftMenuItem(getString(R.string.menu_all_involved_me), android.R.drawable.ic_dialog_info));
-            add(new LeftMenuItem(getString(R.string.menu_all_mention_me), android.R.drawable.ic_menu_view));
+            add(new SpecialMenuItem(getString(R.string.menu_all_mention_me)));
+            add(new SpecialMenuItem(getString(R.string.menu_all_involved_me)));
         }
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (convertView == null) {
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.row, null);
+				convertView = LayoutInflater.from(getContext()).inflate(R.layout.group_list_item, null);
 			}
 			ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
-			icon.setImageResource(getItem(position).iconRes);
+			icon.setImageResource(android.R.drawable.ic_media_play);
 			TextView title = (TextView) convertView.findViewById(R.id.row_title);
 			title.setText(getItem(position).tag);
 			return convertView;
 		}
 	}
-
-    private class GroupListAdapter extends BaseAdapter {
-        private Context mContext;
-        private List<Group> mGroupList;
-
-        public GroupListAdapter(Context context, List<Group> groupList) {
-            mContext = context;
-            mGroupList = groupList;
-        }
-
-        @Override
-        public int getCount() {
-            if (mGroupList != null && !mGroupList.isEmpty()) {
-                return mGroupList.size();
-            }
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            if (mGroupList != null && !mGroupList.isEmpty()) {
-                return mGroupList.get(position);
-            }
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            if (mGroupList != null && !mGroupList.isEmpty()) {
-                return mGroupList.get(position).getId();
-            }
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.row, null);
-            }
-            Group group = (Group) getItem(position);
-            ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
-            icon.setImageResource(android.R.drawable.ic_media_play);
-            TextView title = (TextView) convertView.findViewById(R.id.row_title);
-            title.setText(group.getName());
-            return convertView;
-        }
-    }
 }

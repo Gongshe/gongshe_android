@@ -16,40 +16,73 @@ import com.gongshe.R;
 public class HeaderFragment extends Fragment {
     private static final String TAG = HeaderFragment.class.getSimpleName();
 
+    public static enum RightBtnId {
+        ONE,
+        TWO,
+        TEXT;
+    }
+
     public interface OnButtonListener {
-        public void onLeftButtonClicked();
-        public void onRightButtonClicked();
+        public void onLeftBtnClicked();
+        public void onRightBtnClicked(RightBtnId id);
     }
 
-    private static enum LeftButtonType {
+    public static enum ButtonType {
         INVISIBLE,
-        BACK,
+        TEXT,
         ICON;
     }
 
-    private static enum RightButtonType {
-        INVISIBLE,
-        ICON;
-    }
+    private ButtonType mLeftBtnType;
+    private ButtonType mRightBtnOneType;
+    private ButtonType mRightBtnTwoType;
+    private ButtonType mRightBtnTextType;
 
-    private LeftButtonType mLeftButtonType;
-    private RightButtonType mRightButtonType;
     private String mTitleText;
-    private String mLeftButtonText;
+    private String mLeftBtnText;
+    private String mRightBtnText;
+
     private OnButtonListener mOnButtonListener;
+
+    private int mLeftImgBtnRes;
+    private int mRigntOneImgBtnRes;
+    private int mRigntTwoImgBtnRes;
+
+    private TextView mTxvTitle;
+    private Button mBtnLeft;
+    private ImageButton mItnRightOne;
+    private ImageButton mItnRightTwo;
+    private Button mBtnRightText;
 
     public void setOnButtonListener(OnButtonListener listener) {
         mOnButtonListener = listener;
     }
 
     public void setTitle(String title) {
-        if (title != null) {
-            mTitleText = title;
+        mTitleText = title;
+        mTxvTitle.setText(mTitleText);
+    }
+
+    public void setRightButtonType(ButtonType rightOne, ButtonType rightTwo, ButtonType rightText) {
+        mRightBtnOneType = rightOne;
+        if (mRightBtnOneType != ButtonType.ICON) {
+            mItnRightOne.setVisibility(View.GONE);
+        } else {
+            mItnRightOne.setVisibility(View.VISIBLE);
         }
-        View view = getView();
-        if (view != null) {
-            TextView textView = (TextView) view.findViewById(R.id.txv_title);
-            textView.setText(mTitleText);
+
+        mRightBtnTwoType = rightTwo;
+        if (mRightBtnTwoType != ButtonType.ICON) {
+            mItnRightTwo.setVisibility(View.GONE);
+        } else {
+            mItnRightTwo.setVisibility(View.VISIBLE);
+        }
+
+        mRightBtnTextType = rightText;
+        if (mRightBtnTextType != ButtonType.TEXT) {
+            mBtnRightText.setVisibility(View.GONE);
+        } else {
+            mBtnRightText.setVisibility(View.VISIBLE);
         }
     }
 
@@ -58,44 +91,63 @@ public class HeaderFragment extends Fragment {
         super.onInflate(activity, attrs, savedInstanceState);
         TypedArray styles = activity.obtainStyledAttributes(attrs, R.styleable.CommonHeader);
         mTitleText = styles.getString(R.styleable.CommonHeader_title_text);
-        mLeftButtonText = styles.getString(R.styleable.CommonHeader_left_text);
-        mLeftButtonType = LeftButtonType.values()[styles.getInt(R.styleable.CommonHeader_left_button, 0)];
-        mRightButtonType = RightButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_button, 0)];
+
+        mLeftBtnType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_left_button, 0)];
+        if (mLeftBtnType == ButtonType.TEXT) {
+            mLeftBtnText = styles.getString(R.styleable.CommonHeader_left_btn_text);
+        } else if (mLeftBtnType == ButtonType.ICON) {
+            mLeftImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_left_btn_img, R.drawable.icon);
+        }
+
+        mRightBtnOneType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_button_one, 0)];
+        if (mRightBtnOneType == ButtonType.ICON) {
+            mRigntOneImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_right_one_img, R.drawable.icon);
+        }
+
+        mRightBtnTwoType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_button_two, 0)];
+        if (mRightBtnTwoType == ButtonType.ICON) {
+            mRigntTwoImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_right_two_img, R.drawable.icon);
+        }
+
+        mRightBtnTextType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_btn_text, 0)];
+        if (mRightBtnTextType == ButtonType.TEXT) {
+            mRightBtnText = styles.getString(R.styleable.CommonHeader_right_btn_text);
+        }
+
         styles.recycle();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.header_fragment, container, false);
-        if (mTitleText != null) {
-            TextView textView = (TextView) view.findViewById(R.id.txv_title);
-            textView.setText(mTitleText);
-        }
-        if (mLeftButtonType != null) {
-            Button button = (Button) view.findViewById(R.id.btn_left);
+
+        mTxvTitle = (TextView) view.findViewById(R.id.txv_title);
+        mTxvTitle.setText(mTitleText);
+
+        if (mLeftBtnType != null) {
+            mBtnLeft = (Button) view.findViewById(R.id.btn_left);
             ImageButton imageButton = (ImageButton) view.findViewById(R.id.btn_left_image);
-            switch (mLeftButtonType) {
+            switch (mLeftBtnType) {
                 case INVISIBLE:
-                    button.setVisibility(View.INVISIBLE);
+                    mBtnLeft.setVisibility(View.GONE);
                     imageButton.setVisibility(View.GONE);
                     break;
-                case BACK:
-                    button.setText(getText(R.string.btn_back));
-                    button.setVisibility(View.VISIBLE);
-                    if (mLeftButtonText != null) button.setText(mLeftButtonText);
+                case TEXT:
+                    mBtnLeft.setText(getText(R.string.btn_back));
+                    mBtnLeft.setVisibility(View.VISIBLE);
                     imageButton.setVisibility(View.GONE);
                     break;
                 case ICON:
-                    button.setVisibility(View.GONE);
+                    mBtnLeft.setVisibility(View.GONE);
                     imageButton.setVisibility(View.VISIBLE);
-                    imageButton.setImageResource(R.drawable.icon);
+                    imageButton.setImageResource(mLeftImgBtnRes);
                     break;
             }
-            button.setOnClickListener(new View.OnClickListener() {
+            mBtnLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mOnButtonListener != null) {
-                        mOnButtonListener.onLeftButtonClicked();
+                        mOnButtonListener.onLeftBtnClicked();
                     }
                 }
             });
@@ -103,26 +155,77 @@ public class HeaderFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mOnButtonListener != null) {
-                        mOnButtonListener.onLeftButtonClicked();
+                        mOnButtonListener.onLeftBtnClicked();
                     }
                 }
             });
         }
-        if (mRightButtonType != null) {
-            ImageButton imageButton = (ImageButton) view.findViewById(R.id.btn_right);
-            switch (mRightButtonType) {
+
+        if (mRightBtnOneType != null) {
+            mItnRightOne = (ImageButton) view.findViewById(R.id.btn_right_one);
+            switch (mRightBtnOneType) {
                 case INVISIBLE:
-                    imageButton.setVisibility(View.INVISIBLE);
+                    mItnRightOne.setVisibility(View.GONE);
                     break;
+                case TEXT:
+                    mItnRightOne.setVisibility(View.GONE);
                 case ICON:
-                    imageButton.setVisibility(View.VISIBLE);
+                    mItnRightOne.setVisibility(View.VISIBLE);
+                    mItnRightOne.setImageResource(mRigntOneImgBtnRes);
                     break;
             }
-            imageButton.setOnClickListener(new View.OnClickListener() {
+            mItnRightOne.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mOnButtonListener != null) {
-                        mOnButtonListener.onRightButtonClicked();
+                        mOnButtonListener.onRightBtnClicked(RightBtnId.ONE);
+                    }
+                }
+            });
+        }
+
+        if (mRightBtnTwoType != null) {
+            mItnRightTwo = (ImageButton) view.findViewById(R.id.btn_right_two);
+            switch (mRightBtnTwoType) {
+                case INVISIBLE:
+                    mItnRightTwo.setVisibility(View.GONE);
+                    break;
+                case TEXT:
+                    mItnRightTwo.setVisibility(View.GONE);
+                case ICON:
+                    mItnRightTwo.setVisibility(View.INVISIBLE);
+                    mItnRightTwo.setImageResource(mRigntTwoImgBtnRes);
+                    break;
+            }
+            mItnRightTwo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnButtonListener != null) {
+                        mOnButtonListener.onRightBtnClicked(RightBtnId.TWO);
+                    }
+                }
+            });
+        }
+
+        if (mRightBtnTextType != null) {
+            mBtnRightText = (Button) view.findViewById(R.id.btn_right_text);
+            switch (mRightBtnTextType) {
+                case INVISIBLE:
+                    mBtnRightText.setVisibility(View.GONE);
+                    break;
+                case TEXT:
+                    mBtnRightText.setVisibility(View.INVISIBLE);
+                    mBtnRightText.setText(mRightBtnText);
+                    break;
+                case ICON:
+                    mBtnRightText.setVisibility(View.GONE);
+                    break;
+            }
+            mBtnRightText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnButtonListener != null) {
+                        mOnButtonListener.onRightBtnClicked(RightBtnId.TEXT);
                     }
                 }
             });

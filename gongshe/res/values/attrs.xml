@@ -29,17 +29,28 @@
     <declare-styleable name="CommonHeader">
         <attr name="left_button">
             <enum name="invisible" value="0"/>
-            <enum name="back" value="1"/>
+            <enum name="text" value="1"/>
             <enum name="icon" value="2"/>
         </attr>
 
-        <attr name="right_button">
+        <attr name="right_button_one">
             <enum name="invisible" value="0"/>
-            <enum name="icon" value="1"/>
+            <enum name="text" value="1"/>
+            <enum name="icon" value="2"/>
+        </attr>
+
+        <attr name="right_button_two">
+            <enum name="invisible" value="0"/>
+            <enum name="text" value="1"/>
+            <enum name="icon" value="2"/>
         </attr>
 
         <attr name="title_text" format="string"/>
-        <attr name="left_text" format="string" />
+        <attr name="left_btn_text" format="string"/>
+        <attr name="right_btn_text" format="string"/>
+        <attr name="left_btn_img" format="reference"/>
+        <attr name="right_one_img" format="reference"/>
+        <attr name="right_two_img" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="FriendsFragment">

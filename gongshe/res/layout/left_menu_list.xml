@@ -9,55 +9,20 @@
             android:layout_height="40dp"
             android:background="@color/grey"/>
 
-    <LinearLayout
+    <ListView
+            android:id="@+id/list_menu_special"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:background="@color/darkblue"
+            android:cacheColorHint="#00000000"
+            android:paddingLeft="@dimen/list_padding"
+            android:paddingRight="@dimen/list_padding"/>
 
-        <ListView
-                android:id="@+id/list_menu_special"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/darkblue"
-                android:cacheColorHint="#00000000"
-                android:paddingLeft="@dimen/list_padding"
-                android:paddingRight="@dimen/list_padding"/>
-
-        <TextView
-                android:id="@+id/txv_my_group"
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_my_group"
-                android:gravity="left|center_vertical"/>
-
-        <ListView
-                android:id="@+id/list_menu_my_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/darkblue"
-                android:cacheColorHint="#00000000"
-                android:paddingLeft="@dimen/list_padding"
-                android:paddingRight="@dimen/list_padding"/>
-
-        <TextView
-                android:id="@+id/txv_belong_group"
-                android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_belong_group"
-                android:gravity="left|center_vertical"/>
-
-        <ListView
-                android:id="@+id/list_menu_belong_group"
-                android:background="@color/darkblue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cacheColorHint="#00000000"
-                android:paddingLeft="@dimen/list_padding"
-                android:paddingRight="@dimen/list_padding"/>
-    </LinearLayout>
+    <fragment android:name="com.gongshe.controller.GroupListFragment"
+              android:id="@+id/group_list_fragment"
+              android:layout_weight="1"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
 
     <Button
             android:id="@+id/btn_group_manage"
