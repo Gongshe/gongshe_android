@@ -44,6 +44,8 @@ public class MenuListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), GroupManageActivity.class);
+                intent.setAction(GroupManageActivity.ACTION_MANAGE);
+                intent.putExtra("from", getActivity().getString(R.string.txt_home_page));
                 getActivity().startActivity(intent);
             }
         });

@@ -5,56 +5,43 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <LinearLayout android:id="@+id/content_title_bar"
-                  android:layout_width="match_parent"
-                  android:layout_height="40dp"
-                  android:orientation="horizontal"
-                  android:background="@color/grey"
-                  android:layout_alignParentTop="true">
-
-        <Button android:id="@+id/btn_back"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_weight="0"
-                android:layout_gravity="center_vertical"
-                android:text="back"
-                android:src="@drawable/icon"/>
-
-        <TextView android:id="@+id/txview_title_bar"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:gravity="center"
-                  android:text="Create Group"/>
-
-        <ImageView android:id="@+id/icon_title_bar_right"
-                   android:layout_width="30dp"
-                   android:layout_height="30dp"
-                   android:layout_weight="0"
-                   android:layout_gravity="center_vertical"
-                   android:visibility="invisible"
-                   android:src="@drawable/icon"/>
-    </LinearLayout>
-
-    <EditText android:id="@+id/etx_group_name"
-              android:layout_height="50dp"
-              android:layout_width="match_parent"/>
-
-
-    <EditText android:id="@+id/etx_group_introduction"
+    <fragment xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
+              android:name="com.gongshe.controller.HeaderFragment"
+              android:id="@+id/common_header"
+              gongshe:left_btn="text"
+              gongshe:text_title="@string/txt_create_new_group"
               android:layout_width="match_parent"
-              android:layout_height="200dp"/>
+              android:layout_height="wrap_content"/>
 
-    <ListView android:id="@+id/lsv_group_members"
-              android:layout_weight="1"
-              android:cacheColorHint="#00000000"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+    <EditText
+            android:id="@+id/etx_group_name"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:ellipsize="end"/>
 
-    <Button android:id="@+id/btn_create_group"
-            android:layout_width="150dp"
+    <EditText
+            android:id="@+id/etx_group_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/btn_invite_friend"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:text="create"
-            android:layout_gravity="center_horizontal"/>
+            android:text="@string/btn_invite_friend"
+            android:gravity="center"/>
+
+    <View
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"/>
+
+    <Button
+            android:id="@+id/btn_create_group"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/btn_create"
+            android:gravity="center"/>
 
 </LinearLayout>

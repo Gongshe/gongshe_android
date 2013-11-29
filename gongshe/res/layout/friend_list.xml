@@ -8,9 +8,9 @@
     <fragment xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
               android:name="com.gongshe.controller.HeaderFragment"
               android:id="@+id/common_header"
-              gongshe:left_button="text"
-              gongshe:right_button_one="icon"
-              gongshe:title_text="select friends"
+              gongshe:left_btn="text"
+              gongshe:right_btn_one="icon"
+              gongshe:text_title="select friends"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>
 

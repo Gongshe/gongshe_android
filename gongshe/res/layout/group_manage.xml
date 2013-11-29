@@ -10,19 +10,13 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
-              gongshe:left_button="text"
-              gongshe:right_button_one="invisible"
-              gongshe:title_text="我的群组"/>
+              gongshe:left_btn="text"
+              gongshe:right_btn_text="text"
+              gongshe:text_right_btn="@string/btn_create_group"/>
 
-    <ListView android:id="@+id/lsv_group_list"
-              android:layout_height="match_parent"
+    <fragment android:name="com.gongshe.controller.GroupListFragment"
+              android:id="@+id/group_list_fragment"
+              android:layout_weight="1"
               android:layout_width="match_parent"
-              android:cacheColorHint="#00000000"
-              android:layout_weight="1"/>
-
-    <Button android:id="@+id/btn_create_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="create group"/>
+              android:layout_height="match_parent"/>
 </LinearLayout>

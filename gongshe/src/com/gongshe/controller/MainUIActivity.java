@@ -117,7 +117,9 @@ public class MainUIActivity extends FragmentActivity {
             public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
                 switch (id) {
                     case ONE:
-                        Intent intent = new Intent(MainUIActivity.this, EditPostActivity.class);
+                        Intent intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
+                        intent.setAction(GroupManageActivity.ACTION_SELECT);
+                        intent.putExtra("from", getString(R.string.txt_home_page));
                         MainUIActivity.this.startActivity(intent);
                         break;
                     case TWO:

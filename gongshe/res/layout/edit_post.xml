@@ -1,94 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/content_title_bar"
+    <fragment xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
+              android:name="com.gongshe.controller.HeaderFragment"
+              android:id="@+id/common_header"
+              gongshe:left_btn="text"
+              gongshe:right_btn_text="text"
+              gongshe:text_right_btn="@string/btn_post"
+              gongshe:text_title="@string/txt_post"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="60dp"
+                  android:text="@string/txt_title"/>
+
+        <EditText android:id="@+id/etx_input_title"
+                  android:layout_height="wrap_content"
                   android:layout_width="match_parent"
-                  android:layout_height="40dp"
-                  android:orientation="horizontal"
-                  android:background="@color/grey"
-                  android:layout_alignParentTop="true">
-
-        <Button android:id="@+id/btn_back"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_weight="0"
-                android:layout_gravity="center_vertical"
-                android:text="back"
-                android:src="@drawable/icon"/>
-
-        <TextView android:id="@+id/txview_title_bar"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
                   android:layout_weight="1"
-                  android:gravity="center"
-                  android:text="edit post"/>
-
-        <ImageView android:id="@+id/icon_title_bar_right"
-                   android:layout_width="30dp"
-                   android:layout_height="30dp"
-                   android:layout_weight="0"
-                   android:layout_gravity="center_vertical"
-                   android:visibility="invisible"
-                   android:src="@drawable/icon"/>
-    </LinearLayout>
-
-    <EditText android:id="@+id/etx_input_title"
-              android:layout_height="50dp"
-              android:layout_width="200dp"
-              android:hint="@string/hint_input_title"
-              android:layout_below="@id/content_title_bar"
-              android:layout_marginTop="10dp"
-              android:inputType="text"/>
-
-    <LinearLayout android:id="@+id/group_list"
-                  android:layout_width="match_parent"
-                  android:layout_height="50dp"
-                  android:orientation="horizontal"
-                  android:layout_below="@id/etx_input_title"
-                  android:layout_marginTop="10dp">
-        <Button android:id="@+id/btn_add_group"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:text="add group"/>
+                  android:hint="@string/hint_input_title"
+                  android:singleLine="true"
+                  android:ellipsize="end"
+                  android:inputType="text"/>
     </LinearLayout>
 
     <LinearLayout android:id="@+id/member_list"
                   android:layout_width="match_parent"
-                  android:layout_height="50dp"
+                  android:layout_height="60dp"
                   android:orientation="horizontal"
-                  android:layout_below="@id/group_list"
                   android:layout_marginTop="10dp">
-        <Button android:id="@+id/btn_add_memeber"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:text="add member"/>
+        <ImageView android:id="@+id/btn_add_memeber"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@android:drawable/ic_menu_camera"/>
     </LinearLayout>
 
     <EditText android:id="@+id/etx_input_content"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_below="@id/member_list"
+              android:layout_weight="1"
               android:layout_marginTop="10dp"
-              android:hint="input content here"
+              android:hint="@string/hint_input_content"
               android:layout_marginBottom="10dp"/>
 
-    <LinearLayout android:id="@+id/function_list"
-                  android:layout_width="match_parent"
-                  android:layout_height="50dp"
-                  android:orientation="horizontal"
-                  android:layout_marginTop="-70dip"
-                  android:layout_alignParentBottom="true"
-                  android:layout_below="@id/etx_input_content">
-        <Button android:id="@+id/btn_insert_image"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:text="image"/>
-        <Button android:id="@+id/btn_send"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:text="send"/>
-    </LinearLayout>
-</RelativeLayout>
+    <Button android:id="@+id/btn_at_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_at_my_friend"/>
+</LinearLayout>

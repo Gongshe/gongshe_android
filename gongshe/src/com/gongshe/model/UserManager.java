@@ -13,15 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.gongshe.model.GongSheConstant.RESULT_AUTH_ERROR;
-
 public class UserManager {
-
-    public interface OnUpdateListener {
-        public void onUpdate();
-
-        public void onError();
-    }
 
     public interface OnDataChangeListener {
         public void onDataChanged();
@@ -211,11 +203,6 @@ public class UserManager {
         return new OnNetListener() {
             @Override
             public void OnResponse(String response) {
-                if (response == null || response.equals("")) {
-                    if (listener != null) listener.onError();
-                    return;
-                }
-
                 ObjectMapper objectMapper = new ObjectMapper();
                 try {
                     User user = objectMapper.readValue(response.getBytes("UTF-8"), User.class);
@@ -267,11 +254,6 @@ public class UserManager {
         return new OnNetListener() {
             @Override
             public void OnResponse(String response) {
-                if (response == null || response.equals("")) {
-                    if (listener != null) listener.onError();
-                    return;
-                }
-
                 ObjectMapper objectMapper = new ObjectMapper();
                 CollectionType type = objectMapper.getTypeFactory()
                                                   .constructCollectionType(List.class, Group.class);
@@ -298,15 +280,6 @@ public class UserManager {
 
             @Override
             public void onError(String errorMessage) {
-                if (errorMessage.equals(RESULT_AUTH_ERROR)) {
-                    Log.e("yafan", "on auth error.");
-                    mUser = null;
-                    // TODO: clear data here, need the user to log in again.
-                    clearUserData();
-                    clearGroupData(MY_GROUP_LIST_KEY);
-                    clearGroupData(BELONG_GROUP_LIST_KEY);
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                }
                 if (listener != null) listener.onError();
             }
         };
@@ -323,13 +296,10 @@ public class UserManager {
         return new OnNetListener() {
             @Override
             public void OnResponse(String response) {
-                if (response == null || response.equals("") || response.equals(GongSheConstant.RESULT_FAIL)) {
-                    if (listener != null) listener.onError();
-                    return;
-                }
                 if (listener != null) listener.onUpdate();
-                UserGroupFetcher.getsInstance().fetchMyGroup(mUser.getId(), mUser.getToken(),
-                        getUpdateGroupListListener(MY_GROUP_LIST_KEY, listener));
+                UserGroupFetcher.getsInstance()
+                                .fetchMyGroup(mUser.getId(), mUser.getToken(),
+                                        getUpdateGroupListListener(MY_GROUP_LIST_KEY, listener));
             }
 
             @Override
@@ -347,4 +317,10 @@ public class UserManager {
         mMyGroup.clear();
         mBelongGroup.clear();
     }
+
+    public void onAuthError() {
+        logOut();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
 }

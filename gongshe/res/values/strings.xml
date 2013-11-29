@@ -13,6 +13,7 @@
     <string name="btn_friends">好友</string>
     <string name="btn_activities">动态</string>
     <string name="btn_settings">设置</string>
+    <string name="txt_home_page">我的主页</string>
 
     <!-- sliding menu -->
     <string name="menu_all_involved_me">我的讨论</string>
@@ -22,9 +23,6 @@
     <string name="btn_group_manage">群组管理</string>
     <string name="txt_empty_my_group">您还没有创建群组</string>
     <string name="txt_empty_belong_group">您还没有加入群组</string>
-
-    <!-- EditPostActivity -->
-    <string name="hint_input_title">再次输入标题</string>
 
     <!-- HeaderFragment -->
     <string name="btn_back">返回</string>
@@ -43,6 +41,25 @@
     <string name="txt_network_error">网络错误，请重试。</string>
     <string name="txt_info_error">请确认电话号码和密码正确。</string>
 
+    <!-- GroupManageActivity -->
+    <string name="txt_select_group">选择群组</string>
+    <string name="txt_manage_group">群组管理</string>
+    <string name="btn_create_group">创建群组</string>
+
     <!-- Create Group Activity -->
     <string name="error_group_name">请输入正确的群组名称</string>
+    <string name="btn_create">创建</string>
+    <string name="btn_invite_friend">邀请好友加入</string>
+    <string name="txt_create_new_group">创建新群组</string>
+
+    <!-- EditPostActivity -->
+    <string name="txt_title">标题</string>
+    <string name="hint_input_title">点击输入标题</string>
+    <string name="hint_input_content">点击输入内容</string>
+    <string name="btn_at_my_friend">\@我的好友</string>
+    <string name="txt_post">发帖</string>
+    <string name="btn_post">发布</string>
+    <string name="error_input_no_complete">请输入标题和内容。</string>
+    <string name="error_network">网络错误，请稍后重试。</string>
+
 </resources>

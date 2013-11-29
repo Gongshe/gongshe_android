@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.gongshe.R;
+import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.UserManager;
 
 public class RegisterActivity extends FragmentActivity {
@@ -105,13 +106,11 @@ public class RegisterActivity extends FragmentActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        UserManager.getInstance().registerUser(name, phone, password, new UserManager.OnUpdateListener() {
+        UserManager.getInstance().registerUser(name, phone, password, new OnUpdateListener() {
             @Override
             public void onUpdate() {
                 dialog.dismiss();
                 Intent intent = new Intent(RegisterActivity.this, com.gongshe.controller.MainUIActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }

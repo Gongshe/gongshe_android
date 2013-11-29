@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,11 @@ public class HeaderFragment extends Fragment {
         mTxvTitle.setText(mTitleText);
     }
 
+    public void setLetBtnText(String text) {
+        mLeftBtnText = text;
+        mBtnLeft.setText(mLeftBtnText);
+    }
+
     public void setRightButtonType(ButtonType rightOne, ButtonType rightTwo, ButtonType rightText) {
         mRightBtnOneType = rightOne;
         if (mRightBtnOneType != ButtonType.ICON) {
@@ -90,28 +96,28 @@ public class HeaderFragment extends Fragment {
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(activity, attrs, savedInstanceState);
         TypedArray styles = activity.obtainStyledAttributes(attrs, R.styleable.CommonHeader);
-        mTitleText = styles.getString(R.styleable.CommonHeader_title_text);
+        mTitleText = styles.getString(R.styleable.CommonHeader_text_title);
 
-        mLeftBtnType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_left_button, 0)];
+        mLeftBtnType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_left_btn, 0)];
         if (mLeftBtnType == ButtonType.TEXT) {
-            mLeftBtnText = styles.getString(R.styleable.CommonHeader_left_btn_text);
+            mLeftBtnText = styles.getString(R.styleable.CommonHeader_text_left_btn);
         } else if (mLeftBtnType == ButtonType.ICON) {
-            mLeftImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_left_btn_img, R.drawable.icon);
+            mLeftImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_img_left_btn, R.drawable.icon);
         }
 
-        mRightBtnOneType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_button_one, 0)];
+        mRightBtnOneType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_btn_one, 0)];
         if (mRightBtnOneType == ButtonType.ICON) {
-            mRigntOneImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_right_one_img, R.drawable.icon);
+            mRigntOneImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_img_right_one, R.drawable.icon);
         }
 
-        mRightBtnTwoType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_button_two, 0)];
+        mRightBtnTwoType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_btn_two, 0)];
         if (mRightBtnTwoType == ButtonType.ICON) {
-            mRigntTwoImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_right_two_img, R.drawable.icon);
+            mRigntTwoImgBtnRes = styles.getResourceId(R.styleable.CommonHeader_img_right_two, R.drawable.icon);
         }
 
         mRightBtnTextType = ButtonType.values()[styles.getInt(R.styleable.CommonHeader_right_btn_text, 0)];
         if (mRightBtnTextType == ButtonType.TEXT) {
-            mRightBtnText = styles.getString(R.styleable.CommonHeader_right_btn_text);
+            mRightBtnText = styles.getString(R.styleable.CommonHeader_text_right_btn);
         }
 
         styles.recycle();
@@ -214,7 +220,7 @@ public class HeaderFragment extends Fragment {
                     mBtnRightText.setVisibility(View.GONE);
                     break;
                 case TEXT:
-                    mBtnRightText.setVisibility(View.INVISIBLE);
+                    mBtnRightText.setVisibility(View.VISIBLE);
                     mBtnRightText.setText(mRightBtnText);
                     break;
                 case ICON:

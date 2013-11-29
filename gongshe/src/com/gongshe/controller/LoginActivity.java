@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.gongshe.R;
+import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.User;
 import com.gongshe.model.UserManager;
 
@@ -106,7 +107,7 @@ public class LoginActivity extends Activity {
         dialog.setCancelable(false);
         dialog.show();
 
-        UserManager.getInstance().login(phone, password, new UserManager.OnUpdateListener() {
+        UserManager.getInstance().login(phone, password, new OnUpdateListener() {
             @Override
             public void onUpdate() {
                 dialog.dismiss();

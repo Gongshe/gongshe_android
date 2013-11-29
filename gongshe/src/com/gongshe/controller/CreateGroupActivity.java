@@ -6,15 +6,17 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.gongshe.R;
+import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.UserManager;
 
-public class CreateGroupActivity extends Activity {
+public class CreateGroupActivity extends FragmentActivity {
     private Button mBtnCreateGroup;
     private EditText mEtxGroupName;
     private EditText mEtxGroupIntroduction;
@@ -23,29 +25,36 @@ public class CreateGroupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_group);
 
-        ListView listView = (ListView) findViewById(R.id.lsv_group_members);
-        FriendListAdapter adapter = new FriendListAdapter(this);
-        adapter.setDisplayMode(FriendListAdapter.DisplayMode.NONE);
-        listView.setAdapter(adapter);
-
-        Button button = (Button) findViewById(R.id.btn_back);
-        button.setOnClickListener(new View.OnClickListener() {
+        HeaderFragment fragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
+        fragment.setTitle(getString(R.string.txt_create_new_group));
+        fragment.setLetBtnText(getString(R.string.btn_group_manage));
+        fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onClick(View v) {
+            public void onLeftBtnClicked() {
                 onBackPressed();
+            }
+
+            @Override
+            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
+                // do nothing.
             }
         });
 
-        mBtnCreateGroup = (Button) findViewById(R.id.btn_create_group);
-        mBtnCreateGroup.setOnClickListener(new View.OnClickListener() {
+        Button button = (Button) findViewById(R.id.btn_create_group);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBtnCreate();
             }
         });
 
-        mEtxGroupName = (EditText) findViewById(R.id.etx_group_name);
-        mEtxGroupIntroduction = (EditText) findViewById(R.id.etx_group_introduction);
+        button = (Button) findViewById(R.id.btn_invite_friend);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO:
+            }
+        });
     }
 
     private void onBtnCreate() {
@@ -81,7 +90,7 @@ public class CreateGroupActivity extends Activity {
         dialog.setCancelable(false);
         dialog.show();
 
-        UserManager.getInstance().createGroup(name, introduction, new UserManager.OnUpdateListener() {
+        UserManager.getInstance().createGroup(name, introduction, new OnUpdateListener() {
             @Override
             public void onUpdate() {
                 Intent intent = new Intent(CreateGroupActivity.this, com.gongshe.controller.MainUIActivity.class);
@@ -98,5 +107,4 @@ public class CreateGroupActivity extends Activity {
             }
         });
     }
-
 }
