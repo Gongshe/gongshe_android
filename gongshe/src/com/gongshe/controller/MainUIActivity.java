@@ -2,16 +2,14 @@ package com.gongshe.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import com.gongshe.R;
+import com.gongshe.model.GongSheConstant;
 import com.gongshe.model.Group;
+import com.gongshe.model.UserManager;
 import com.gongshe.view.SlidingMenu;
 
 public class MainUIActivity extends FragmentActivity {
@@ -25,7 +23,7 @@ public class MainUIActivity extends FragmentActivity {
 
     private HeaderFragment mTitleFrame;
     private MessageFragment mMessageFrame;
-    private ContentFrameFragment mActivitiesFrame;
+    private ContentFrameFragment mContentFrame;
     private FriendsFragment mFriendsFrame;
     private SettingFragment mSettingFrame;
 
@@ -34,8 +32,8 @@ public class MainUIActivity extends FragmentActivity {
     private GroupListFragment.OnGroupSelectedListener mOnGroupSelectedListener = new GroupListFragment.OnGroupSelectedListener() {
         @Override
         public void onGroupSelected(Group group) {
-            onActivities();
-            mTitleFrame.setTitle(group.getName());
+            mContentFrame.setGroupContent(group, false);
+            updateContentFrame();
             mSlideMenu.showContent();
         }
     };
@@ -43,14 +41,14 @@ public class MainUIActivity extends FragmentActivity {
     private MenuListFragment.OnSpecialMenuListener mOnSpecialMenuListener = new MenuListFragment.OnSpecialMenuListener() {
         @Override
         public void onSpecialMenu(MenuListFragment.SpecialMenuType menuType) {
-            onActivities();
+            Group group = null;
             if (menuType == MenuListFragment.SpecialMenuType.AT_ME) {
-                mActivitiesFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
-                mTitleFrame.setTitle(getString(R.string.menu_all_mention_me));
+                group = GongSheConstant.ALL_AT_ME_GROUP;
             } else if (menuType == MenuListFragment.SpecialMenuType.INVOLVED_ME) {
-                mActivitiesFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_INVOLVED);
-                mTitleFrame.setTitle(getString(R.string.menu_all_involved_me));
+                group = GongSheConstant.ALL_INVOLVED_GROUP;
             }
+            mContentFrame.setGroupContent(group, false);
+            updateContentFrame();
             mSlideMenu.showContent();
         }
     };
@@ -63,8 +61,7 @@ public class MainUIActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         mTitleFrame = (HeaderFragment) fragmentManager.findFragmentById(R.id.common_header);
 
-        mActivitiesFrame = new ContentFrameFragment();
-        mActivitiesFrame.setGroupInfo(ContentFrameFragment.GroupInfo.ALL_FEEDS);
+        mContentFrame = new ContentFrameFragment();
 
         mFriendsFrame = new FriendsFragment();
         mFriendsFrame.setDisplayMode(FriendListAdapter.DisplayMode.MESSAGE);
@@ -79,6 +76,12 @@ public class MainUIActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        // setup contentFrame
+        if (mContentFrame.getCurrentGroup() == null) {
+            mContentFrame.setGroupContent(GongSheConstant.ALL_ACTIVITY_GROUP, true);
+        }
+
         // setup left_menu listener
         MenuListFragment menu = (MenuListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_menu_list);
         menu.setOnGroupSelectedListener(mOnGroupSelectedListener);
@@ -87,7 +90,11 @@ public class MainUIActivity extends FragmentActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // TODO:
+        int gid = intent.getIntExtra("gid", -1);
+        Group group = UserManager.getInstance()
+                                 .findGroupById(gid);
+        mContentFrame.setGroupContent(group, true);
+        updateContentFrame();
     }
 
     @Override
@@ -102,8 +109,8 @@ public class MainUIActivity extends FragmentActivity {
 
         // set up activities frame
         getSupportFragmentManager().beginTransaction()
-                                   .add(R.id.content_frame, mActivitiesFrame)
-                                   .commit();
+                .add(R.id.content_frame, mContentFrame)
+                .commit();
         // set title frame
         mTitleFrame.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
@@ -117,9 +124,18 @@ public class MainUIActivity extends FragmentActivity {
             public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
                 switch (id) {
                     case ONE:
-                        Intent intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
-                        intent.setAction(GroupManageActivity.ACTION_SELECT);
+                        Intent intent;
+                        Group group = mContentFrame.getCurrentGroup();
+                        if (group.equals(GongSheConstant.ALL_AT_ME_GROUP) ||
+                                group.equals(GongSheConstant.ALL_INVOLVED_GROUP) ||
+                                group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
+                            intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
+                            intent.setAction(GroupManageActivity.ACTION_SELECT);
+                        } else {
+                            intent = new Intent(MainUIActivity.this, EditPostActivity.class);
+                        }
                         intent.putExtra("from", getString(R.string.txt_home_page));
+                        intent.putExtra("gid", group.getId());
                         MainUIActivity.this.startActivity(intent);
                         break;
                     case TWO:
@@ -179,8 +195,8 @@ public class MainUIActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.findFragmentById(R.id.content_frame) != mMessageFrame) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, mMessageFrame)
-                    .commit();
+                           .replace(R.id.content_frame, mMessageFrame)
+                           .commit();
             mTitleFrame.setTitle(getString(R.string.btn_message));
 
             mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
@@ -193,8 +209,8 @@ public class MainUIActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.findFragmentById(R.id.content_frame) != mFriendsFrame) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, mFriendsFrame)
-                    .commit();
+                           .replace(R.id.content_frame, mFriendsFrame)
+                           .commit();
             mTitleFrame.setTitle(getString(R.string.btn_friends));
             mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
                     HeaderFragment.ButtonType.INVISIBLE,
@@ -203,16 +219,21 @@ public class MainUIActivity extends FragmentActivity {
     }
 
     private void onActivities() {
+        mContentFrame.setGroupContent(GongSheConstant.ALL_ACTIVITY_GROUP, true);
+        updateContentFrame();
+    }
+
+    private void updateContentFrame() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentById(R.id.content_frame) != mActivitiesFrame) {
+        if (fragmentManager.findFragmentById(R.id.content_frame) != mContentFrame) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, mActivitiesFrame)
-                    .commit();
-            mTitleFrame.setTitle(getString(R.string.btn_activities));
+                           .replace(R.id.content_frame, mContentFrame)
+                           .commit();
             mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.ICON,
                     HeaderFragment.ButtonType.INVISIBLE,
                     HeaderFragment.ButtonType.INVISIBLE);
         }
+        mTitleFrame.setTitle(mContentFrame.getContentName());
     }
 
     private void onSettings() {

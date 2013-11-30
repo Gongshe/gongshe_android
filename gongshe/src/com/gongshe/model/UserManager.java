@@ -323,4 +323,20 @@ public class UserManager {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+    public Group findGroupById(int gid) {
+        if (gid == -1) return GongSheConstant.ALL_ACTIVITY_GROUP;
+        if (gid == -2) return GongSheConstant.ALL_AT_ME_GROUP;
+        if (gid == -3) return GongSheConstant.ALL_INVOLVED_GROUP;
+
+        for (Group group : mMyGroup) {
+            if (group.getId() == gid) return group;
+        }
+
+        for (Group group : mBelongGroup) {
+            if (group.getId() == gid) return group;
+        }
+
+        return null;
+    }
+
 }

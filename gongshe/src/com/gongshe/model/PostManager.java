@@ -1,26 +1,22 @@
 package com.gongshe.model;
 
 import android.content.Context;
-import android.util.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.gongshe.GongSheApp;
 import com.gongshe.model.network.OnNetListener;
 import com.gongshe.model.network.PostFetcher;
-import com.gongshe.model.network.UserGroupFetcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.gongshe.model.GongSheConstant.RESULT_AUTH_ERROR;
-
 public class PostManager {
     private final static String TAG = PostManager.class.getSimpleName();
 
     public interface OnPostListUpdateListener {
-        public void onPostListeUpdate();
+        public void onPostListUpdate();
     }
 
     private PostManager() {
@@ -30,7 +26,8 @@ public class PostManager {
     private Context mContext;
 
     private Map<String, List<Post>> mGroupPostMap;
-    private List<OnPostListUpdateListener> mOnPostListUpdateListener;
+    private Map<String, List<Post>> mPostMap;
+    private OnPostListUpdateListener mOnPostListUpdateListener;
 
     public static PostManager getInstance() {
         if (sInstance == null) {
@@ -40,30 +37,38 @@ public class PostManager {
                     sInstance.mContext = GongSheApp.getInstance()
                                                    .getContext();
                     sInstance.mGroupPostMap = new HashMap<String, List<Post>>();
-                    sInstance.mOnPostListUpdateListener = new ArrayList<OnPostListUpdateListener>();
+                    sInstance.mPostMap = new HashMap<String, List<Post>>();
                 }
             }
         }
         return sInstance;
     }
 
-    public void registerOnPostListUpdteListener(OnPostListUpdateListener listener) {
-        if (listener == null) return;
-        if (!mOnPostListUpdateListener.contains(listener)) {
-            mOnPostListUpdateListener.add(listener);
+    public List<Post> getGroupList(Group group) {
+        String key = String.valueOf(group.getId());
+        List<Post> postList = mGroupPostMap.get(key);
+        if (postList == null) {
+            postList = new ArrayList<Post>();
+            mGroupPostMap.put(key, postList);
         }
-        return;
+        return postList;
     }
 
-    public void unRegisterOnPostListUpdteListener(OnPostListUpdateListener listener) {
-        if (listener == null) return;
-        mOnPostListUpdateListener.remove(listener);
+    public List<Post> getPostList(String postSignature) {
+        List<Post> postList = mPostMap.get(postSignature);
+        if (postList == null) {
+            postList = new ArrayList<Post>();
+            mPostMap.put(postSignature, postList);
+        }
+        return postList;
+    }
+
+    public void registerOnPostListUpdteListener(OnPostListUpdateListener listener) {
+            mOnPostListUpdateListener = listener;
     }
 
     private void notifyPostListChanged() {
-        for (OnPostListUpdateListener listener : mOnPostListUpdateListener) {
-            listener.onPostListeUpdate();
-        }
+        if (mOnPostListUpdateListener != null) mOnPostListUpdateListener.onPostListUpdate();
     }
 
     private OnNetListener getPostStatusListener(final OnUpdateListener listener) {
@@ -123,9 +128,11 @@ public class PostManager {
     }
 
     public void getAllInGroup(int groupId, OnUpdateListener listener) {
-        User user = UserManager.getInstance().getUser();
-        PostFetcher.getsInstance().getAllInGroup(user.getId(), user.getToken(), groupId,
-                getPostListListener(listener, groupId));
+        User user = UserManager.getInstance()
+                               .getUser();
+        PostFetcher.getsInstance()
+                   .getAllInGroup(user.getId(), user.getToken(), groupId,
+                           getPostListListener(listener, groupId));
     }
 
 }

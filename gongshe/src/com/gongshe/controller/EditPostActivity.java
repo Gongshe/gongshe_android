@@ -83,6 +83,7 @@ public class EditPostActivity extends FragmentActivity {
             public void onUpdate() {
                 dialog.dismiss();
                 Intent intent = new Intent(EditPostActivity.this, com.gongshe.controller.MainUIActivity.class);
+                intent.putExtra("gid", mGroupId);
                 startActivity(intent);
                 finish();
             }

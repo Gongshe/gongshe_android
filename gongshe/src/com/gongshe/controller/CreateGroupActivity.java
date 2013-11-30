@@ -1,6 +1,5 @@
 package com.gongshe.controller;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -10,14 +9,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 import com.gongshe.R;
 import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.UserManager;
 
 public class CreateGroupActivity extends FragmentActivity {
-    private Button mBtnCreateGroup;
     private EditText mEtxGroupName;
     private EditText mEtxGroupIntroduction;
 
@@ -39,6 +36,9 @@ public class CreateGroupActivity extends FragmentActivity {
                 // do nothing.
             }
         });
+
+        mEtxGroupName = (EditText) findViewById(R.id.etx_group_name);
+        mEtxGroupIntroduction = (EditText) findViewById(R.id.etx_group_introduction);
 
         Button button = (Button) findViewById(R.id.btn_create_group);
         button.setOnClickListener(new View.OnClickListener() {
