@@ -9,6 +9,10 @@ public class GongSheConstant {
     public static final String PATH_USER = "/user";
     public static final String PATH_REGISTER = "/register";
     public static final String PATH_LOGIN = "/login";
+    public static final String PATH_FIND_FRIENDS = "/findFriends";
+    public static final String PATH_FIND_USERLIST_BY_PHONE = "/findUserListByPhone";
+    public static final String PATH_ADD_FRIEND_BY_PHONE = "/addFriendByPhone";
+    public static final String PATH_ADD_FRIEND_BY_ID = "/addFriendById";
 
     public static final String PATH_GROUP = "/group";
     public static final String PATH_MY_GROUP = "/findCreatedGroups";
@@ -18,6 +22,10 @@ public class GongSheConstant {
     public static final String PATH_POST = "/post";
     public static final String PATH_POST_CREATE = "/create";
     public static final String PATH_POST_ALL_IN_GROUP = "/findAllInGroup";
+    public static final String PATH_POST_REPLY = "/reply";
+    public static final String PATH_POST_FINDALLOFSAMETITLE = "/findAllOfSameTitle";
+    public static final String PATH_POST_FINDRECENTPOSTS = "/findRecentPosts";
+    public static final String PATH_POST_FINDALLINVOLVED = "/findInvolved";
 
     public static final String RESULT_AUTH_ERROR = "auth_error";
     public static final String RESULT_OK = "ok";

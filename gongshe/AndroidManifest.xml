@@ -5,6 +5,13 @@
     <uses-sdk android:targetSdkVersion="18" android:minSdkVersion="10"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <application android:icon="@drawable/icon"
                  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
@@ -45,12 +52,13 @@
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".controller.PostBrowseActivity"
-                  android:screenOrientation="portrait"/>
-
-        <activity android:name=".controller.ImportContactActivity"
+                  android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".controller.RegisterActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".controller.ImportFriendActivity"
                   android:screenOrientation="portrait"/>
 
     </application>

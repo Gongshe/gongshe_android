@@ -18,7 +18,7 @@ public class FriendListActivity extends FragmentActivity {
 
             @Override
             public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                Intent intent = new Intent(FriendListActivity.this, ImportContactActivity.class);
+                Intent intent = new Intent(FriendListActivity.this, ImportFriendActivity.class);
                 FriendListActivity.this.startActivity(intent);
             }
         });

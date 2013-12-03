@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.gongshe.R;
 import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.PostManager;
-import com.gongshe.model.UserManager;
 
 public class EditPostActivity extends FragmentActivity {
 

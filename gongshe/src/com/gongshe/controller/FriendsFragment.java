@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.gongshe.R;
+import com.gongshe.model.UserManager;
 
 public class FriendsFragment extends Fragment {
     private final String TAG = FriendsFragment.class.getSimpleName();
 
     private FriendListAdapter.DisplayMode mDisplayMode;
+    private FriendListAdapter mAdapter;
 
     public void setDisplayMode(FriendListAdapter.DisplayMode displayMode) {
         mDisplayMode = displayMode;
@@ -25,10 +27,21 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.friends_frame, container, false);
         ListView listView = (ListView) view.findViewById(R.id.lsv_friend_list);
-        FriendListAdapter adapter = new FriendListAdapter(getActivity());
-        adapter.setDisplayMode(mDisplayMode);
-        listView.setAdapter(adapter);
+        mAdapter = new FriendListAdapter(getActivity(), UserManager.getInstance().getFriendList());
+        mAdapter.setDisplayMode(mDisplayMode);
+        listView.setAdapter(mAdapter);
+        updateFriendList();
         return view;
+    }
+
+    private void updateFriendList() {
+        UserManager.getInstance().fetchFriendList(null);
+        UserManager.getInstance().registerOnFriendListUpdateListener(new UserManager.OnFriendListUpdateListener() {
+            @Override
+            public void onFriendListUpdate() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -37,16 +50,5 @@ public class FriendsFragment extends Fragment {
         TypedArray styles = activity.obtainStyledAttributes(attrs, R.styleable.FriendsFragment);
         mDisplayMode = FriendListAdapter.DisplayMode.values()[styles.getInt(R.styleable.FriendsFragment_item_mode, 0)];
         styles.recycle();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop");
     }
 }

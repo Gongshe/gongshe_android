@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Button;
 import com.gongshe.R;
+import com.gongshe.controller.ImportFriendActivity;
 import com.gongshe.model.GongSheConstant;
 import com.gongshe.model.Group;
 import com.gongshe.model.UserManager;
@@ -111,6 +112,7 @@ public class MainUIActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.content_frame, mContentFrame)
                 .commit();
+
         // set title frame
         mTitleFrame.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
@@ -123,7 +125,7 @@ public class MainUIActivity extends FragmentActivity {
             @Override
             public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
                 switch (id) {
-                    case ONE:
+                    case ONE: {
                         Intent intent;
                         Group group = mContentFrame.getCurrentGroup();
                         if (group.equals(GongSheConstant.ALL_AT_ME_GROUP) ||
@@ -137,10 +139,14 @@ public class MainUIActivity extends FragmentActivity {
                         intent.putExtra("from", getString(R.string.txt_home_page));
                         intent.putExtra("gid", group.getId());
                         MainUIActivity.this.startActivity(intent);
+                    }
                         break;
                     case TWO:
                         break;
-                    case TEXT:
+                    case TEXT: {
+                        Intent intent = new Intent(MainUIActivity.this, ImportFriendActivity.class);
+                        MainUIActivity.this.startActivity(intent);
+                    }
                         break;
                 }
             }

@@ -10,9 +10,10 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
-              gongshe:left_btn="text"
-              gongshe:right_btn_text="text"
-              gongshe:text_right_btn="@string/btn_create_group"/>
+              gongshe:left_btn="icon"
+              gongshe:img_left_btn="@drawable/icon"
+              gongshe:right_btn_one="icon"
+              gongshe:img_right_one="@drawable/icon"/>
 
     <fragment android:name="com.gongshe.controller.GroupListFragment"
               android:id="@+id/group_list_fragment"

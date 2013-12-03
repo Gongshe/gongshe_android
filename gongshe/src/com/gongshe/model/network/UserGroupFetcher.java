@@ -2,11 +2,13 @@ package com.gongshe.model.network;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gongshe.GongSheApp;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.gongshe.model.GongSheConstant.*;
@@ -99,6 +101,61 @@ public class UserGroupFetcher {
         body.put("introduction", introduction);
         StringPostRequest request = new StringPostRequest(url, body,
                 getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void fetchFriendList(int userId, String token, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_USER + PATH_FIND_FRIENDS + "?uid=" + userId + "&token=" + token;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void findUserListByPhone(int userId, String token, List<String> phoneList, final OnNetListener listener) {
+        String url = BASE_URL + PATH_USER + PATH_FIND_USERLIST_BY_PHONE;
+        Map<String, String> body = new HashMap<String, String>(3);
+        body.put("uid", String.valueOf(userId));
+        body.put("token", token);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String strPhoneList = objectMapper.writeValueAsString(phoneList);
+            body.put("strPhoneList", strPhoneList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        StringPostRequest request = new StringPostRequest(url, body, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void addFriendByPhone(int userId, String token, String friendPhone, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_USER + PATH_ADD_FRIEND_BY_PHONE + "?uid=" + userId + "&token=" + token +
+                "&friendPhone=" + friendPhone;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void addFriendById(int userId, String token, int friendId, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_USER + PATH_ADD_FRIEND_BY_ID + "?uid=" + userId + "&token=" + token +
+                "&fid=" + friendId;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
                 getResponseErrorListener(listener));
         mQueue.add(request);
     }

@@ -19,7 +19,8 @@ public class PostFetcher {
     private static volatile PostFetcher sInstance;
     private RequestQueue mQueue;
 
-    private PostFetcher() {} // for singleton
+    private PostFetcher() {
+    } // for singleton
 
     public static PostFetcher getsInstance() {
         if (sInstance == null) {
@@ -35,7 +36,7 @@ public class PostFetcher {
     }
 
     public void createPost(int userId, String token, int groupId, String title, String content,
-                        final OnNetListener listener) {
+                           OnNetListener listener) {
         String url = BASE_URL + PATH_POST + PATH_POST_CREATE;
         Map<String, String> body = new HashMap<String, String>(5);
         body.put("uid", String.valueOf(userId));
@@ -50,7 +51,20 @@ public class PostFetcher {
         mQueue.add(request);
     }
 
-    public void getAllInGroup(int userId, String token, int groupId, final OnNetListener listener) {
+    public void replyPost(int userId, String token, String content, String signature, OnNetListener listener) {
+        String url = BASE_URL + PATH_POST + PATH_POST_REPLY;
+        Map<String, String> body = new HashMap<String, String>(4);
+        body.put("uid", String.valueOf(userId));
+        body.put("token", token);
+        body.put("content", content);
+        body.put("signature", signature);
+
+        StringPostRequest request = new StringPostRequest(url, body, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void getAllInGroup(int userId, String token, int groupId, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -63,4 +77,43 @@ public class PostFetcher {
                 getResponseErrorListener(listener));
         mQueue.add(request);
     }
+
+    public void getAllOfSameTitle(int userId, String token, String signature, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+            signature = URLEncoder.encode(signature, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_POST + PATH_POST_FINDALLOFSAMETITLE + "?uid=" + userId + "&token=" + token +
+                "&signature=" + signature;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void getRecentPosts(int userId, String token, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_POST + PATH_POST_FINDRECENTPOSTS + "?uid=" + userId + "&token=" + token;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+    public void getAllInvolved(int userId, String token, final OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_POST + PATH_POST_FINDALLINVOLVED + "?uid=" + userId + "&token=" + token;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
 }

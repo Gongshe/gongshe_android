@@ -8,7 +8,7 @@ import com.gongshe.model.Group;
 
 public class GroupManageActivity extends FragmentActivity {
 
-    private HeaderFragment mTitleBarFragment;
+    private HeaderFragment mHeaderFragment;
     private GroupListFragment mGroupListFragment;
 
     public static final String ACTION_SELECT = "com.songshe.controller.GroupManageActivity.action_select";
@@ -19,19 +19,17 @@ public class GroupManageActivity extends FragmentActivity {
         setContentView(R.layout.group_manage);
 
         Intent intent = getIntent();
-        String str = intent.getAction();
-        String from = intent.getStringExtra("from");
+        String action = intent.getAction();
 
-        mTitleBarFragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
+        mHeaderFragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         mGroupListFragment = (GroupListFragment) getSupportFragmentManager().findFragmentById(R.id
                 .group_list_fragment);
-        mTitleBarFragment.setLetBtnText(from);
 
-        if (str.equals(ACTION_SELECT)) {
-            mTitleBarFragment.setTitle(getString(R.string.txt_select_group));
-            mTitleBarFragment.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
+        if (action.equals(ACTION_SELECT)) {
+            mHeaderFragment.setTitle(getString(R.string.txt_select_group));
+            mHeaderFragment.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
                     HeaderFragment.ButtonType.INVISIBLE, HeaderFragment.ButtonType.INVISIBLE);
-            mTitleBarFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
+            mHeaderFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
                 @Override
                 public void onLeftBtnClicked() {
                     onBackPressed();
@@ -52,11 +50,12 @@ public class GroupManageActivity extends FragmentActivity {
                     startActivity(intent);
                 }
             });
-        } else if (str.equals(ACTION_MANAGE)) {
-            mTitleBarFragment.setTitle(getString(R.string.txt_manage_group));
-            mTitleBarFragment.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
-                    HeaderFragment.ButtonType.INVISIBLE, HeaderFragment.ButtonType.TEXT);
-            mTitleBarFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
+        } else if (action.equals(ACTION_MANAGE)) {
+            mHeaderFragment.setTitle(getString(R.string.txt_manage_group));
+
+            mHeaderFragment.setRightButtonType(HeaderFragment.ButtonType.ICON,
+                    HeaderFragment.ButtonType.INVISIBLE, HeaderFragment.ButtonType.INVISIBLE);
+            mHeaderFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
                 @Override
                 public void onLeftBtnClicked() {
                     onBackPressed();
@@ -72,8 +71,8 @@ public class GroupManageActivity extends FragmentActivity {
             mGroupListFragment.setOnGroupSelectedListener(new GroupListFragment.OnGroupSelectedListener() {
                 @Override
                 public void onGroupSelected(Group group) {
-                    Intent intent = new Intent(GroupManageActivity.this, CreateGroupActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(GroupManageActivity.this, CreateGroupActivity.class);
+//                    startActivity(intent);
                 }
             });
         }

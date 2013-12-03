@@ -23,6 +23,7 @@ public class UserManager {
     private final static String DATA_KEY_USER = "user_data_key";
     private final static String MY_GROUP_LIST_KEY = "my_group_list_key";
     private final static String BELONG_GROUP_LIST_KEY = "belong_group_list_key";
+    private final static String FRIEND_LIST_KEY = "friend_list_key";
 
     private static volatile UserManager sInstance;
 
@@ -35,6 +36,7 @@ public class UserManager {
     private List<Group> mBelongGroup;
     private Context mContext;
     private List<OnDataChangeListener> mUpdateListener;
+    private List<User> mFriendList;
 
     private final static String TAG = UserManager.class.getSimpleName();
 
@@ -50,6 +52,7 @@ public class UserManager {
                     sInstance.mUpdateListener = new ArrayList<OnDataChangeListener>();
                     sInstance.mMyGroup = new ArrayList<Group>();
                     sInstance.mBelongGroup = new ArrayList<Group>();
+                    sInstance.mFriendList = new ArrayList<User>();
                 }
             }
         }
@@ -297,9 +300,6 @@ public class UserManager {
             @Override
             public void OnResponse(String response) {
                 if (listener != null) listener.onUpdate();
-                UserGroupFetcher.getsInstance()
-                                .fetchMyGroup(mUser.getId(), mUser.getToken(),
-                                        getUpdateGroupListListener(MY_GROUP_LIST_KEY, listener));
             }
 
             @Override
@@ -313,9 +313,11 @@ public class UserManager {
         clearUserData();
         clearGroupData(MY_GROUP_LIST_KEY);
         clearGroupData(BELONG_GROUP_LIST_KEY);
+        clearFriendData();
         mUser = null;
         mMyGroup.clear();
         mBelongGroup.clear();
+        mFriendList.clear();
     }
 
     public void onAuthError() {
@@ -339,4 +341,123 @@ public class UserManager {
         return null;
     }
 
+    public List<User> getFriendList() {
+        if (mFriendList != null && !mFriendList.isEmpty()) return mFriendList;
+        String str = mPreference.getString(FRIEND_LIST_KEY, null);
+        if (str == null || str.equals("")) return mFriendList;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        CollectionType type = objectMapper.getTypeFactory().constructCollectionType(List.class, User.class);
+        try {
+            List<User> list = objectMapper.readValue(str.getBytes("UTF-8"), type);
+            if (list != null && !list.isEmpty()) {
+                mFriendList.clear();
+                mFriendList.addAll(list);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mFriendList;
+    }
+
+    public void saveFriendList() {
+        if (mFriendList == null || mFriendList.isEmpty()) return;
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String str = objectMapper.writeValueAsString(mFriendList);
+            if (str != null && !str.equals("")) {
+                mPreference.edit().putString(FRIEND_LIST_KEY, str).commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearFriendData() {
+        mPreference.edit().putString(FRIEND_LIST_KEY, "").commit();
+    }
+
+    public interface OnFriendListUpdateListener {
+        public void onFriendListUpdate();
+    }
+
+    private OnFriendListUpdateListener mOnFriendListUpdateListener;
+
+    public void registerOnFriendListUpdateListener(OnFriendListUpdateListener listUpdateListener) {
+        mOnFriendListUpdateListener = listUpdateListener;
+    }
+
+    private void notifyFriendListUpdate() {
+        if (mOnFriendListUpdateListener != null) mOnFriendListUpdateListener.onFriendListUpdate();
+    }
+
+    public void fetchFriendList(final OnUpdateListener listener) {
+        UserGroupFetcher.getsInstance().fetchFriendList(mUser.getId(), mUser.getToken(), new OnNetListener() {
+            @Override
+            public void OnResponse(String response) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                CollectionType type = objectMapper.getTypeFactory().constructCollectionType(List.class, User.class);
+                try {
+                    List<User> list = objectMapper.readValue(response.getBytes("UTF-8"), type);
+                    if (list != null && !list.isEmpty()) {
+                        mFriendList.clear();
+                        mFriendList.addAll(list);
+                        saveFriendList();
+                        if (listener != null) listener.onUpdate();
+                        notifyFriendListUpdate();
+                    }
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (listener != null) listener.onError();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                if (listener != null) listener.onError();
+            }
+        });
+    }
+
+    public void fetchUserListByPhone(List<String> phoneList,
+                                     final List<User> resultList,
+                                     final OnUpdateListener listener) {
+        UserGroupFetcher.getsInstance()
+                        .findUserListByPhone(mUser.getId(), mUser.getToken(), phoneList, new OnNetListener() {
+                            @Override
+                            public void OnResponse(String response) {
+                                ObjectMapper objectMapper = new ObjectMapper();
+                                CollectionType type = objectMapper.getTypeFactory()
+                                                                  .constructCollectionType(List.class, User.class);
+                                try {
+                                    List<User> list = objectMapper.readValue(response.getBytes("UTF-8"), type);
+                                    if (list != null && !list.isEmpty()) {
+                                        resultList.clear();
+                                        resultList.addAll(list);
+                                    }
+                                    if (listener != null) listener.onUpdate();
+                                    return;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                if (listener != null) listener.onError();
+                            }
+
+                            @Override
+                            public void onError(String errorMessage) {
+                                if (listener != null) listener.onError();
+                            }
+                        });
+    }
+
+    public void addFriendByPhone(String phone, OnUpdateListener listener) {
+        UserGroupFetcher.getsInstance().addFriendByPhone(mUser.getId(), mUser.getToken(), phone,
+                getStatusReturnListener(listener));
+    }
+
+    public void addFriendById(int friendId, OnUpdateListener listener) {
+        UserGroupFetcher.getsInstance().addFriendById(mUser.getId(), mUser.getToken(), friendId,
+                getStatusReturnListener(listener));
+    }
 }

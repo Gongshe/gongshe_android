@@ -10,8 +10,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.gongshe.R;
+import com.gongshe.model.OnUpdateListener;
+import com.gongshe.model.User;
+import com.gongshe.model.UserManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FriendListAdapter extends BaseAdapter {
 
@@ -21,15 +25,7 @@ public class FriendListAdapter extends BaseAdapter {
         SELECTION;
     }
 
-    public static class FriendInfo {
-        public String mName;
-
-        public FriendInfo(String name) {
-            mName = name;
-        }
-    }
-
-    ArrayList<FriendInfo> mFriendsList;
+    List<User> mFriendsList;
     Context mContext;
 
     private DisplayMode mDisplayMode = DisplayMode.MESSAGE;
@@ -38,10 +34,9 @@ public class FriendListAdapter extends BaseAdapter {
         mDisplayMode = displayMode;
     }
 
-    public FriendListAdapter(Context context) {
-        mFriendsList = new ArrayList<FriendInfo>();
+    public FriendListAdapter(Context context, List<User> userList) {
         mContext = context;
-        initFakeData();
+        mFriendsList = userList;
     }
 
     @Override
@@ -50,13 +45,13 @@ public class FriendListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public User getItem(int position) {
         return mFriendsList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return mFriendsList.get(position).getId();
     }
 
     @Override
@@ -66,9 +61,10 @@ public class FriendListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             view = inflater.inflate(R.layout.friend_list_item, parent, false);
         }
+
         TextView textView = (TextView) view.findViewById(R.id.txv_friend_name);
-        FriendInfo friendInfo = (FriendInfo) getItem(position);
-        textView.setText(friendInfo.mName);
+        User friendInfo = getItem(position);
+        textView.setText(friendInfo.getName());
 
         Button button = (Button) view.findViewById(R.id.btn_send_message);
         button.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +90,4 @@ public class FriendListAdapter extends BaseAdapter {
         return view;
     }
 
-    private void initFakeData() {
-        mFriendsList.add(new FriendInfo("Xu kai"));
-        mFriendsList.add(new FriendInfo("Hugh ji"));
-        mFriendsList.add(new FriendInfo("Hu Xu"));
-        mFriendsList.add(new FriendInfo("Yafan Lian"));
-    }
 }

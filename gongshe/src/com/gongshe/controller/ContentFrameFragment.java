@@ -1,14 +1,18 @@
 package com.gongshe.controller;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gongshe.R;
-import com.gongshe.model.*;
+import com.gongshe.model.GongSheConstant;
+import com.gongshe.model.Group;
+import com.gongshe.model.Post;
+import com.gongshe.model.PostManager;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardHeader;
@@ -20,10 +24,29 @@ import java.util.List;
 
 public class ContentFrameFragment extends Fragment {
     private final String TAG = ContentFrameFragment.class.getSimpleName();
+    private Activity mActivity;
 
     private enum TYPE {
         GROUP,
         POST;
+    }
+
+    private static class PostCard extends Card {
+        private Post mPost;
+
+        public PostCard(Context context, Post post) {
+            super(context);
+            mPost = post;
+        }
+
+        public PostCard(Context context, int innerLayout, Post post) {
+            super(context, innerLayout);
+            mPost = post;
+        }
+
+        public Post getPost() {
+            return mPost;
+        }
     }
 
     private Group mGroup;
@@ -36,10 +59,13 @@ public class ContentFrameFragment extends Fragment {
     private Card.OnCardClickListener mOnCardClickerListener = new Card.OnCardClickListener() {
         @Override
         public void onClick(Card card, View view) {
-            if (getActivity() != null) {
-                Intent intent = new Intent(getActivity(), PostBrowseActivity.class);
-                getActivity().startActivity(intent);
-            }
+            Post post = ((PostCard) card).getPost();
+            Intent intent = new Intent(mActivity, PostBrowseActivity.class);
+            intent.putExtra("title", post.getTitle());
+            intent.putExtra("signature", post.getSignature());
+            intent.putExtra("pid", post.getId());
+            intent.putExtra("from", mGroup.getName());
+            mActivity.startActivity(intent);
         }
     };
 
@@ -56,15 +82,18 @@ public class ContentFrameFragment extends Fragment {
             mGroup = group;
             mPost = null;
             setupCardsList();
+            PostManager.getInstance()
+                       .registerOnPostListUpdateListener(mOnNormalUpdateListener);
+
             if (group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
-
+                PostManager.getInstance()
+                           .getRecentPosts(null);
             } else if (group.equals(GongSheConstant.ALL_INVOLVED_GROUP)) {
-
+                PostManager.getInstance()
+                        .getAllInvolved(null);
             } else if (group.equals(GongSheConstant.ALL_AT_ME_GROUP)) {
 
             } else {
-                PostManager.getInstance()
-                           .registerOnPostListUpdteListener(mOnNormalUpdateListener);
                 PostManager.getInstance()
                            .getAllInGroup(group.getId(), null);
             }
@@ -83,11 +112,15 @@ public class ContentFrameFragment extends Fragment {
     }
 
     public void setPostContent(Post post) {
-        if (post != null && !post.equals(mPost)) {
+        if (post != null) {
             mType = TYPE.POST;
             mPost = post;
             mGroup = null;
             setupCardsList();
+            PostManager.getInstance()
+                       .registerOnPostListUpdateListener(mOnNormalUpdateListener);
+            PostManager.getInstance()
+                       .getAllOfSameTitle(mPost.getSignature(), null);
         }
     }
 
@@ -103,6 +136,7 @@ public class ContentFrameFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mActivity = getActivity();
     }
 
     private void setupCardsList() {
@@ -114,25 +148,28 @@ public class ContentFrameFragment extends Fragment {
         }
         List<Card> cardList = new ArrayList<Card>();
         makeupCardList(cardList, postList);
-        mCardListAdapter = new CardArrayAdapter(getActivity(), cardList);
+        mCardListAdapter = new CardArrayAdapter(mActivity, cardList);
         mCardListView.setAdapter(mCardListAdapter);
     }
 
     private void makeupCardList(List<Card> cardList, List<Post> postList) {
         for (Post post: postList) {
-            Card card = new Card(getActivity());
+            PostCard card = new PostCard(mActivity, post);
             // set header
-            CardHeader header = new CardHeader(getActivity());
+            CardHeader header = new CardHeader(mActivity);
             header.setTitle(post.getTitle());
             card.addCardHeader(header);
             // set thumbnail
-            CardThumbnail thumbnail = new CardThumbnail(getActivity());
+            CardThumbnail thumbnail = new CardThumbnail(mActivity);
             thumbnail.setDrawableResource(R.drawable.icon);
             card.addCardThumbnail(thumbnail);
             // set title
             card.setTitle(post.getContent());
-            card.setOnClickListener(mOnCardClickerListener);
-
+            if (mType == TYPE.GROUP) {
+                card.setOnClickListener(mOnCardClickerListener);
+            } else {
+                card.setClickable(false);
+            }
             card.setLongClickable(false);
             cardList.add(card);
         }

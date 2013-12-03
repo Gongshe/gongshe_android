@@ -10,26 +10,30 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
-              gongshe:left_btn="text"
-              gongshe:right_btn_one="icon"
-              gongshe:text_title="推荐小说"/>
+              gongshe:left_btn="text"/>
 
-    <FrameLayout android:id="@+id/cards_container"
-                 android:layout_weight="1"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
-
-        <it.gmariotti.cardslib.library.view.CardListView
-                xmlns:card="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="#00000000"
-                card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
-                android:id="@+id/post_list"/>
-    </FrameLayout>
-
-    <EditText android:id="@+id/etxv_post_reply"
+    <fragment android:name="com.gongshe.controller.ContentFrameFragment"
+              android:id="@+id/content_frame"
               android:layout_width="match_parent"
-              android:layout_height="60dp"
-              android:hint="回复"/>
+              android:layout_height="match_parent"
+              android:layout_weight="1"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <EditText
+                android:id="@+id/etx_post_reply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_weight="1"/>
+
+        <Button
+                android:id="@+id/btn_reply"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="@string/btn_reply"/>
+    </LinearLayout>
 </LinearLayout>
