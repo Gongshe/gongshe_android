@@ -8,9 +8,8 @@
     <fragment xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
               android:name="com.gongshe.controller.HeaderFragment"
               android:id="@+id/common_header"
-              gongshe:left_btn="text"
-              gongshe:right_btn_text="text"
-              gongshe:text_right_btn="@string/btn_post"
+              gongshe:left_btn="visible"
+              gongshe:right_btn_one="visible"
               gongshe:text_title="@string/txt_post"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>

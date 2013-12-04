@@ -43,13 +43,8 @@ public class ImportFriendActivity extends FragmentActivity {
         mHeaderFragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         mHeaderFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
                 onBackPressed();
-            }
-
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                // do nothing.
             }
         });
 

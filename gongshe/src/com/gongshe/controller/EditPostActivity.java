@@ -34,16 +34,15 @@ public class EditPostActivity extends FragmentActivity {
         mEtxContent = (EditText) findViewById(R.id.etx_input_content);
 
         mTitleFragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
-        mTitleFragment.setLetBtnText(from);
         mTitleFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
-                onBackPressed();
-            }
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
+                if (id == HeaderFragment.BtnId.LEFT) {
+                    onBackPressed();
+                } else {
+                    onPost();
+                }
 
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                onPost();
             }
         });
     }

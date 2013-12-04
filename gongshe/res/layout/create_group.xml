@@ -8,7 +8,7 @@
     <fragment xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
               android:name="com.gongshe.controller.HeaderFragment"
               android:id="@+id/common_header"
-              gongshe:left_btn="text"
+              gongshe:left_btn="visible"
               gongshe:text_title="@string/txt_create_new_group"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>

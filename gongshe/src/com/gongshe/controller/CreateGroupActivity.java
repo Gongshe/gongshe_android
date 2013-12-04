@@ -24,16 +24,10 @@ public class CreateGroupActivity extends FragmentActivity {
 
         HeaderFragment fragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         fragment.setTitle(getString(R.string.txt_create_new_group));
-        fragment.setLetBtnText(getString(R.string.btn_group_manage));
         fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
                 onBackPressed();
-            }
-
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                // do nothing.
             }
         });
 

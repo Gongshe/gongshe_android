@@ -50,16 +50,10 @@ public class PostBrowseActivity extends FragmentActivity {
 
         mHeaderFrame = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         mHeaderFrame.setTitle(mContentFrame.getContentName());
-        mHeaderFrame.setLetBtnText(mFrom);
         mHeaderFrame.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
                 onBackPressed();
-            }
-
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                // do nothing.
             }
         });
     }

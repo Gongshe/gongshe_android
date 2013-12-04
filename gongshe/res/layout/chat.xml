@@ -10,8 +10,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
-              gongshe:left_btn="text"
-              gongshe:right_btn_one="invisible"
+              gongshe:left_btn="visible"
               gongshe:text_title="chat"/>
 
     <ListView android:id="@+id/lsv_chat_content"

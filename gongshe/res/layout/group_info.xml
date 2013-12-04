@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <fragment
+            android:name="com.gongshe.controller.HeaderFragment"
+            android:id="@+id/common_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
+            gongshe:left_btn="visible"
+            gongshe:img_left_btn="@drawable/icon_back"/>
+
+    <RelativeLayout
+            android:minHeight="180dp"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/bg_header_extend">
+
+        <FrameLayout
+                android:layout_height="105dp"
+                android:layout_width="105dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp">
+
+            <ImageView
+                    android:layout_width="105dp"
+                    android:layout_height="105dp"
+                    android:src="@drawable/icon_circle"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dummy_blind"/>
+
+            <ImageView
+                    android:layout_width="93dp"
+                    android:layout_height="93dp"
+                    android:src="@drawable/icon_white_circle"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dummy_blind"/>
+
+            <com.gongshe.view.CirceImageView
+                    android:id="@+id/icon_group"
+                    android:layout_height="90dp"
+                    android:layout_width="90dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/test_circle"/>
+        </FrameLayout>
+
+        <TextView
+                android:id="@+id/txv_group_name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="17dp"
+                android:drawableLeft="@drawable/icon_people"
+                android:drawablePadding="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_height="381dp"
+            android:layout_width="match_parent"
+            android:minHeight="381dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/bg_group_info">
+
+        <RelativeLayout
+                android:minHeight="133dp"
+                android:layout_height="133dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <TextView android:id="@+id/txv_member_tag"
+                      android:layout_height="20dp"
+                      android:layout_width="wrap_content"
+                      android:textSize="12sp"
+                      android:layout_alignParentTop="true"
+                      android:layout_alignParentLeft="true"
+                      android:layout_marginLeft="20dp"
+                      android:layout_marginTop="24dp"
+                      android:textColor="@color/text_grey"
+                      android:text="@string/txt_member"/>
+
+            <TextView android:id="@+id/txv_member_num"
+                      android:layout_height="24dp"
+                      android:layout_width="wrap_content"
+                      android:textSize="16sp"
+                      android:layout_alignParentTop="true"
+                      android:layout_toRightOf="@id/txv_member_tag"
+                      android:layout_marginTop="20dp"
+                      android:layout_marginLeft="10dp"
+                      android:textColor="@color/text_dark"
+                      android:text="@string/txt_member"/>
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentBottom="true"
+                          android:layout_alignParentLeft="true"
+                          android:layout_marginLeft="10dp"
+                          android:layout_marginBottom="15dp"
+                          android:orientation="horizontal">
+
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/lsv_group_member"
+                        android:layout_width="wrap_content"
+                        android:layout_height="65dp"
+                        android:layout_weight="1"
+                        xmlns:hlsv="http://schemas.android.com/apk/res/com.gongshe"
+                        hlsv:dividerWidth="0dp"
+                        android:cacheColorHint="#00000000"/>
+
+                <ImageView android:id="@+id/icon_member_more"
+                           android:layout_height="50dp"
+                           android:layout_width="23dp"
+                           android:layout_gravity="center_horizontal"
+                           android:scaleType="centerInside"
+                           android:layout_marginRight="15dp"
+                           android:layout_marginLeft="15dp"
+                           android:contentDescription="@string/dummy_blind"
+                           android:src="@drawable/icon_right_more"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+                android:minHeight="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/group_divider"/>
+
+        <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="wrap_content"
+                      android:text="@string/txt_introduction"
+                      android:layout_marginLeft="16dp"
+                      android:layout_marginTop="16dp"
+                      android:textSize="12sp"
+                      android:textColor="@color/text_grey"/>
+
+            <TextView android:id="@+id/txv_introduction"
+                      android:layout_height="match_parent"
+                      android:layout_width="wrap_content"
+                      android:layout_weight="1"
+                      android:textColor="@color/text_dark"
+                      android:gravity="left|top"
+                      android:layout_marginLeft="16dp"
+                      android:layout_marginRight="16dp"
+                      android:layout_marginTop="6dp"
+                      android:scrollbars="vertical"/>
+
+        </LinearLayout>
+
+        <Button android:id="@+id/btn_dismiss"
+                android:layout_height="40dp"
+                android:layout_width="262dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_dismiss"
+                android:text="@string/btn_dismiss"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

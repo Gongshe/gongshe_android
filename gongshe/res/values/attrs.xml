@@ -29,31 +29,20 @@
     <declare-styleable name="CommonHeader">
         <attr name="left_btn">
             <enum name="invisible" value="0"/>
-            <enum name="text" value="1"/>
-            <enum name="icon" value="2"/>
+            <enum name="visible" value="1"/>
         </attr>
 
         <attr name="right_btn_one">
             <enum name="invisible" value="0"/>
-            <enum name="text" value="1"/>
-            <enum name="icon" value="2"/>
+            <enum name="visible" value="1"/>
         </attr>
 
         <attr name="right_btn_two">
             <enum name="invisible" value="0"/>
-            <enum name="text" value="1"/>
-            <enum name="icon" value="2"/>
-        </attr>
-
-        <attr name="right_btn_text">
-            <enum name="invisible" value="0"/>
-            <enum name="text" value="1"/>
-            <enum name="icon" value="2"/>
+            <enum name="visible" value="1"/>
         </attr>
 
         <attr name="text_title" format="string"/>
-        <attr name="text_left_btn" format="string"/>
-        <attr name="text_right_btn" format="string"/>
         <attr name="img_left_btn" format="reference"/>
         <attr name="img_right_one" format="reference"/>
         <attr name="img_right_two" format="reference"/>

@@ -1,3 +1,6 @@
 [submodule "cardslib"]
 	path = cardslib
 	url = https://github.com/gabrielemariotti/cardslib.git
+[submodule "HorizontalVariableListView"]
+	path = HorizontalVariableListView
+	url = https://github.com/sephiroth74/HorizontalVariableListView.git

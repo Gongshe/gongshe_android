@@ -28,16 +28,11 @@ public class GroupManageActivity extends FragmentActivity {
         if (action.equals(ACTION_SELECT)) {
             mHeaderFragment.setTitle(getString(R.string.txt_select_group));
             mHeaderFragment.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
-                    HeaderFragment.ButtonType.INVISIBLE, HeaderFragment.ButtonType.INVISIBLE);
+                    HeaderFragment.ButtonType.INVISIBLE);
             mHeaderFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
                 @Override
-                public void onLeftBtnClicked() {
+                public void onBtnCLicked(HeaderFragment.BtnId id) {
                     onBackPressed();
-                }
-
-                @Override
-                public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                    // do nothing here
                 }
             });
 
@@ -52,27 +47,30 @@ public class GroupManageActivity extends FragmentActivity {
             });
         } else if (action.equals(ACTION_MANAGE)) {
             mHeaderFragment.setTitle(getString(R.string.txt_manage_group));
-
-            mHeaderFragment.setRightButtonType(HeaderFragment.ButtonType.ICON,
-                    HeaderFragment.ButtonType.INVISIBLE, HeaderFragment.ButtonType.INVISIBLE);
+            mHeaderFragment.setRightButtonType(HeaderFragment.ButtonType.VISIBLE, HeaderFragment.ButtonType.INVISIBLE);
             mHeaderFragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
                 @Override
-                public void onLeftBtnClicked() {
-                    onBackPressed();
-                }
-
-                @Override
-                public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                    Intent intent = new Intent(GroupManageActivity.this, CreateGroupActivity.class);
-                    startActivity(intent);
+                public void onBtnCLicked(HeaderFragment.BtnId id) {
+                    if (id == HeaderFragment.BtnId.LEFT) {
+                        onBackPressed();
+                    } else {
+                        Intent intent = new Intent(GroupManageActivity.this, CreateGroupActivity.class);
+                        startActivity(intent);
+                    }
                 }
             });
 
             mGroupListFragment.setOnGroupSelectedListener(new GroupListFragment.OnGroupSelectedListener() {
                 @Override
                 public void onGroupSelected(Group group) {
-//                    Intent intent = new Intent(GroupManageActivity.this, CreateGroupActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(GroupManageActivity.this, GroupInfoActivity.class);
+                    intent.putExtra("gid", group.getId());
+                    intent.putExtra("gname", group.getName());
+                    intent.putExtra("gintroduction", group.getIntroduction());
+                    intent.putExtra("gavatar", group.getAvatar());
+                    intent.putExtra("gowner", group.getOwner());
+                    intent.putExtra("gtime", group.getTime());
+                    GroupManageActivity.this.startActivity(intent);
                 }
             });
         }

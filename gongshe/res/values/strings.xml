@@ -66,4 +66,13 @@
     <string name="btn_reply">回复</string>
     <string name="error_input_content">请输入内容。</string>
 
+    <!-- GroupInfoActivity -->
+    <string name="btn_dismiss">解散群组</string>
+    <string name="txt_group_info">群组资料</string>
+    <string name="txt_introduction">简介</string>
+    <string name="txt_member">成员</string>
+    <string name="txt_human_being">人</string>
+
+
+    <string name="dummy_blind"> </string>
 </resources>

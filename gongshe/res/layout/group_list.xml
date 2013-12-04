@@ -1,59 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <TextView
-            android:id="@+id/txv_my_group"
-            android:background="@color/grey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_my_group"
-            android:gravity="left|center_vertical"/>
-
-    <ListView
-            android:id="@+id/list_menu_my_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/darkblue"
-            android:cacheColorHint="#00000000"
-            android:paddingLeft="@dimen/list_padding"
-            android:paddingRight="@dimen/list_padding"/>
-
-    <TextView
-            android:id="@+id/txv_empty_my_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_empty_my_group"
-            android:visibility="gone"/>
-
-    <TextView
-            android:id="@+id/txv_belong_group"
-            android:background="@color/grey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_belong_group"
-            android:gravity="left|center_vertical"/>
-
-    <ListView
-            android:id="@+id/list_menu_belong_group"
-            android:background="@color/darkblue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="#00000000"
-            android:paddingLeft="@dimen/list_padding"
-            android:paddingRight="@dimen/list_padding"/>
-
-    <TextView
-            android:id="@+id/txv_empty_belong_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txt_empty_belong_group"
-            android:visibility="gone"/>
-
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-</LinearLayout>
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:background="@drawable/bg_page"
+          android:id="@+id/lsv_group"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:divider="@color/group_divider"
+          android:dividerHeight="1dp"
+          android:cacheColorHint="#00000000"/>

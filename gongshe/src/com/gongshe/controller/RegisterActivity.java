@@ -29,12 +29,6 @@ public class RegisterActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-        findViewById(R.id.btn_left).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         mEtxPhone = (EditText) findViewById(R.id.etx_phone_input);
         mEtxPassword = (EditText) findViewById(R.id.etx_password_input);
         mEtxName = (EditText) findViewById(R.id.etx_name_input);

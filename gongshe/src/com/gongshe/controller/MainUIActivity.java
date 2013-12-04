@@ -2,6 +2,7 @@ package com.gongshe.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -116,37 +117,38 @@ public class MainUIActivity extends FragmentActivity {
         // set title frame
         mTitleFrame.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
-                if (mSlideMenu != null) {
-                    mSlideMenu.toggle();
-                }
-            }
-
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
                 switch (id) {
-                    case ONE: {
-                        Intent intent;
-                        Group group = mContentFrame.getCurrentGroup();
-                        if (group.equals(GongSheConstant.ALL_AT_ME_GROUP) ||
-                                group.equals(GongSheConstant.ALL_INVOLVED_GROUP) ||
-                                group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
-                            intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
-                            intent.setAction(GroupManageActivity.ACTION_SELECT);
-                        } else {
-                            intent = new Intent(MainUIActivity.this, EditPostActivity.class);
+                    case LEFT:
+                        if (mSlideMenu != null) {
+                            mSlideMenu.toggle();
                         }
-                        intent.putExtra("from", getString(R.string.txt_home_page));
-                        intent.putExtra("gid", group.getId());
-                        MainUIActivity.this.startActivity(intent);
-                    }
                         break;
-                    case TWO:
-                        break;
-                    case TEXT: {
-                        Intent intent = new Intent(MainUIActivity.this, ImportFriendActivity.class);
-                        MainUIActivity.this.startActivity(intent);
+                    case RIGHT_ONE: {
+                        Intent intent = null;
+                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                        if (fragment == mContentFrame) {
+                            Group group = mContentFrame.getCurrentGroup();
+                            if (group.equals(GongSheConstant.ALL_AT_ME_GROUP) ||
+                                    group.equals(GongSheConstant.ALL_INVOLVED_GROUP) ||
+                                    group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
+                                intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
+                                intent.setAction(GroupManageActivity.ACTION_SELECT);
+                            } else {
+                                intent = new Intent(MainUIActivity.this, EditPostActivity.class);
+                            }
+                            intent.putExtra("from", getString(R.string.txt_home_page));
+                            intent.putExtra("gid", group.getId());
+                            MainUIActivity.this.startActivity(intent);
+                        } else if (fragment == mFriendsFrame) {
+                            intent = new Intent(MainUIActivity.this, ImportFriendActivity.class);
+                        }
+                        if (intent != null) {
+                            MainUIActivity.this.startActivity(intent);
+                        }
                     }
+                    break;
+                    case RIGHT_TWO:
                         break;
                 }
             }
@@ -205,8 +207,7 @@ public class MainUIActivity extends FragmentActivity {
                            .commit();
             mTitleFrame.setTitle(getString(R.string.btn_message));
 
-            mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
-                    HeaderFragment.ButtonType.ICON,
+            mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.VISIBLE,
                     HeaderFragment.ButtonType.INVISIBLE);
         }
     }
@@ -218,9 +219,8 @@ public class MainUIActivity extends FragmentActivity {
                            .replace(R.id.content_frame, mFriendsFrame)
                            .commit();
             mTitleFrame.setTitle(getString(R.string.btn_friends));
-            mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
-                    HeaderFragment.ButtonType.INVISIBLE,
-                    HeaderFragment.ButtonType.TEXT);
+            mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.VISIBLE,
+                    HeaderFragment.ButtonType.INVISIBLE);
         }
     }
 
@@ -235,8 +235,7 @@ public class MainUIActivity extends FragmentActivity {
             fragmentManager.beginTransaction()
                            .replace(R.id.content_frame, mContentFrame)
                            .commit();
-            mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.ICON,
-                    HeaderFragment.ButtonType.INVISIBLE,
+            mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.VISIBLE,
                     HeaderFragment.ButtonType.INVISIBLE);
         }
         mTitleFrame.setTitle(mContentFrame.getContentName());
@@ -250,7 +249,6 @@ public class MainUIActivity extends FragmentActivity {
                            .commit();
             mTitleFrame.setTitle(getString(R.string.btn_settings));
             mTitleFrame.setRightButtonType(HeaderFragment.ButtonType.INVISIBLE,
-                    HeaderFragment.ButtonType.INVISIBLE,
                     HeaderFragment.ButtonType.INVISIBLE);
         }
     }

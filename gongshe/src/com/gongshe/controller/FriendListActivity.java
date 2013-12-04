@@ -12,14 +12,13 @@ public class FriendListActivity extends FragmentActivity {
         HeaderFragment fragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
-                onBackPressed();
-            }
-
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                Intent intent = new Intent(FriendListActivity.this, ImportFriendActivity.class);
-                FriendListActivity.this.startActivity(intent);
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
+                if (id == HeaderFragment.BtnId.LEFT) {
+                    onBackPressed();
+                } else {
+                    Intent intent = new Intent(FriendListActivity.this, ImportFriendActivity.class);
+                    FriendListActivity.this.startActivity(intent);
+                }
             }
         });
     }

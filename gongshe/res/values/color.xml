@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="group_tag">#0A98CC</color>
+    <color name="group_page">#EAEFF4</color>
+    <color name="group_divider">#D6D8DB</color>
+    <color name="text_grey">#898E91</color>
+    <color name="text_dark">#121416</color>
+
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
     <color name="lightyellow">#FFFFE0</color><!--亮黄色 -->

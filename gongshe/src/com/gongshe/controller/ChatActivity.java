@@ -19,13 +19,8 @@ public class ChatActivity extends FragmentActivity {
         HeaderFragment fragment = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
         fragment.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
-            public void onLeftBtnClicked() {
+            public void onBtnCLicked(HeaderFragment.BtnId id) {
                 onBackPressed();
-            }
-
-            @Override
-            public void onRightBtnClicked(HeaderFragment.RightBtnId id) {
-                // do nothing here
             }
         });
     }
