@@ -36,7 +36,7 @@ public class UserGroupFetcher {
         return sInstance;
     }
 
-    public void login(String phoneNum, String password, final OnNetListener listener) {
+    public void login(String phoneNum, String password, OnNetListener listener) {
         try {
             phoneNum = URLEncoder.encode(phoneNum, "UTF-8");
             password = URLEncoder.encode(password, "UTF-8");
@@ -49,7 +49,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void registerUser(String name, String phoneNum, String password, final OnNetListener listener) {
+    public void registerUser(String name, String phoneNum, String password, OnNetListener listener) {
         try {
             name = URLEncoder.encode(name, "UTF-8");
             phoneNum = URLEncoder.encode(phoneNum, "UTF-8");
@@ -64,7 +64,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void fetchMyGroup(int userId, String token, final OnNetListener listener) {
+    public void fetchMyGroup(int userId, String token, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -76,7 +76,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void fetchBelongGroup(int userId, String token, final OnNetListener listener) {
+    public void fetchBelongGroup(int userId, String token, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -88,7 +88,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void createGroup(int userId, String token, String groupName, String introduction, final OnNetListener listener) {
+    public void createGroup(int userId, String token, String groupName, String introduction, OnNetListener listener) {
         try {
             groupName = URLEncoder.encode(groupName, "UTF-8");
             token = URLEncoder.encode(token, "UTF-8");
@@ -105,7 +105,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void fetchFriendList(int userId, String token, final OnNetListener listener) {
+    public void fetchFriendList(int userId, String token, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -117,7 +117,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void findUserListByPhone(int userId, String token, List<String> phoneList, final OnNetListener listener) {
+    public void findUserListByPhone(int userId, String token, List<String> phoneList, OnNetListener listener) {
         String url = BASE_URL + PATH_USER + PATH_FIND_USERLIST_BY_PHONE;
         Map<String, String> body = new HashMap<String, String>(3);
         body.put("uid", String.valueOf(userId));
@@ -134,7 +134,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void addFriendByPhone(int userId, String token, String friendPhone, final OnNetListener listener) {
+    public void addFriendByPhone(int userId, String token, String friendPhone, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -147,7 +147,7 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
-    public void addFriendById(int userId, String token, int friendId, final OnNetListener listener) {
+    public void addFriendById(int userId, String token, int friendId, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -159,4 +159,19 @@ public class UserGroupFetcher {
                 getResponseErrorListener(listener));
         mQueue.add(request);
     }
+
+    public void getGroupAllMember(int userId, String token, int groupId, OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_GROUP + PATH_GROUP_GET_ALL_MEMBER + "?uid=" + userId + "&token=" + token +
+                "&gid=" + groupId;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
+
 }

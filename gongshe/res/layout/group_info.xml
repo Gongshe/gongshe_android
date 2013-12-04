@@ -99,7 +99,7 @@
                       android:textSize="16sp"
                       android:layout_alignParentTop="true"
                       android:layout_toRightOf="@id/txv_member_tag"
-                      android:layout_marginTop="20dp"
+                      android:layout_marginTop="20dp "
                       android:layout_marginLeft="10dp"
                       android:textColor="@color/text_dark"
                       android:text="@string/txt_member"/>

@@ -9,9 +9,7 @@ import com.gongshe.GongSheApp;
 import com.gongshe.model.network.OnNetListener;
 import com.gongshe.model.network.UserGroupFetcher;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class UserManager {
 
@@ -37,6 +35,7 @@ public class UserManager {
     private Context mContext;
     private List<OnDataChangeListener> mUpdateListener;
     private List<User> mFriendList;
+    private Map<String, List<User>> mGroupUserMap;
 
     private final static String TAG = UserManager.class.getSimpleName();
 
@@ -53,6 +52,7 @@ public class UserManager {
                     sInstance.mMyGroup = new ArrayList<Group>();
                     sInstance.mBelongGroup = new ArrayList<Group>();
                     sInstance.mFriendList = new ArrayList<User>();
+                    sInstance.mGroupUserMap = new HashMap<String, List<User>>();
                 }
             }
         }
@@ -459,5 +459,62 @@ public class UserManager {
     public void addFriendById(int friendId, OnUpdateListener listener) {
         UserGroupFetcher.getsInstance().addFriendById(mUser.getId(), mUser.getToken(), friendId,
                 getStatusReturnListener(listener));
+    }
+
+    public List<User> getGroupMember(int groupId) {
+        List<User> userList = mGroupUserMap.get(String.valueOf(groupId));
+        if (userList == null) {
+            userList = new ArrayList<User>();
+            mGroupUserMap.put(String.valueOf(groupId), userList);
+        }
+        return userList;
+    }
+
+    public interface OnGroupMemberUpdateListener {
+        public void onGroupMemberUpdate();
+    }
+
+    private OnGroupMemberUpdateListener mOnGroupMemberUpdateListener;
+
+    public void registerOnGroupMemberUpdateListener(OnGroupMemberUpdateListener listener) {
+        mOnGroupMemberUpdateListener = listener;
+    }
+
+    private void notifyGroupMemberUpdate() {
+        if (mOnGroupMemberUpdateListener != null) mOnGroupMemberUpdateListener.onGroupMemberUpdate();
+    }
+
+    public void fetchGroupMember(final int groupId, final OnUpdateListener listener) {
+        UserGroupFetcher.getsInstance().getGroupAllMember(mUser.getId(), mUser.getToken(), groupId, new OnNetListener() {
+            @Override
+            public void OnResponse(String response) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                CollectionType type = objectMapper.getTypeFactory()
+                                                  .constructCollectionType(List.class, User.class);
+                try {
+                    List<User> listMember = objectMapper.readValue(response.getBytes("UTF-8"), type);
+                    if (listMember != null) {
+                        List<User> originList = mGroupUserMap.get(String.valueOf(groupId));
+                        if (originList != null) {
+                            originList.clear();
+                            originList.addAll(listMember);
+                        } else {
+                            mGroupUserMap.put(String.valueOf(groupId), listMember);
+                        }
+                        if (listener != null) listener.onUpdate();
+                        notifyGroupMemberUpdate();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (listener != null) listener.onError();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                if (listener != null) listener.onError();
+            }
+        });
     }
 }

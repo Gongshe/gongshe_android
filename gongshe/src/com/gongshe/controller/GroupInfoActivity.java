@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.gongshe.R;
 import com.gongshe.model.Group;
 import com.gongshe.model.User;
+import com.gongshe.model.UserManager;
 import it.sephiroth.android.library.widget.HListView;
 
 import java.util.ArrayList;
@@ -49,22 +50,28 @@ public class GroupInfoActivity extends FragmentActivity {
         textView.setText(mGroup.getIntroduction());
         textView.setMovementMethod(new ScrollingMovementMethod());
 
-        mListGroupMember = new ArrayList<User>();
-        fakeData();
+        mListGroupMember = UserManager.getInstance().getGroupMember(mGroup.getId());
         mGroupMemberAdapter = new GroupMemberAdapter(this, mListGroupMember);
         HListView listView = (HListView) findViewById(R.id.lsv_group_member);
         listView.setAdapter(mGroupMemberAdapter);
 
         mTxvMemberNum = (TextView)findViewById(R.id.txv_member_num);
         mTxvMemberNum.setText(mListGroupMember.size() + getString(R.string.txt_human_being));
+
+        UserManager.getInstance().registerOnGroupMemberUpdateListener(new UserManager.OnGroupMemberUpdateListener() {
+            @Override
+            public void onGroupMemberUpdate() {
+                mGroupMemberAdapter.notifyDataSetChanged();
+                mTxvMemberNum.setText(mListGroupMember.size() + getString(R.string.txt_human_being));
+            }
+        });
+        UserManager.getInstance().fetchGroupMember(mGroup.getId(), null);
     }
 
-    private void fakeData() {
-        for (int i = 0; i < 3; i++) {
-            User user = new User();
-            user.setName("练亚凡" + " " +i);
-            mListGroupMember.add(user);
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        UserManager.getInstance().registerOnGroupMemberUpdateListener(null);
     }
 
     private void retrieveGroupData(Intent intent) {

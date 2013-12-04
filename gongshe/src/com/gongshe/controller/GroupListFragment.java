@@ -69,13 +69,21 @@ public class GroupListFragment extends Fragment {
                 }
             }
         });
+    }
 
-        // setup data change listener
+    @Override
+    public void onStart() {
+        super.onStart();
         UserManager.getInstance().registerDataChangeListener(mDataChangeListener);
-
         // update group data
         UserManager.getInstance().updateMyGroup(null);
         UserManager.getInstance().updateBelongGroup(null);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        UserManager.getInstance().unRegisterDataChangeListener(mDataChangeListener);
     }
 
     private void setupGroupList() {
@@ -141,6 +149,7 @@ public class GroupListFragment extends Fragment {
                 }
                 TextView textView = (TextView) convertView;
                 textView.setText(((TagGroup) group).tag);
+
                 convertView.setTag(true);
                 return convertView;
             }
@@ -155,6 +164,8 @@ public class GroupListFragment extends Fragment {
             title.setText(group.getName());
             TextView txvTimeStamp = (TextView) convertView.findViewById(R.id.txv_time_stamp);
             txvTimeStamp.setText(group.getTime().substring(0, 10));
+
+            convertView.setTag(false);
             return convertView;
         }
     }

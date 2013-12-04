@@ -78,7 +78,7 @@ public class PostFetcher {
         mQueue.add(request);
     }
 
-    public void getAllOfSameTitle(int userId, String token, String signature, final OnNetListener listener) {
+    public void getAllOfSameTitle(int userId, String token, String signature, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
             signature = URLEncoder.encode(signature, "UTF-8");
@@ -92,7 +92,7 @@ public class PostFetcher {
         mQueue.add(request);
     }
 
-    public void getRecentPosts(int userId, String token, final OnNetListener listener) {
+    public void getRecentPosts(int userId, String token, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
@@ -104,7 +104,7 @@ public class PostFetcher {
         mQueue.add(request);
     }
 
-    public void getAllInvolved(int userId, String token, final OnNetListener listener) {
+    public void getAllInvolved(int userId, String token, OnNetListener listener) {
         try {
             token = URLEncoder.encode(token, "UTF-8");
         } catch (UnsupportedEncodingException une) {
