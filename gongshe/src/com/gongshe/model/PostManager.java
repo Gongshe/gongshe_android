@@ -1,9 +1,7 @@
 package com.gongshe.model;
 
-import android.content.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.gongshe.GongSheApp;
 import com.gongshe.model.network.OnNetListener;
 import com.gongshe.model.network.PostFetcher;
 
@@ -12,18 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gongshe.model.network.RequestUtil.getStatusReturnListener;
+
 public class PostManager {
-    private final static String TAG = PostManager.class.getSimpleName();
 
     public interface OnPostListUpdateListener {
         public void onPostListUpdate();
     }
 
+    private final static String TAG = PostManager.class.getSimpleName();
+
     private PostManager() {
     } // for singleton
 
     private static volatile PostManager sInstance;
-    private Context mContext;
 
     private Map<String, List<Post>> mGroupPostMap;
     private Map<String, List<Post>> mPostMap;
@@ -34,8 +34,6 @@ public class PostManager {
             synchronized (PostManager.class) {
                 if (sInstance == null) {
                     sInstance = new PostManager();
-                    sInstance.mContext = GongSheApp.getInstance()
-                                                   .getContext();
                     sInstance.mGroupPostMap = new HashMap<String, List<Post>>();
                     sInstance.mPostMap = new HashMap<String, List<Post>>();
                 }
@@ -63,26 +61,12 @@ public class PostManager {
         return postList;
     }
 
-    public void registerOnPostListUpdateListener(OnPostListUpdateListener listener) {
-            mOnPostListUpdateListener = listener;
+    public void setOnPostListUpdateListener(OnPostListUpdateListener listener) {
+        mOnPostListUpdateListener = listener;
     }
 
     private void notifyPostListChanged() {
         if (mOnPostListUpdateListener != null) mOnPostListUpdateListener.onPostListUpdate();
-    }
-
-    private OnNetListener getPostStatusListener(final OnUpdateListener listener) {
-        return new OnNetListener() {
-            @Override
-            public void OnResponse(String response) {
-                if (listener != null) listener.onUpdate();
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                if (listener != null) listener.onError();
-            }
-        };
     }
 
     private OnNetListener getGroupPostListListener(final OnUpdateListener listener, final int groupId) {
@@ -158,7 +142,7 @@ public class PostManager {
                                .getUser();
         PostFetcher.getsInstance()
                    .createPost(user.getId(), user.getToken(), groupId, title, content,
-                           getPostStatusListener(listener));
+                           getStatusReturnListener(listener));
     }
 
     public void replyPost(String content, String signature, OnUpdateListener listener) {
@@ -167,7 +151,7 @@ public class PostManager {
 
         PostFetcher.getsInstance()
                    .replyPost(user.getId(), user.getToken(), content, signature,
-                           getPostStatusListener(listener));
+                           getStatusReturnListener(listener));
     }
 
     public void getAllInGroup(int groupId, OnUpdateListener listener) {
@@ -191,8 +175,8 @@ public class PostManager {
                                .getUser();
         PostFetcher.getsInstance()
                    .getRecentPosts(user.getId(), user.getToken(), getGroupPostListListener(listener,
-                                   GongSheConstant.ALL_ACTIVITY_GROUP
-                                                  .getId()));
+                           GongSheConstant.ALL_ACTIVITY_GROUP
+                                          .getId()));
     }
 
     public void getAllInvolved(OnUpdateListener listener) {

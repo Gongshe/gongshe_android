@@ -83,7 +83,7 @@ public class ContentFrameFragment extends Fragment {
             mPost = null;
             setupCardsList();
             PostManager.getInstance()
-                       .registerOnPostListUpdateListener(mOnNormalUpdateListener);
+                       .setOnPostListUpdateListener(mOnNormalUpdateListener);
 
             if (group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
                 PostManager.getInstance()
@@ -118,7 +118,7 @@ public class ContentFrameFragment extends Fragment {
             mGroup = null;
             setupCardsList();
             PostManager.getInstance()
-                       .registerOnPostListUpdateListener(mOnNormalUpdateListener);
+                       .setOnPostListUpdateListener(mOnNormalUpdateListener);
             PostManager.getInstance()
                        .getAllOfSameTitle(mPost.getSignature(), null);
         }

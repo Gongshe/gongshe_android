@@ -4,6 +4,10 @@ import com.gongshe.GongSheApp;
 import com.gongshe.R;
 
 public class GongSheConstant {
+    public final static String FILE_KEY_USER_DATA = "file_for_user_data";
+
+
+
     public static final String BASE_URL = "http://192.168.1.7:8080";
 
     public static final String PATH_USER = "/user";

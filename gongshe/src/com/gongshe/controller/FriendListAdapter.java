@@ -10,11 +10,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.gongshe.R;
-import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.User;
-import com.gongshe.model.UserManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FriendListAdapter extends BaseAdapter {

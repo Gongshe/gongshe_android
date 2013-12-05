@@ -9,16 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.gongshe.R;
 import com.gongshe.model.Group;
+import com.gongshe.model.GroupManager;
 import com.gongshe.model.User;
-import com.gongshe.model.UserManager;
 import it.sephiroth.android.library.widget.HListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupInfoActivity extends FragmentActivity {
@@ -51,7 +49,7 @@ public class GroupInfoActivity extends FragmentActivity {
         textView.setText(mGroup.getIntroduction());
         textView.setMovementMethod(new ScrollingMovementMethod());
 
-        mListGroupMember = UserManager.getInstance().getGroupMember(mGroup.getId());
+        mListGroupMember = GroupManager.getInstance().getGroupMember(mGroup.getId());
         mGroupMemberAdapter = new GroupMemberAdapter(this, mListGroupMember);
         HListView listView = (HListView) findViewById(R.id.lsv_group_member);
         listView.setAdapter(mGroupMemberAdapter);
@@ -74,20 +72,20 @@ public class GroupInfoActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        UserManager.getInstance().registerOnGroupMemberUpdateListener(new UserManager.OnGroupMemberUpdateListener() {
+        GroupManager.getInstance().setOnGroupMemberUpdateListener(new GroupManager.OnGroupMemberUpdateListener() {
             @Override
             public void onGroupMemberUpdate() {
                 mGroupMemberAdapter.notifyDataSetChanged();
                 mTxvMemberNum.setText(mListGroupMember.size() + getString(R.string.txt_human_being));
             }
         });
-        UserManager.getInstance().fetchGroupMember(mGroup.getId(), null);
+        GroupManager.getInstance().fetchGroupMember(mGroup.getId(), null);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        UserManager.getInstance().registerOnGroupMemberUpdateListener(null);
+        GroupManager.getInstance().setOnGroupMemberUpdateListener(null);
     }
 
     private void retrieveGroupData(Intent intent) {

@@ -10,10 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.gongshe.R;
-import com.gongshe.model.Group;
-import com.gongshe.model.OnUpdateListener;
-import com.gongshe.model.User;
-import com.gongshe.model.UserManager;
+import com.gongshe.model.*;
 
 import java.util.List;
 
@@ -78,7 +75,7 @@ public class GroupMemberActivity extends FragmentActivity {
         }
 
         mGridView = (GridView) findViewById(R.id.grid_member);
-        mListGroupMember = UserManager.getInstance().getGroupMember(mGroup.getId());
+        mListGroupMember = GroupManager.getInstance().getGroupMember(mGroup.getId());
         mAdapter = new GroupMemberGridAdapter(this, mListGroupMember);
         mGridView.setAdapter(mAdapter);
     }
@@ -86,7 +83,7 @@ public class GroupMemberActivity extends FragmentActivity {
     @Override
     public void onStart() {
         super.onStart();
-        UserManager.getInstance().registerOnGroupMemberUpdateListener(new UserManager.OnGroupMemberUpdateListener() {
+        GroupManager.getInstance().setOnGroupMemberUpdateListener(new GroupManager.OnGroupMemberUpdateListener() {
             @Override
             public void onGroupMemberUpdate() {
                 mAdapter.notifyDataSetChanged();
@@ -97,7 +94,7 @@ public class GroupMemberActivity extends FragmentActivity {
     @Override
     public void onStop() {
         super.onStart();
-        UserManager.getInstance().registerOnGroupMemberUpdateListener(null);
+        GroupManager.getInstance().setOnGroupMemberUpdateListener(null);
     }
 
     private void retrieveGroupData(Intent intent) {
@@ -116,7 +113,7 @@ public class GroupMemberActivity extends FragmentActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        UserManager.getInstance().deleteGroupMember(mGroup.getId(), member.getId(), new OnUpdateListener() {
+        GroupManager.getInstance().deleteGroupMember(mGroup.getId(), member.getId(), new OnUpdateListener() {
             @Override
             public void onUpdate() {
                 dialog.dismiss();

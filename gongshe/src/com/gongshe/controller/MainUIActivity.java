@@ -8,10 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Button;
 import com.gongshe.R;
-import com.gongshe.controller.ImportFriendActivity;
 import com.gongshe.model.GongSheConstant;
 import com.gongshe.model.Group;
-import com.gongshe.model.UserManager;
+import com.gongshe.model.GroupManager;
 import com.gongshe.view.SlidingMenu;
 
 public class MainUIActivity extends FragmentActivity {
@@ -98,7 +97,7 @@ public class MainUIActivity extends FragmentActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         int gid = intent.getIntExtra("gid", -1);
-        Group group = UserManager.getInstance()
+        Group group = GroupManager.getInstance()
                                  .findGroupById(gid);
         mContentFrame.setGroupContent(group, true);
         updateContentFrame();

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.gongshe.R;
+import com.gongshe.model.FriendManager;
 import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.User;
 import com.gongshe.model.UserManager;
@@ -59,7 +60,7 @@ public class ImportFriendActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 User friend = mAdapter.getItem(position);
-                UserManager.getInstance().addFriendById(friend.getId(), new OnUpdateListener() {
+                FriendManager.getInstance().addFriendById(friend.getId(), new OnUpdateListener() {
                     @Override
                     public void onUpdate() {
                         onBackPressed();

@@ -3,6 +3,7 @@ package com.gongshe.model.network;
 import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.gongshe.model.OnUpdateListener;
 import com.gongshe.model.UserManager;
 
 import static com.gongshe.model.GongSheConstant.RESULT_AUTH_ERROR;
@@ -41,6 +42,20 @@ public class RequestUtil {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "get network error." + error.getMessage());
                 if (listener != null) listener.onError(error.getMessage());
+            }
+        };
+    }
+
+    public static OnNetListener getStatusReturnListener(final OnUpdateListener listener) {
+        return new OnNetListener() {
+            @Override
+            public void OnResponse(String response) {
+                if (listener != null) listener.onUpdate();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                if (listener != null) listener.onError();
             }
         };
     }

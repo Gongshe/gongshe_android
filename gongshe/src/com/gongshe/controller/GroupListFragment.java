@@ -3,20 +3,17 @@ package com.gongshe.controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.gongshe.R;
 import com.gongshe.model.Group;
-import com.gongshe.model.UserManager;
+import com.gongshe.model.GroupManager;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +46,9 @@ public class GroupListFragment extends Fragment {
 
     private ImageView mIconDown;
 
-    private UserManager.OnDataChangeListener mDataChangeListener = new UserManager.OnDataChangeListener() {
+    private GroupManager.OnGroupListUpdateListener mDataChangeListener = new GroupManager.OnGroupListUpdateListener() {
         @Override
-        public void onDataChanged() {
+        public void onGroupListUpdate() {
             setupGroupList();
             mGroupAdapter.notifyDataSetChanged();
             updateIconDown();
@@ -104,9 +101,9 @@ public class GroupListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mMyGroupList = UserManager.getInstance()
+        mMyGroupList = GroupManager.getInstance()
                                   .getMyGroup();
-        mBelongGroupList = UserManager.getInstance()
+        mBelongGroupList = GroupManager.getInstance()
                                       .getBelongGroup();
         setupGroupList();
         // setup my group
@@ -135,12 +132,12 @@ public class GroupListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        UserManager.getInstance()
-                   .registerDataChangeListener(mDataChangeListener);
+        GroupManager.getInstance()
+                   .setGroupListUpdateListener(mDataChangeListener);
         // update group data
-        UserManager.getInstance()
+        GroupManager.getInstance()
                    .updateMyGroup(null);
-        UserManager.getInstance()
+        GroupManager.getInstance()
                    .updateBelongGroup(null);
         updateIconDown();
     }
@@ -148,8 +145,8 @@ public class GroupListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        UserManager.getInstance()
-                   .unRegisterDataChangeListener(mDataChangeListener);
+        GroupManager.getInstance()
+                   .setGroupListUpdateListener(null);
     }
 
     private void setupGroupList() {

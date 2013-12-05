@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.gongshe.R;
+import com.gongshe.model.GroupManager;
 import com.gongshe.model.OnUpdateListener;
-import com.gongshe.model.UserManager;
 
 public class CreateGroupActivity extends FragmentActivity {
     private EditText mEtxGroupName;
@@ -84,7 +84,7 @@ public class CreateGroupActivity extends FragmentActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        UserManager.getInstance().createGroup(name, introduction, new OnUpdateListener() {
+        GroupManager.getInstance().createGroup(name, introduction, new OnUpdateListener() {
             @Override
             public void onUpdate() {
                 Intent intent = new Intent(CreateGroupActivity.this, com.gongshe.controller.MainUIActivity.class);

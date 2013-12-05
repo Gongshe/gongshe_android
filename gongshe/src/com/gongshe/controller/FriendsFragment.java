@@ -5,13 +5,12 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.gongshe.R;
-import com.gongshe.model.UserManager;
+import com.gongshe.model.FriendManager;
 
 public class FriendsFragment extends Fragment {
     private final String TAG = FriendsFragment.class.getSimpleName();
@@ -27,7 +26,7 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.friends_frame, container, false);
         ListView listView = (ListView) view.findViewById(R.id.lsv_friend_list);
-        mAdapter = new FriendListAdapter(getActivity(), UserManager.getInstance().getFriendList());
+        mAdapter = new FriendListAdapter(getActivity(), FriendManager.getInstance().getFriendList());
         mAdapter.setDisplayMode(mDisplayMode);
         listView.setAdapter(mAdapter);
         updateFriendList();
@@ -35,8 +34,8 @@ public class FriendsFragment extends Fragment {
     }
 
     private void updateFriendList() {
-        UserManager.getInstance().fetchFriendList(null);
-        UserManager.getInstance().registerOnFriendListUpdateListener(new UserManager.OnFriendListUpdateListener() {
+        FriendManager.getInstance().fetchFriendList(null);
+        FriendManager.getInstance().registerOnFriendListUpdateListener(new FriendManager.OnFriendListUpdateListener() {
             @Override
             public void onFriendListUpdate() {
                 mAdapter.notifyDataSetChanged();
