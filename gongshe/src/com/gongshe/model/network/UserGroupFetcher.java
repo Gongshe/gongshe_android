@@ -173,5 +173,18 @@ public class UserGroupFetcher {
         mQueue.add(request);
     }
 
+    public void deleteGroupMember(int userId, String token, int groupId, int memberId, OnNetListener listener) {
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException une) {
+            une.printStackTrace();
+        }
+        String url = BASE_URL + PATH_GROUP + PATH_GROUP_DELETE_MEMBER + "?uid=" + userId + "&token=" + token +
+                "&mid=" + memberId + "&gid=" + groupId;
+        StringRequest request = new StringRequest(url, getResponseListener(listener),
+                getResponseErrorListener(listener));
+        mQueue.add(request);
+    }
+
 
 }

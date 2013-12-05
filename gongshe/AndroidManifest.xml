@@ -64,5 +64,8 @@
         <activity android:name=".controller.GroupInfoActivity"
                   android:screenOrientation="portrait"/>
 
+        <activity android:name=".controller.GroupMemberActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 </manifest>

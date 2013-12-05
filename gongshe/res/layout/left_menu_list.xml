@@ -1,33 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:background="@drawable/bg_slide_menu"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/grey"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="36dp"
+                  android:layout_marginLeft="38dp"
+                  android:orientation="horizontal">
+
+        <FrameLayout android:minHeight="62dp"
+                     android:layout_height="62dp"
+                     android:layout_width="62dp">
+
+            <ImageView android:layout_width="62dp"
+                       android:layout_height="62dp"
+                       android:scaleType="fitXY"
+                       android:layout_gravity="center"
+                       android:src="@drawable/icon_white_circle"
+                       android:contentDescription="@string/dummy_blind"/>
+
+            <com.gongshe.view.CirceImageView
+                    android:id="@+id/icon_avatar"
+                    android:layout_gravity="center"
+                    android:src="@drawable/yafan_icon"
+                    android:layout_height="60dp"
+                    android:layout_width="60dp"/>
+        </FrameLayout>
+
+        <TextView android:id="@+id/txv_user_name"
+                  android:layout_height="30dp"
+                  android:layout_width="wrap_content"
+                  android:textSize="23sp"
+                  android:singleLine="true"
+                  android:ellipsize="end"
+                  android:text="练亚凡"
+                  android:layout_marginLeft="13dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_vertical"
+                  android:textColor="@color/white"/>
+
+    </LinearLayout>
+
 
     <ListView
             android:id="@+id/list_menu_special"
-            android:layout_width="match_parent"
+            android:layout_width="205dp"
             android:layout_height="wrap_content"
-            android:background="@color/darkblue"
-            android:cacheColorHint="#00000000"
-            android:paddingLeft="@dimen/list_padding"
-            android:paddingRight="@dimen/list_padding"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:divider="#00000000"
+            android:cacheColorHint="#00000000"/>
 
     <fragment android:name="com.gongshe.controller.GroupListFragment"
               android:id="@+id/group_list_fragment"
               android:layout_weight="1"
-              android:layout_width="match_parent"
+              xmlns:gongshe="http://schemas.android.com/apk/res/com.gongshe"
+              gongshe:group_list_mode="menu"
+              android:layout_marginLeft="10dp"
+              android:layout_width="205dp"
               android:layout_height="match_parent"/>
 
-    <Button
-            android:id="@+id/btn_group_manage"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@string/btn_group_manage"
-            android:gravity="left|center_vertical"/>
+    <RelativeLayout
+            android:layout_width="205dp"
+            android:layout_height="50dp"
+            android:minHeight="50dp">
+
+        <ImageView android:id="@+id/icon_down"
+                   android:layout_height="30dp"
+                   android:layout_width="50dp"
+                   android:scaleType="centerInside"
+                   android:layout_alignParentTop="true"
+                   android:layout_marginTop="10dp"
+                   android:layout_alignParentLeft="true"
+                   android:layout_marginLeft="60dp"
+                   android:src="@drawable/icon_down"
+                   android:contentDescription="@string/dummy_blind"/>
+
+    </RelativeLayout>
 </LinearLayout>

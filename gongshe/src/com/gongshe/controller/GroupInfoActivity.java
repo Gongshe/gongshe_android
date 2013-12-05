@@ -26,6 +26,7 @@ public class GroupInfoActivity extends FragmentActivity {
     private List<User> mListGroupMember;
     private GroupMemberAdapter mGroupMemberAdapter;
     private TextView mTxvMemberNum;
+    private ImageView mImvMoreMember;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +59,21 @@ public class GroupInfoActivity extends FragmentActivity {
         mTxvMemberNum = (TextView)findViewById(R.id.txv_member_num);
         mTxvMemberNum.setText(mListGroupMember.size() + getString(R.string.txt_human_being));
 
+        mImvMoreMember = (ImageView) findViewById(R.id.icon_member_more);
+        mImvMoreMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListGroupMember.size() > 0) {
+                    Intent intent = getGroupInfoIntent(mGroup);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         UserManager.getInstance().registerOnGroupMemberUpdateListener(new UserManager.OnGroupMemberUpdateListener() {
             @Override
             public void onGroupMemberUpdate() {
@@ -122,4 +138,16 @@ public class GroupInfoActivity extends FragmentActivity {
             return convertView;
         }
     }
+
+    private Intent getGroupInfoIntent(Group group) {
+        Intent intent = new Intent(this, GroupMemberActivity.class);
+        intent.putExtra("gid", group.getId());
+        intent.putExtra("gname", group.getName());
+        intent.putExtra("gintroduction", group.getIntroduction());
+        intent.putExtra("gavatar", group.getAvatar());
+        intent.putExtra("gowner", group.getOwner());
+        intent.putExtra("gtime", group.getTime());
+        return intent;
+    }
+
 }

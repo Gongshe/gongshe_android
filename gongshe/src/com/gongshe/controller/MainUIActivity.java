@@ -48,6 +48,12 @@ public class MainUIActivity extends FragmentActivity {
                 group = GongSheConstant.ALL_AT_ME_GROUP;
             } else if (menuType == MenuListFragment.SpecialMenuType.INVOLVED_ME) {
                 group = GongSheConstant.ALL_INVOLVED_GROUP;
+            } else if (menuType == MenuListFragment.SpecialMenuType.GROUP_MANAGE) {
+                Intent intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
+                intent.setAction(GroupManageActivity.ACTION_MANAGE);
+                intent.putExtra("from", getString(R.string.txt_home_page));
+                startActivity(intent);
+                return;
             }
             mContentFrame.setGroupContent(group, false);
             updateContentFrame();
@@ -86,8 +92,7 @@ public class MainUIActivity extends FragmentActivity {
 
         // setup left_menu listener
         MenuListFragment menu = (MenuListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_menu_list);
-        menu.setOnGroupSelectedListener(mOnGroupSelectedListener);
-        menu.setOnSpecialMenuListener(mOnSpecialMenuListener);
+        menu.setOnMenuListener(mOnSpecialMenuListener, mOnGroupSelectedListener);
     }
 
     @Override

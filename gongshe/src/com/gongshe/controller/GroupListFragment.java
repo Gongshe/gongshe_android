@@ -1,9 +1,13 @@
 package com.gongshe.controller;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,11 @@ import java.util.List;
 
 public class GroupListFragment extends Fragment {
 
+    private enum Mode {
+        MENU,
+        ACTIVITY;
+    }
+
     public interface OnGroupSelectedListener {
         public void onGroupSelected(Group group);
     }
@@ -30,22 +39,63 @@ public class GroupListFragment extends Fragment {
     private List<Group> mBelongGroupList;
     private List<Group> mGroupList = new ArrayList<Group>();
 
+    private Mode mMode;
+
     private GroupListAdapter mGroupAdapter;
     private ListView mGroupListView;
 
     private OnGroupSelectedListener mOnGroupSelectedListener;
+    private MenuListFragment.OnSpecialMenuListener mSpecialMenuListener;
+
+    private ImageView mIconDown;
 
     private UserManager.OnDataChangeListener mDataChangeListener = new UserManager.OnDataChangeListener() {
         @Override
         public void onDataChanged() {
             setupGroupList();
             mGroupAdapter.notifyDataSetChanged();
+            updateIconDown();
         }
     };
 
+    public void setIconDown(ImageView iconDown) {
+        mIconDown = iconDown;
+        mIconDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGroupListView.smoothScrollByOffset(3);
+            }
+        });
+    }
+
+    private void updateIconDown() {
+        if (mMode == Mode.MENU) {
+            int start = mGroupListView.getFirstVisiblePosition();
+            int end = mGroupListView.getLastVisiblePosition();
+            if ((end - start) < mGroupList.size()) {
+                mIconDown.setVisibility(View.VISIBLE);
+            } else {
+                mIconDown.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(activity, attrs, savedInstanceState);
+        TypedArray styles = activity.obtainStyledAttributes(attrs, R.styleable.GroupListFragment);
+        mMode = Mode.values()[styles.getInt(R.styleable.GroupListFragment_group_list_mode, 0)];
+        styles.recycle();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.group_list, container, false);
+        View view;
+        if (mMode == Mode.MENU) {
+            view = inflater.inflate(R.layout.group_list_menu, container, false);
+        } else {
+            view = inflater.inflate(R.layout.group_list, container, false);
+        }
         mGroupListView = (ListView) view.findViewById(R.id.lsv_group);
         return view;
     }
@@ -54,18 +104,29 @@ public class GroupListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mMyGroupList = UserManager.getInstance().getMyGroup();
-        mBelongGroupList = UserManager.getInstance().getBelongGroup();
+        mMyGroupList = UserManager.getInstance()
+                                  .getMyGroup();
+        mBelongGroupList = UserManager.getInstance()
+                                      .getBelongGroup();
         setupGroupList();
         // setup my group
         mGroupAdapter = new GroupListAdapter(getActivity(), mGroupList);
         mGroupListView.setAdapter(mGroupAdapter);
+
         mGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Group group = mGroupAdapter.getItem(position);
-                if (mOnGroupSelectedListener != null) {
-                    mOnGroupSelectedListener.onGroupSelected(group);
+                if (!(group instanceof TagGroup)) {
+                    if (mOnGroupSelectedListener != null) {
+                        mOnGroupSelectedListener.onGroupSelected(group);
+                    }
+                } else {
+                     if (mMode == Mode.MENU && ((TagGroup) group).tag.equals(getString(R.string.txt_group_manage)))  {
+                         if (mSpecialMenuListener != null) {
+                             mSpecialMenuListener.onSpecialMenu(MenuListFragment.SpecialMenuType.GROUP_MANAGE);
+                         }
+                     }
                 }
             }
         });
@@ -74,16 +135,21 @@ public class GroupListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        UserManager.getInstance().registerDataChangeListener(mDataChangeListener);
+        UserManager.getInstance()
+                   .registerDataChangeListener(mDataChangeListener);
         // update group data
-        UserManager.getInstance().updateMyGroup(null);
-        UserManager.getInstance().updateBelongGroup(null);
+        UserManager.getInstance()
+                   .updateMyGroup(null);
+        UserManager.getInstance()
+                   .updateBelongGroup(null);
+        updateIconDown();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        UserManager.getInstance().unRegisterDataChangeListener(mDataChangeListener);
+        UserManager.getInstance()
+                   .unRegisterDataChangeListener(mDataChangeListener);
     }
 
     private void setupGroupList() {
@@ -91,16 +157,22 @@ public class GroupListFragment extends Fragment {
         if (!mMyGroupList.isEmpty()) {
             TagGroup tagGroup = new TagGroup();
             tagGroup.tag = getString(R.string.txt_my_group);
-            tagGroup.setId(-1);
+            tagGroup.setId(0);
             mGroupList.add(tagGroup);
             mGroupList.addAll(mMyGroupList);
         }
         if (!mBelongGroupList.isEmpty()) {
             TagGroup tagGroup = new TagGroup();
             tagGroup.tag = getString(R.string.txt_belong_group);
-            tagGroup.setId(-1);
+            tagGroup.setId(0);
             mGroupList.add(tagGroup);
             mGroupList.addAll(mBelongGroupList);
+        }
+        if (mMode == Mode.MENU) {
+            TagGroup tagGroup = new TagGroup();
+            tagGroup.tag = getString(R.string.txt_group_manage);
+            tagGroup.setId(0);
+            mGroupList.add(tagGroup);
         }
     }
 
@@ -145,32 +217,54 @@ public class GroupListFragment extends Fragment {
 
             if (isTag) {
                 if (convertView == null || !(Boolean) convertView.getTag()) {
-                    convertView = LayoutInflater.from(mContext).inflate(R.layout.group_item_tag, null);
+                    if (mMode == Mode.MENU) {
+                        convertView = LayoutInflater.from(mContext)
+                                                    .inflate(R.layout.menu_item_tag, null);
+                    } else {
+                        convertView = LayoutInflater.from(mContext)
+                                                    .inflate(R.layout.group_item_tag, null);
+                    }
                 }
-                TextView textView = (TextView) convertView;
-                textView.setText(((TagGroup) group).tag);
-
+                if (mMode == Mode.MENU) {
+                    TextView textView = (TextView) convertView.findViewById(R.id.txv_menu_name);
+                    textView.setText(((TagGroup) group).tag);
+                } else {
+                    TextView textView = (TextView) convertView;
+                    textView.setText(((TagGroup) group).tag);
+                }
                 convertView.setTag(true);
                 return convertView;
             }
 
             if (convertView == null || (Boolean) convertView.getTag()) {
-                convertView = LayoutInflater.from(mContext)
-                                            .inflate(R.layout.group_list_item, null);
+                if (mMode == Mode.MENU) {
+                    convertView = LayoutInflater.from(mContext)
+                                                .inflate(R.layout.menu_item, null);
+                } else {
+                    convertView = LayoutInflater.from(mContext)
+                                                .inflate(R.layout.group_list_item, null);
+                }
             }
-//            ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
+            if (mMode == Mode.MENU) {
+                TextView title = (TextView) convertView.findViewById(R.id.txv_menu_name);
+                title.setText(group.getName());
+            } else {
+                //            ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
 //            icon.setImageResource(android.R.drawable.ic_media_play);
-            TextView title = (TextView) convertView.findViewById(R.id.row_title);
-            title.setText(group.getName());
-            TextView txvTimeStamp = (TextView) convertView.findViewById(R.id.txv_time_stamp);
-            txvTimeStamp.setText(group.getTime().substring(0, 10));
-
+                TextView title = (TextView) convertView.findViewById(R.id.row_title);
+                title.setText(group.getName());
+                TextView txvTimeStamp = (TextView) convertView.findViewById(R.id.txv_time_stamp);
+                txvTimeStamp.setText(group.getTime()
+                                          .substring(0, 10));
+            }
             convertView.setTag(false);
             return convertView;
         }
     }
 
-    public void setOnGroupSelectedListener(OnGroupSelectedListener listener) {
-        mOnGroupSelectedListener = listener;
+    public void setOnGroupSelectedListener(OnGroupSelectedListener groupSelectedListener,
+                                           MenuListFragment.OnSpecialMenuListener specialMenuListener) {
+        mOnGroupSelectedListener = groupSelectedListener;
+        mSpecialMenuListener = specialMenuListener;
     }
 }

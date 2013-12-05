@@ -5,6 +5,7 @@
     <color name="group_divider">#D6D8DB</color>
     <color name="text_grey">#898E91</color>
     <color name="text_dark">#121416</color>
+    <color name="text_menu_blue">#015282</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->

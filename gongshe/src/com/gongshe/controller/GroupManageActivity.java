@@ -44,7 +44,7 @@ public class GroupManageActivity extends FragmentActivity {
                     intent.putExtra("gid", group.getId());
                     startActivity(intent);
                 }
-            });
+            }, null);
         } else if (action.equals(ACTION_MANAGE)) {
             mHeaderFragment.setTitle(getString(R.string.txt_manage_group));
             mHeaderFragment.setRightButtonType(HeaderFragment.ButtonType.VISIBLE, HeaderFragment.ButtonType.INVISIBLE);
@@ -63,16 +63,21 @@ public class GroupManageActivity extends FragmentActivity {
             mGroupListFragment.setOnGroupSelectedListener(new GroupListFragment.OnGroupSelectedListener() {
                 @Override
                 public void onGroupSelected(Group group) {
-                    Intent intent = new Intent(GroupManageActivity.this, GroupInfoActivity.class);
-                    intent.putExtra("gid", group.getId());
-                    intent.putExtra("gname", group.getName());
-                    intent.putExtra("gintroduction", group.getIntroduction());
-                    intent.putExtra("gavatar", group.getAvatar());
-                    intent.putExtra("gowner", group.getOwner());
-                    intent.putExtra("gtime", group.getTime());
-                    GroupManageActivity.this.startActivity(intent);
+                    GroupManageActivity.this.startActivity(getGroupInfoIntent(group));
                 }
-            });
+            }, null);
         }
     }
+
+    private Intent getGroupInfoIntent(Group group) {
+        Intent intent = new Intent(this, GroupInfoActivity.class);
+        intent.putExtra("gid", group.getId());
+        intent.putExtra("gname", group.getName());
+        intent.putExtra("gintroduction", group.getIntroduction());
+        intent.putExtra("gavatar", group.getAvatar());
+        intent.putExtra("gowner", group.getOwner());
+        intent.putExtra("gtime", group.getTime());
+        return intent;
+    }
+
 }

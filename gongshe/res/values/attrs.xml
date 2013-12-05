@@ -48,6 +48,13 @@
         <attr name="img_right_two" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="GroupListFragment">
+        <attr name="group_list_mode">
+            <enum name="menu" value="0"/>
+            <enum name="activity" value="1"/>
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="FriendsFragment">
         <attr name="item_mode">
             <enum name="none" value="0"/>

@@ -3,7 +3,7 @@ package com.gongshe.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class User {
-    public Integer id;
+    public int id;
     public String password;
     public String phone;
     public String email;
@@ -11,9 +11,11 @@ public class User {
     public String avatar;
     public String introduction;
     public String time;
-    public Integer privilege;
-    public Integer weibo_id;
+    public int privilege;
+    public int weibo_id;
     public String token;
+
+
 
     @Override
     public String toString() {
@@ -32,28 +34,77 @@ public class User {
                 '}';
     }
 
-    public String getToken() {
-        return token;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+
+        return true;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    @Override
+    public int hashCode() {
+        return id;
     }
 
-    public Integer getWeibo_id() {
-        return weibo_id;
+    public int getId() {
+        return id;
     }
 
-    public void setWeibo_id(Integer weibo_id) {
-        this.weibo_id = weibo_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Integer getPrivilege() {
-        return privilege;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPrivilege(Integer privilege) {
-        this.privilege = privilege;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     public String getTime() {
@@ -64,78 +115,28 @@ public class User {
         this.time = time;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-
-        User user = (User) o;
-
-        if (!id.equals(user.id)) return false;
-
-        return true;
+    public int getPrivilege() {
+        return privilege;
     }
 
-    @Override
-    public int hashCode() {
-        return id;
+    public void setPrivilege(int privilege) {
+        this.privilege = privilege;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public int getWeibo_id() {
+        return weibo_id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setWeibo_id(int weibo_id) {
+        this.weibo_id = weibo_id;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getToken() {
+        return token;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
-    }
-
-    public Integer getId() {
-
-        return id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public String getIntroduction() {
-        return introduction;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @JsonIgnore

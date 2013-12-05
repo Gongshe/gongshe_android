@@ -19,6 +19,7 @@ public class GongSheConstant {
     public static final String PATH_BELONG_GROUP = "/findBelongToGroups";
     public static final String PATH_GROUP_CREATE = "/create";
     public static final String PATH_GROUP_GET_ALL_MEMBER = "/getGroupAllMember";
+    public static final String PATH_GROUP_DELETE_MEMBER = "/deleteMember";
 
     public static final String PATH_POST = "/post";
     public static final String PATH_POST_CREATE = "/create";

@@ -14,43 +14,32 @@ public class MenuListFragment extends Fragment {
 
     public enum SpecialMenuType {
         AT_ME,
-        INVOLVED_ME;
+        INVOLVED_ME,
+        GROUP_MANAGE;
     }
 
     public interface OnSpecialMenuListener {
         public void onSpecialMenu(SpecialMenuType menuType);
     }
 
-    private Button mBtnGroupManage;
     private ListView mSpecialListView;
     private SpecialMenuAdapter mSpecialMenuAdapter;
     private OnSpecialMenuListener mOnSpecialMenuListener;
     private GroupListFragment mGroupListFragment;
 
-    public void setOnSpecialMenuListener(OnSpecialMenuListener listener) {
-        mOnSpecialMenuListener = listener;
-    }
+    private ImageView mIconDown;
 
-    public void setOnGroupSelectedListener(GroupListFragment.OnGroupSelectedListener listener) {
-        mGroupListFragment.setOnGroupSelectedListener(listener);
+    public void setOnMenuListener(OnSpecialMenuListener specialMenuListener,
+                                  GroupListFragment.OnGroupSelectedListener groupSelectedListener) {
+        mOnSpecialMenuListener = specialMenuListener;
+        mGroupListFragment.setOnGroupSelectedListener(groupSelectedListener, specialMenuListener);
     }
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.left_menu_list, null);
-
-        mBtnGroupManage = (Button) view.findViewById(R.id.btn_group_manage);
-        mBtnGroupManage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GroupManageActivity.class);
-                intent.setAction(GroupManageActivity.ACTION_MANAGE);
-                intent.putExtra("from", getActivity().getString(R.string.txt_home_page));
-                getActivity().startActivity(intent);
-            }
-        });
-
         mSpecialListView = (ListView) view.findViewById(R.id.list_menu_special);
+        mIconDown = (ImageView) view.findViewById(R.id.icon_down);
         return view;
 	}
 
@@ -71,6 +60,7 @@ public class MenuListFragment extends Fragment {
             }
         });
         mGroupListFragment = (GroupListFragment) getFragmentManager().findFragmentById(R.id.group_list_fragment);
+        mGroupListFragment.setIconDown(mIconDown);
 	}
 
     private class SpecialMenuItem {
@@ -90,11 +80,15 @@ public class MenuListFragment extends Fragment {
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 			if (convertView == null) {
-				convertView = LayoutInflater.from(getContext()).inflate(R.layout.group_list_item, null);
+				convertView = LayoutInflater.from(getContext()).inflate(R.layout.menu_item_tag, null);
 			}
-			ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
-			icon.setImageResource(android.R.drawable.ic_media_play);
-			TextView title = (TextView) convertView.findViewById(R.id.row_title);
+            View view = convertView.findViewById(R.id.view_divider);
+            if (position == 0) {
+                view.setVisibility(View.GONE);
+            } else {
+                view.setVisibility(View.VISIBLE);
+            }
+			TextView title = (TextView) convertView.findViewById(R.id.txv_menu_name);
 			title.setText(getItem(position).tag);
 			return convertView;
 		}

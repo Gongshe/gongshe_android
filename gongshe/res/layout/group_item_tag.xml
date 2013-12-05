@@ -8,6 +8,8 @@
           android:gravity="center_vertical"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:singleLine="true"
+          android:ellipsize="end"
           android:minHeight="33dp"
           android:height="33dp"/>
 

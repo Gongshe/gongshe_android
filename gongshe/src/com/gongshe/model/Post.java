@@ -1,14 +1,14 @@
 package com.gongshe.model;
 
 public class Post {
-    public Integer id;
+    public int id;
     public String title;
     public String content;
     public String image;
     public String time;
-    public Integer is_latest;
-    public Integer owner;
-    public Integer group;
+    public int is_latest;
+    public int owner;
+    public int group;
     public String signature;
 
     @Override
@@ -33,37 +33,21 @@ public class Post {
 
         Post post = (Post) o;
 
-        if (!id.equals(post.id)) return false;
+        if (id != post.id) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
-
-    public Integer getIs_latest() {
-        return is_latest;
-    }
-
-    public void setIs_latest(Integer is_latest) {
-        this.is_latest = is_latest;
-    }
-
-    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -99,19 +83,35 @@ public class Post {
         this.time = time;
     }
 
-    public Integer getOwner() {
+    public int getIs_latest() {
+        return is_latest;
+    }
+
+    public void setIs_latest(int is_latest) {
+        this.is_latest = is_latest;
+    }
+
+    public int getOwner() {
         return owner;
     }
 
-    public void setOwner(Integer owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
     }
 
-    public Integer getGroup() {
+    public int getGroup() {
         return group;
     }
 
-    public void setGroup(Integer group) {
+    public void setGroup(int group) {
         this.group = group;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

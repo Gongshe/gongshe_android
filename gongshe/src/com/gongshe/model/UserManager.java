@@ -517,4 +517,9 @@ public class UserManager {
             }
         });
     }
+
+    public void deleteGroupMember(final int groupId, final int memberId, final OnUpdateListener listener) {
+        UserGroupFetcher.getsInstance().deleteGroupMember(mUser.getId(), mUser.getToken(), groupId, memberId,
+                getStatusReturnListener(listener));
+    }
 }

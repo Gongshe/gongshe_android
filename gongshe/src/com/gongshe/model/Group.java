@@ -1,20 +1,12 @@
 package com.gongshe.model;
 
 public class Group {
-    public Integer id;
+    public int id;
     public String name;
     public String avatar;
     public String introduction;
     public String time;
-    public Integer owner;
-
-    public Integer getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Integer owner) {
-        this.owner = owner;
-    }
+    public int owner;
 
     @Override
     public String toString() {
@@ -35,21 +27,21 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (!id.equals(group.id)) return false;
+        if (id != group.id) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
-    }
-
-    public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -83,5 +75,13 @@ public class Group {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
     }
 }

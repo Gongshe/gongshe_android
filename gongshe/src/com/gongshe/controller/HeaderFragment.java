@@ -48,6 +48,8 @@ public class HeaderFragment extends Fragment {
     private ImageView mImvRightOne;
     private ImageView mImvRightTwo;
 
+    private View mFrameView;
+
     public void setOnButtonListener(OnButtonListener listener) {
         mOnButtonListener = listener;
     }
@@ -63,6 +65,7 @@ public class HeaderFragment extends Fragment {
             mImvRightOne.setVisibility(View.INVISIBLE);
         } else {
             mImvRightOne.setVisibility(View.VISIBLE);
+            mImvRightOne.setImageResource(mRightOneImgBtnRes);
         }
 
         mRightBtnTwoType = rightTwo;
@@ -70,6 +73,7 @@ public class HeaderFragment extends Fragment {
             mImvRightTwo.setVisibility(View.INVISIBLE);
         } else {
             mImvRightTwo.setVisibility(View.VISIBLE);
+            mImvRightTwo.setImageResource(mRightTwoImgBtnRes);
         }
     }
 
@@ -94,6 +98,8 @@ public class HeaderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.header_fragment, container, false);
+
+        mFrameView = view.findViewById(R.id.title_bar);
 
         mTxvTitle = (TextView) view.findViewById(R.id.txv_header_title);
         mTxvTitle.setText(mTitleText);

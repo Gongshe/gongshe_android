@@ -20,7 +20,7 @@
     <string name="menu_all_mention_me">所有@我的</string>
     <string name="txt_my_group">我创建的群组</string>
     <string name="txt_belong_group">我加入的群组</string>
-    <string name="btn_group_manage">群组管理</string>
+    <string name="txt_group_manage">群组管理</string>
     <string name="txt_empty_my_group">您还没有创建群组</string>
     <string name="txt_empty_belong_group">您还没有加入群组</string>
 
@@ -72,6 +72,9 @@
     <string name="txt_introduction">简介</string>
     <string name="txt_member">成员</string>
     <string name="txt_human_being">人</string>
+
+    <!-- GroupMemberActivity -->
+    <string name="txt_group_member">群组成员</string>
 
 
     <string name="dummy_blind"> </string>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="85dp">
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical">
+
+
+        <com.gongshe.view.CirceImageView
+                android:id="@+id/icon_group_member_avatar"
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitXY"/>
+
+        <TextView
+                android:id="@+id/txv_group_member_name"
+                android:layout_width="70dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/text_grey"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+    </LinearLayout>
+
+    <ImageView android:id="@+id/icon_delete_member"
+               android:layout_height="22dp"
+               android:layout_width="22dp"
+               android:src="@drawable/icon_delete"
+               android:scaleType="fitXY"
+               android:layout_alignParentTop="true"
+               android:layout_alignParentLeft="true"
+               android:layout_marginLeft="25dp"
+               android:visibility="invisible"
+               android:contentDescription="@string/dummy_blind"/>
+
+</RelativeLayout>
