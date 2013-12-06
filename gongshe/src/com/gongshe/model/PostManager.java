@@ -25,8 +25,8 @@ public class PostManager {
 
     private static volatile PostManager sInstance;
 
-    private Map<String, List<Post>> mGroupPostMap;
-    private Map<String, List<Post>> mPostMap;
+    private Map<String, List<ClientPost>> mGroupPostMap;
+    private Map<String, List<ClientPost>> mPostMap;
     private OnPostListUpdateListener mOnPostListUpdateListener;
 
     public static PostManager getInstance() {
@@ -34,28 +34,28 @@ public class PostManager {
             synchronized (PostManager.class) {
                 if (sInstance == null) {
                     sInstance = new PostManager();
-                    sInstance.mGroupPostMap = new HashMap<String, List<Post>>();
-                    sInstance.mPostMap = new HashMap<String, List<Post>>();
+                    sInstance.mGroupPostMap = new HashMap<String, List<ClientPost>>();
+                    sInstance.mPostMap = new HashMap<String, List<ClientPost>>();
                 }
             }
         }
         return sInstance;
     }
 
-    public List<Post> getGroupList(Group group) {
+    public List<ClientPost> getGroupPostList(Group group) {
         String key = String.valueOf(group.getId());
-        List<Post> postList = mGroupPostMap.get(key);
+        List<ClientPost> postList = mGroupPostMap.get(key);
         if (postList == null) {
-            postList = new ArrayList<Post>();
+            postList = new ArrayList<ClientPost>();
             mGroupPostMap.put(key, postList);
         }
         return postList;
     }
 
-    public List<Post> getPostList(String postSignature) {
-        List<Post> postList = mPostMap.get(postSignature);
+    public List<ClientPost> getPostList(String postSignature) {
+        List<ClientPost> postList = mPostMap.get(postSignature);
         if (postList == null) {
-            postList = new ArrayList<Post>();
+            postList = new ArrayList<ClientPost>();
             mPostMap.put(postSignature, postList);
         }
         return postList;
@@ -75,11 +75,11 @@ public class PostManager {
             public void OnResponse(String response) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 CollectionType type = objectMapper.getTypeFactory()
-                                                  .constructCollectionType(List.class, Post.class);
+                                                  .constructCollectionType(List.class, ClientPost.class);
                 try {
-                    List<Post> listPost = objectMapper.readValue(response.getBytes("UTF-8"), type);
+                    List<ClientPost> listPost = objectMapper.readValue(response.getBytes("UTF-8"), type);
                     if (listPost != null) {
-                        List<Post> originList = mGroupPostMap.get(String.valueOf(groupId));
+                        List<ClientPost> originList = mGroupPostMap.get(String.valueOf(groupId));
                         if (originList == null) {
                             mGroupPostMap.put(String.valueOf(groupId), listPost);
                         } else {
@@ -109,11 +109,11 @@ public class PostManager {
             public void OnResponse(String response) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 CollectionType type = objectMapper.getTypeFactory()
-                                                  .constructCollectionType(List.class, Post.class);
+                                                  .constructCollectionType(List.class, ClientPost.class);
                 try {
-                    List<Post> listPost = objectMapper.readValue(response.getBytes("UTF-8"), type);
+                    List<ClientPost> listPost = objectMapper.readValue(response.getBytes("UTF-8"), type);
                     if (listPost != null) {
-                        List<Post> originList = mPostMap.get(signature);
+                        List<ClientPost> originList = mPostMap.get(signature);
                         if (originList == null) {
                             mPostMap.put(signature, listPost);
                         } else {

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="group_tag">#0A98CC</color>
-    <color name="group_page">#EAEFF4</color>
+    <color name="bg_page">#EAEFF4</color>
     <color name="group_divider">#D6D8DB</color>
     <color name="text_grey">#898E91</color>
     <color name="text_dark">#121416</color>
     <color name="text_menu_blue">#015282</color>
+    <color name="text_title">#1EAEE2</color>
+    <color name="txt_info">#8D8D8D</color>
+    <color name="txt_content">#606366</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->

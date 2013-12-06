@@ -50,11 +50,11 @@ public class GongSheConstant {
         ALL_AT_ME_GROUP.setId(-2);
         ALL_AT_ME_GROUP.setName(GongSheApp.getInstance()
                                         .getApplicationContext()
-                                        .getString(R.string.menu_all_involved_me));
+                                        .getString(R.string.menu_all_mention_me));
         ALL_INVOLVED_GROUP = new Group();
         ALL_INVOLVED_GROUP.setId(-3);
         ALL_INVOLVED_GROUP.setName(GongSheApp.getInstance()
                                             .getApplicationContext()
-                                            .getString(R.string.menu_all_mention_me));
+                                            .getString(R.string.menu_all_involved_me));
     }
 }

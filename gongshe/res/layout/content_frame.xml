@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:background="@color/cyan"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-    <FrameLayout android:id="@+id/cards_container"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent">
-        <it.gmariotti.cardslib.library.view.CardListView
-                xmlns:card="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="#00000000"
-                card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
-                android:id="@+id/feeds_cards_list"/>
-    </FrameLayout>
-
-</RelativeLayout>
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/post_list"
+          android:background="@color/bg_page"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:divider="@color/group_divider"
+          android:dividerHeight="1dp"
+          android:listSelector="#00000000"
+          android:cacheColorHint="#00000000"/>

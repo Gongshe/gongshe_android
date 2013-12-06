@@ -8,52 +8,65 @@
               android:name="com.gongshe.controller.HeaderFragment"
               android:id="@+id/common_header"
               gongshe:left_btn="visible"
-              gongshe:img_left_btn="@drawable/icon"
+              gongshe:img_left_btn="@drawable/icon_menu"
               gongshe:right_btn_one="visible"
-              gongshe:img_right_one="@drawable/icon"
+              gongshe:img_right_one="@drawable/icon_edit"
               gongshe:text_title="@string/btn_activities"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>
 
     <FrameLayout android:id="@+id/content_frame"
                  android:layout_weight="1"
+                 android:background="@color/bg_page"
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"/>
 
         <LinearLayout android:id="@+id/content_bottom_bar"
                       android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
+                      android:layout_height="49dp"
+                      android:minHeight="49dp"
                       android:orientation="horizontal"
-                      android:background="@color/grey">
+                      android:background="@drawable/bg_bottom_bar">
 
-            <Button android:id="@+id/btn_activities"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+            <ImageView
+                    android:id="@+id/btn_activities"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dummy_blind"
                     android:layout_weight="1"
-                    android:text="@string/btn_activities"/>
+                    android:src="@drawable/icon_activity"/>
 
-            <Button android:id="@+id/btn_friends"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+            <ImageView
+                    android:id="@+id/btn_friends"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dummy_blind"
                     android:layout_weight="1"
-                    android:text="@string/btn_friends"/>
+                    android:src="@drawable/icon_friend"/>
 
 
-            <Button android:id="@+id/btn_message"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+            <ImageView
+                    android:id="@+id/btn_message"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dummy_blind"
                     android:layout_weight="1"
-                    android:text="@string/btn_message"/>
+                    android:src="@drawable/icon_message"/>
 
-            <Button android:id="@+id/btn_setting"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+            <ImageView
+                    android:id="@+id/btn_setting"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/dummy_blind"
                     android:layout_weight="1"
-                    android:text="@string/btn_settings"/>
-
+                    android:src="@drawable/icon_setting"/>
         </LinearLayout>
 </LinearLayout>

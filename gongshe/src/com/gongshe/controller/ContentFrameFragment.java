@@ -2,28 +2,24 @@ package com.gongshe.controller;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.gongshe.R;
-import com.gongshe.model.GongSheConstant;
-import com.gongshe.model.Group;
-import com.gongshe.model.Post;
-import com.gongshe.model.PostManager;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.internal.CardThumbnail;
-import it.gmariotti.cardslib.library.view.CardListView;
+import com.gongshe.model.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContentFrameFragment extends Fragment {
+
     private final String TAG = ContentFrameFragment.class.getSimpleName();
+
     private Activity mActivity;
 
     private enum TYPE {
@@ -31,48 +27,17 @@ public class ContentFrameFragment extends Fragment {
         POST;
     }
 
-    private static class PostCard extends Card {
-        private Post mPost;
-
-        public PostCard(Context context, Post post) {
-            super(context);
-            mPost = post;
-        }
-
-        public PostCard(Context context, int innerLayout, Post post) {
-            super(context, innerLayout);
-            mPost = post;
-        }
-
-        public Post getPost() {
-            return mPost;
-        }
-    }
-
     private Group mGroup;
     private Post mPost;
     private TYPE mType;
 
-    private CardListView mCardListView;
-    private CardArrayAdapter mCardListAdapter;
-
-    private Card.OnCardClickListener mOnCardClickerListener = new Card.OnCardClickListener() {
-        @Override
-        public void onClick(Card card, View view) {
-            Post post = ((PostCard) card).getPost();
-            Intent intent = new Intent(mActivity, PostBrowseActivity.class);
-            intent.putExtra("title", post.getTitle());
-            intent.putExtra("signature", post.getSignature());
-            intent.putExtra("pid", post.getId());
-            intent.putExtra("from", mGroup.getName());
-            mActivity.startActivity(intent);
-        }
-    };
+    private PostAdapter mAdapter;
+    private ListView mListView;
 
     private PostManager.OnPostListUpdateListener mOnNormalUpdateListener = new PostManager.OnPostListUpdateListener() {
         @Override
         public void onPostListUpdate() {
-            setupCardsList();
+            if (mAdapter != null) mAdapter.notifyDataSetChanged();
         }
     };
 
@@ -81,10 +46,10 @@ public class ContentFrameFragment extends Fragment {
             mType = TYPE.GROUP;
             mGroup = group;
             mPost = null;
+
             setupCardsList();
             PostManager.getInstance()
                        .setOnPostListUpdateListener(mOnNormalUpdateListener);
-
             if (group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
                 PostManager.getInstance()
                            .getRecentPosts(null);
@@ -99,6 +64,18 @@ public class ContentFrameFragment extends Fragment {
             }
         }
     }
+
+    private void setupCardsList() {
+        List<ClientPost> postList = null;
+        if (mType == TYPE.GROUP) {
+            postList = PostManager.getInstance().getGroupPostList(mGroup);
+        } else if (mType == TYPE.POST) {
+            postList = PostManager.getInstance().getPostList(mPost.getSignature());
+        }
+        mAdapter = new PostAdapter(mActivity, postList);
+        mListView.setAdapter(mAdapter);
+    }
+
 
     public String getContentName()  {
         if (mType == TYPE.GROUP) {
@@ -116,6 +93,7 @@ public class ContentFrameFragment extends Fragment {
             mType = TYPE.POST;
             mPost = post;
             mGroup = null;
+
             setupCardsList();
             PostManager.getInstance()
                        .setOnPostListUpdateListener(mOnNormalUpdateListener);
@@ -126,10 +104,8 @@ public class ContentFrameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_frame, container, false);
-        mCardListView = (CardListView) view.findViewById(R.id.feeds_cards_list);
-        mCardListView.setLongClickable(false);
+        mListView = (ListView) view.findViewById(R.id.post_list);
         return view;
     }
 
@@ -139,39 +115,89 @@ public class ContentFrameFragment extends Fragment {
         mActivity = getActivity();
     }
 
-    private void setupCardsList() {
-        List<Post> postList = null;
-        if (mType == TYPE.GROUP) {
-            postList = PostManager.getInstance().getGroupList(mGroup);
-        } else if (mType == TYPE.POST) {
-            postList = PostManager.getInstance().getPostList(mPost.getSignature());
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getCurrentGroup() == null) {
+            setGroupContent(GongSheConstant.ALL_ACTIVITY_GROUP, true);
         }
-        List<Card> cardList = new ArrayList<Card>();
-        makeupCardList(cardList, postList);
-        mCardListAdapter = new CardArrayAdapter(mActivity, cardList);
-        mCardListView.setAdapter(mCardListAdapter);
+        setupCardsList();
     }
 
-    private void makeupCardList(List<Card> cardList, List<Post> postList) {
-        for (Post post: postList) {
-            PostCard card = new PostCard(mActivity, post);
-            // set header
-            CardHeader header = new CardHeader(mActivity);
-            header.setTitle(post.getTitle());
-            card.addCardHeader(header);
-            // set thumbnail
-            CardThumbnail thumbnail = new CardThumbnail(mActivity);
-            thumbnail.setDrawableResource(R.drawable.icon);
-            card.addCardThumbnail(thumbnail);
-            // set title
-            card.setTitle(post.getContent());
-            if (mType == TYPE.GROUP) {
-                card.setOnClickListener(mOnCardClickerListener);
-            } else {
-                card.setClickable(false);
+    @Override
+    public void onStop() {
+        super.onStop();
+        PostManager.getInstance()
+                   .setOnPostListUpdateListener(null);
+    }
+
+    private class PostAdapter extends BaseAdapter {
+        List<ClientPost> mList;
+        Context mContext;
+
+        public PostAdapter(Context context, List<ClientPost> list) {
+            mContext = context;
+            mList = list;
+        }
+
+        @Override
+        public int getCount() {
+            return mList.size();
+        }
+
+        @Override
+        public ClientPost getItem(int position) {
+            return mList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            ClientPost post = mList.get(position);
+            if (post != null) return post.getId();
+            return 0;
+        }
+
+        private View getViewAt(View convertView, ClientPost post) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.post_simple_at, null);
             }
-            card.setLongClickable(false);
-            cardList.add(card);
+            TextView textView = (TextView)convertView.findViewById(R.id.txv_post_title);
+            textView.setText(post.getTitle());
+            textView = (TextView) convertView.findViewById(R.id.txv_owner);
+            textView.setText(post.getName());
+            textView = (TextView) convertView.findViewById(R.id.txv_time);
+            textView.setText(post.getTime().substring(0, 10));
+            textView = (TextView) convertView.findViewById(R.id.txv_content);
+            textView.setText(post.getContent());
+            textView = (TextView) convertView.findViewById(R.id.txv_at_list);
+            textView.setText("@连牙饭  @张婧");
+            return convertView;
+        }
+
+        private View getSimpleView(View convertView, ClientPost post) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.post_simple, null);
+            }
+            TextView textView = (TextView)convertView.findViewById(R.id.txv_post_title);
+            textView.setText(post.getTitle());
+            textView = (TextView) convertView.findViewById(R.id.txv_owner);
+            textView.setText(post.getName());
+            textView = (TextView) convertView.findViewById(R.id.txv_time);
+            textView.setText(post.getTime().substring(0, 10));
+            textView = (TextView) convertView.findViewById(R.id.txv_content);
+            //textView.setText(post.getContent());
+            textView.setText("璀璨的剑光平地升起，那刺目的光华背后，伴随着一声惊天动地的巨响，铸铁的巨门被一分为四，冲击力使整扇门向内凹陷，然后分崩离析，飞起来撞向其后的瓮城；剑气的余波融入两侧的城墙之中，黑色的岩石以肉眼可见的速度生长出一道平滑切口，沿着这条切口");
+            return convertView;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ClientPost post = getItem(position);
+            if (position == 0) {
+                return getViewAt(convertView, post);
+            }
+            return getSimpleView(convertView, post);
         }
     }
 }
+

@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import com.gongshe.R;
 import com.gongshe.model.GongSheConstant;
 import com.gongshe.model.Group;
@@ -17,10 +19,10 @@ public class MainUIActivity extends FragmentActivity {
 
     private final static String TAG = MainUIActivity.class.getSimpleName();
 
-    private Button mBtnMessage;
-    private Button mBtnFriends;
-    private Button mBtnActivities;
-    private Button mBtnSettings;
+    private ImageView mImvMessage;
+    private ImageView mImvFriends;
+    private ImageView mImvActivity;
+    private ImageView mImvSetting;
 
     private HeaderFragment mTitleFrame;
     private MessageFragment mMessageFrame;
@@ -83,12 +85,6 @@ public class MainUIActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // setup contentFrame
-        if (mContentFrame.getCurrentGroup() == null) {
-            mContentFrame.setGroupContent(GongSheConstant.ALL_ACTIVITY_GROUP, true);
-        }
-
         // setup left_menu listener
         MenuListFragment menu = (MenuListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_menu_list);
         menu.setOnMenuListener(mOnSpecialMenuListener, mOnGroupSelectedListener);
@@ -158,32 +154,32 @@ public class MainUIActivity extends FragmentActivity {
             }
         });
 
-        mBtnFriends = (Button) findViewById(R.id.btn_friends);
-        mBtnFriends.setOnClickListener(new View.OnClickListener() {
+        mImvFriends = (ImageView) findViewById(R.id.btn_friends);
+        mImvFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFriendsButton();
             }
         });
 
-        mBtnMessage = (Button) findViewById(R.id.btn_message);
-        mBtnMessage.setOnClickListener(new View.OnClickListener() {
+        mImvMessage = (ImageView) findViewById(R.id.btn_message);
+        mImvMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onMessageButton();
             }
         });
 
-        mBtnActivities = (Button) findViewById(R.id.btn_activities);
-        mBtnActivities.setOnClickListener(new View.OnClickListener() {
+        mImvActivity = (ImageView) findViewById(R.id.btn_activities);
+        mImvActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onActivities();
             }
         });
 
-        mBtnSettings = (Button) findViewById(R.id.btn_setting);
-        mBtnSettings.setOnClickListener(new View.OnClickListener() {
+        mImvSetting = (ImageView) findViewById(R.id.btn_setting);
+        mImvSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSettings();
