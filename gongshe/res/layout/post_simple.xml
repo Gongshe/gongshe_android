@@ -60,10 +60,24 @@
               android:layout_marginLeft="20dp"
               android:layout_marginRight="20dp"
               android:layout_marginTop="6dp"
-              android:paddingBottom="10dp"
+              android:layout_marginBottom="14dp"
               android:textSize="16sp"
               android:textColor="@color/txt_content"
               android:minLines="1"
               android:maxLines="2"
+              android:ellipsize="end"/>
+
+    <TextView android:id="@+id/txv_at_list"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:gravity="left|center_vertical"
+              android:layout_gravity="left|center_vertical"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp"
+              android:layout_marginTop="-10dp"
+              android:layout_marginBottom="10dp"
+              android:textSize="13sp"
+              android:textColor="@color/red"
+              android:singleLine="true"
               android:ellipsize="end"/>
 </LinearLayout>

@@ -157,24 +157,8 @@ public class ContentFrameFragment extends Fragment {
             return 0;
         }
 
-        private View getViewAt(View convertView, ClientPost post) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.post_simple_at, null);
-            }
-            TextView textView = (TextView)convertView.findViewById(R.id.txv_post_title);
-            textView.setText(post.getTitle());
-            textView = (TextView) convertView.findViewById(R.id.txv_owner);
-            textView.setText(post.getName());
-            textView = (TextView) convertView.findViewById(R.id.txv_time);
-            textView.setText(post.getTime().substring(0, 10));
-            textView = (TextView) convertView.findViewById(R.id.txv_content);
-            textView.setText(post.getContent());
-            textView = (TextView) convertView.findViewById(R.id.txv_at_list);
-            textView.setText("@连牙饭  @张婧");
-            return convertView;
-        }
-
-        private View getSimpleView(View convertView, ClientPost post) {
+        private View getSimpleView(int position, View convertView, ViewGroup parent) {
+            ClientPost post = getItem(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.post_simple, null);
             }
@@ -187,16 +171,20 @@ public class ContentFrameFragment extends Fragment {
             textView = (TextView) convertView.findViewById(R.id.txv_content);
             //textView.setText(post.getContent());
             textView.setText("璀璨的剑光平地升起，那刺目的光华背后，伴随着一声惊天动地的巨响，铸铁的巨门被一分为四，冲击力使整扇门向内凹陷，然后分崩离析，飞起来撞向其后的瓮城；剑气的余波融入两侧的城墙之中，黑色的岩石以肉眼可见的速度生长出一道平滑切口，沿着这条切口");
+            textView = (TextView) convertView.findViewById(R.id.txv_at_list);
+            if (position == 0) {
+                textView.setText("@连牙饭  @张婧");
+                textView.setVisibility(View.VISIBLE);
+            } else {
+                textView.setText(null);
+                textView.setVisibility(View.GONE);
+            }
             return convertView;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ClientPost post = getItem(position);
-            if (position == 0) {
-                return getViewAt(convertView, post);
-            }
-            return getSimpleView(convertView, post);
+            return getSimpleView(position, convertView, parent);
         }
     }
 }
