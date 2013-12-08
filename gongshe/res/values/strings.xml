@@ -15,6 +15,11 @@
     <string name="btn_settings">设置</string>
     <string name="txt_home_page">我的主页</string>
 
+    <!-- SettingFragment -->
+    <string name="txt_change_password">修改密码</string>
+    <string name="txt_about">关于西山</string>
+    <string name="txt_log_out">退出登录</string>
+
     <!-- sliding menu -->
     <string name="menu_all_involved_me">我的讨论</string>
     <string name="menu_all_mention_me">所有@我的</string>
@@ -28,13 +33,16 @@
     <string name="btn_back">返回</string>
 
     <!-- Register UI -->
-    <string name="txt_phone_num">手机号码</string>
-    <string name="txt_password">密码</string>
-    <string name="txt_name">姓名</string>
+    <string name="txt_phone_num">手机号码 :</string>
+    <string name="txt_password_pre">密</string>
+    <string name="txt_password_post">码 :</string>
+    <string name="txt_name_pre">姓</string>
+    <string name="txt_name_post">名 :</string>
     <string name="txt_hint_phone_num">请输入手机号码</string>
     <string name="txt_hint_password">请输入密码</string>
     <string name="txt_hint_name">请输入姓名</string>
     <string name="title_error_input">输入错误!</string>
+    <string name="txt_set_avatar">请设置头像</string>
     <string name="txt_error_input">请确认电话号码，姓名和密码输入正确。</string>
     <string name="txt_confirm">确定</string>
     <string name="txt_loading">网络连接中。。。</string>

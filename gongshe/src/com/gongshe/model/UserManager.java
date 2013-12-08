@@ -146,19 +146,13 @@ public class UserManager {
     public void logOut() {
         mUser = null;
         clearUserData();
-        GroupManager.getInstance()
-                    .onLogOut();
-        FriendManager.getInstance()
-                     .onLogOut();
+        GroupManager.getInstance().onLogOut();
+        FriendManager.getInstance().onLogOut();
     }
 
     public void onAuthError() {
         logOut();
-        android.os
-                .Process
-                .killProcess(android.os
-                        .Process
-                        .myPid());
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     public void fetchUserListByPhone(List<String> phoneList,

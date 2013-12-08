@@ -40,7 +40,6 @@ public class GroupManageActivity extends FragmentActivity {
                 @Override
                 public void onGroupSelected(Group group) {
                     Intent intent = new Intent(GroupManageActivity.this, EditPostActivity.class);
-                    intent.putExtra("from", getString(R.string.txt_select_group));
                     intent.putExtra("gid", group.getId());
                     startActivity(intent);
                 }

@@ -2,12 +2,13 @@ package com.gongshe.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,40 +17,30 @@ import com.gongshe.model.*;
 
 import java.util.List;
 
-public class ContentFrameFragment extends Fragment {
+public class GroupPostFragment extends Fragment {
 
-    private final String TAG = ContentFrameFragment.class.getSimpleName();
+    private final String TAG = GroupPostFragment.class.getSimpleName();
 
     private Activity mActivity;
-
-    private enum TYPE {
-        GROUP,
-        POST;
-    }
-
     private Group mGroup;
-    private Post mPost;
-    private TYPE mType;
-
     private PostAdapter mAdapter;
     private ListView mListView;
 
     private PostManager.OnPostListUpdateListener mOnNormalUpdateListener = new PostManager.OnPostListUpdateListener() {
         @Override
         public void onPostListUpdate() {
-            if (mAdapter != null) mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
     };
 
     public void setGroupContent(Group group, boolean force) {
         if (group != null && (!group.equals(mGroup) || force)) {
-            mType = TYPE.GROUP;
             mGroup = group;
-            mPost = null;
 
             setupCardsList();
+
             PostManager.getInstance()
-                       .setOnPostListUpdateListener(mOnNormalUpdateListener);
+                       .addOnPostListUpdateListener(mOnNormalUpdateListener);
             if (group.equals(GongSheConstant.ALL_ACTIVITY_GROUP)) {
                 PostManager.getInstance()
                            .getRecentPosts(null);
@@ -66,40 +57,28 @@ public class ContentFrameFragment extends Fragment {
     }
 
     private void setupCardsList() {
-        List<ClientPost> postList = null;
-        if (mType == TYPE.GROUP) {
-            postList = PostManager.getInstance().getGroupPostList(mGroup);
-        } else if (mType == TYPE.POST) {
-            postList = PostManager.getInstance().getPostList(mPost.getSignature());
-        }
+        List<ClientPost> postList = PostManager.getInstance().getGroupPostList(mGroup);
         mAdapter = new PostAdapter(mActivity, postList);
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ClientPost post = mAdapter.getItem(position);
+                Intent intent = new Intent(mActivity, PostBrowseActivity.class);
+                intent.putExtra("title", post.getTitle());
+                intent.putExtra("pid", post.getId());
+                intent.putExtra("signature", post.getSignature());
+                startActivity(intent);
+            }
+        });
     }
 
-
-    public String getContentName()  {
-        if (mType == TYPE.GROUP) {
-            return mGroup.getName();
-        }
-        return mPost.getTitle();
+    public String getContentName() {
+        return mGroup.getName();
     }
 
     public Group getCurrentGroup() {
         return mGroup;
-    }
-
-    public void setPostContent(Post post) {
-        if (post != null) {
-            mType = TYPE.POST;
-            mPost = post;
-            mGroup = null;
-
-            setupCardsList();
-            PostManager.getInstance()
-                       .setOnPostListUpdateListener(mOnNormalUpdateListener);
-            PostManager.getInstance()
-                       .getAllOfSameTitle(mPost.getSignature(), null);
-        }
     }
 
     @Override
@@ -128,7 +107,7 @@ public class ContentFrameFragment extends Fragment {
     public void onStop() {
         super.onStop();
         PostManager.getInstance()
-                   .setOnPostListUpdateListener(null);
+                   .removeOnPostListUpdateListener(mOnNormalUpdateListener);
     }
 
     private class PostAdapter extends BaseAdapter {
@@ -157,7 +136,8 @@ public class ContentFrameFragment extends Fragment {
             return 0;
         }
 
-        private View getSimpleView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
             ClientPost post = getItem(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.post_simple, null);
@@ -169,9 +149,9 @@ public class ContentFrameFragment extends Fragment {
             textView = (TextView) convertView.findViewById(R.id.txv_time);
             textView.setText(post.getTime().substring(0, 10));
             textView = (TextView) convertView.findViewById(R.id.txv_content);
-            //textView.setText(post.getContent());
-            textView.setText("璀璨的剑光平地升起，那刺目的光华背后，伴随着一声惊天动地的巨响，铸铁的巨门被一分为四，冲击力使整扇门向内凹陷，然后分崩离析，飞起来撞向其后的瓮城；剑气的余波融入两侧的城墙之中，黑色的岩石以肉眼可见的速度生长出一道平滑切口，沿着这条切口");
+            textView.setText(post.getContent());
             textView = (TextView) convertView.findViewById(R.id.txv_at_list);
+            // TODO implement @ function
             if (position == 0) {
                 textView.setText("@连牙饭  @张婧");
                 textView.setVisibility(View.VISIBLE);
@@ -181,11 +161,5 @@ public class ContentFrameFragment extends Fragment {
             }
             return convertView;
         }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getSimpleView(position, convertView, parent);
-        }
     }
 }
-

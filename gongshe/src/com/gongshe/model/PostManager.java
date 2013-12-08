@@ -1,5 +1,6 @@
 package com.gongshe.model;
 
+import android.util.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.gongshe.model.network.OnNetListener;
@@ -27,7 +28,7 @@ public class PostManager {
 
     private Map<String, List<ClientPost>> mGroupPostMap;
     private Map<String, List<ClientPost>> mPostMap;
-    private OnPostListUpdateListener mOnPostListUpdateListener;
+    private List<OnPostListUpdateListener> mOnPostListUpdateListener;
 
     public static PostManager getInstance() {
         if (sInstance == null) {
@@ -36,6 +37,7 @@ public class PostManager {
                     sInstance = new PostManager();
                     sInstance.mGroupPostMap = new HashMap<String, List<ClientPost>>();
                     sInstance.mPostMap = new HashMap<String, List<ClientPost>>();
+                    sInstance.mOnPostListUpdateListener = new ArrayList<OnPostListUpdateListener>();
                 }
             }
         }
@@ -61,12 +63,20 @@ public class PostManager {
         return postList;
     }
 
-    public void setOnPostListUpdateListener(OnPostListUpdateListener listener) {
-        mOnPostListUpdateListener = listener;
+    public void addOnPostListUpdateListener(OnPostListUpdateListener listener) {
+        if (listener != null && !mOnPostListUpdateListener.contains(listener)) {
+            mOnPostListUpdateListener.add(listener);
+        }
+    }
+
+    public void removeOnPostListUpdateListener(OnPostListUpdateListener listener) {
+        mOnPostListUpdateListener.remove(listener);
     }
 
     private void notifyPostListChanged() {
-        if (mOnPostListUpdateListener != null) mOnPostListUpdateListener.onPostListUpdate();
+        for (OnPostListUpdateListener listener : mOnPostListUpdateListener) {
+            listener.onPostListUpdate();
+        }
     }
 
     private OnNetListener getGroupPostListListener(final OnUpdateListener listener, final int groupId) {

@@ -9,59 +9,164 @@
               android:name="com.gongshe.controller.HeaderFragment"
               android:id="@+id/common_header"
               gongshe:left_btn="visible"
+              gongshe:img_left_btn="@drawable/icon_back"
               gongshe:text_title="@string/sing_up"
-              android:layout_weight="0"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"/>
 
+
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="0"
+                  android:layout_height="50dp"
+                  android:minHeight="50dp"
+                  android:background="@color/white"
                   android:orientation="horizontal">
+
         <TextView android:layout_height="wrap_content"
-                  android:layout_width="100dp"
+                  android:layout_width="90dp"
+                  android:layout_marginLeft="20dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="right|center_vertical"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
                   android:text="@string/txt_phone_num"/>
+
         <EditText android:id="@+id/etx_phone_input"
                   android:layout_height="wrap_content"
                   android:layout_width="match_parent"
+                  android:background="@color/white"
+                  android:layout_weight="1"
+                  android:textSize="16sp"
+                  android:textColor="@color/txt_hint"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_horizontal"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="20dp"
                   android:inputType="phone"
+                  android:singleLine="true"
+                  android:ellipsize="end"
                   android:hint="@string/txt_hint_phone_num"/>
     </LinearLayout>
 
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/group_divider"/>
+
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="0"
+                  android:layout_height="50dp"
+                  android:minHeight="50dp"
+                  android:background="@color/white"
                   android:orientation="horizontal">
+
         <TextView android:layout_height="wrap_content"
-                  android:layout_width="100dp"
-                  android:text="@string/txt_password"/>
+                  android:layout_width="45dp"
+                  android:layout_marginLeft="20dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_vertical"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
+                  android:text="@string/txt_password_pre"/>
+
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="45dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="right|center_vertical"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
+                  android:text="@string/txt_password_post"/>
+
         <EditText android:id="@+id/etx_password_input"
                   android:layout_height="wrap_content"
                   android:layout_width="match_parent"
+                  android:background="@color/white"
+                  android:layout_weight="1"
+                  android:textSize="16sp"
+                  android:textColor="@color/txt_hint"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_horizontal"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="20dp"
+                  android:singleLine="true"
+                  android:ellipsize="end"
                   android:hint="@string/txt_hint_password"/>
+
     </LinearLayout>
 
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/group_divider"/>
+
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="0"
+                  android:layout_height="50dp"
+                  android:minHeight="50dp"
+                  android:background="@color/white"
                   android:orientation="horizontal">
+
         <TextView android:layout_height="wrap_content"
-                  android:layout_width="100dp"
-                  android:text="@string/txt_name"/>
+                  android:layout_width="45dp"
+                  android:layout_marginLeft="20dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_vertical"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
+                  android:text="@string/txt_name_pre"/>
+
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="45dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="right|center_vertical"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
+                  android:text="@string/txt_name_post"/>
+
+
         <EditText android:id="@+id/etx_name_input"
                   android:layout_height="wrap_content"
                   android:layout_width="match_parent"
+                  android:background="@color/white"
+                  android:layout_weight="1"
+                  android:textSize="16sp"
+                  android:textColor="@color/txt_hint"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_horizontal"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="20dp"
+                  android:singleLine="true"
+                  android:ellipsize="end"
                   android:hint="@string/txt_hint_name"/>
     </LinearLayout>
 
-    <FrameLayout android:layout_height="match_parent"
-                 android:layout_width="match_parent"
-                 android:layout_weight="1"/>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/group_divider"/>
 
-    <Button android:id="@+id/btn_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="@string/sing_up"
-            android:gravity="center"/>
+    <RelativeLayout android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_weight="1">
+
+        <ImageView android:id="@+id/imv_set_avatar"
+                   android:layout_width="93dp"
+                   android:layout_height="93dp"
+                   android:src="@drawable/icon_register_camera"
+                   android:scaleType="fitXY"
+                   android:layout_alignParentTop="true"
+                   android:layout_centerHorizontal="true"
+                   android:layout_marginTop="45dp"/>
+        
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_below="@id/imv_set_avatar"
+                  android:layout_marginTop="8dp"
+                  android:textSize="14sp"
+                  android:textColor="#FFACACAC"
+                  android:text="@string/txt_set_avatar"/>
+
+        <Button android:id="@+id/btn_sign_up"
+                android:layout_width="263dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_register"
+                android:layout_marginBottom="73dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="@string/sing_up"
+                android:gravity="center"/>
+    </RelativeLayout>
+
 </LinearLayout>

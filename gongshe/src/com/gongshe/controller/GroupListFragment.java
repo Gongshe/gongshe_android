@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class GroupListFragment extends Fragment {
         if (mMode == Mode.MENU) {
             int start = mGroupListView.getFirstVisiblePosition();
             int end = mGroupListView.getLastVisiblePosition();
-            if ((end - start) < mGroupList.size()) {
+            if (start > 0 || end < (mGroupList.size() - 1)) {
                 mIconDown.setVisibility(View.VISIBLE);
             } else {
                 mIconDown.setVisibility(View.INVISIBLE);
@@ -246,6 +247,7 @@ public class GroupListFragment extends Fragment {
                 TextView title = (TextView) convertView.findViewById(R.id.txv_menu_name);
                 title.setText(group.getName());
             } else {
+                //TODO implement upload and download image function
                 //            ImageView icon = (ImageView) convertView.findViewById(R.id.row_icon);
 //            icon.setImageResource(android.R.drawable.ic_media_play);
                 TextView title = (TextView) convertView.findViewById(R.id.row_title);

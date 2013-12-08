@@ -75,6 +75,7 @@ public class RegisterActivity extends FragmentActivity {
         if (password == null || password.equals("")) {
             isErrorInput = true;
         }
+
         String name = mEtxName.getText().toString().trim();
         if (name == null || name.equals("")) {
             isErrorInput = true;

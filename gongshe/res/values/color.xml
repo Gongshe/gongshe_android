@@ -9,6 +9,7 @@
     <color name="text_title">#1EAEE2</color>
     <color name="txt_info">#8D8D8D</color>
     <color name="txt_content">#606366</color>
+    <color name="txt_hint">#9A9B9D</color>
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->

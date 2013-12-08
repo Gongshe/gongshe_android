@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gongshe.view.CirceImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/icon_friend_avatar"
+        android:layout_height="35dp"
+        android:layout_width="35dp"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"/>

@@ -2,11 +2,13 @@ package com.gongshe.controller;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,15 +19,15 @@ import com.gongshe.model.PostManager;
 
 public class PostBrowseActivity extends FragmentActivity {
 
-    private ContentFrameFragment mContentFrame;
+    private TitlePostFragment mContentFrame;
     private HeaderFragment mHeaderFrame;
     private EditText mEtxReply;
     private Post mPost;
-    private String mFrom;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_browse);
+
         mEtxReply = (EditText) findViewById(R.id.etx_post_reply);
         Button button = (Button) findViewById(R.id.btn_reply);
         button.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +38,6 @@ public class PostBrowseActivity extends FragmentActivity {
         });
 
         Intent intent = getIntent();
-        mFrom = intent.getStringExtra("from");
         String title = intent.getStringExtra("title");
         String signature = intent.getStringExtra("signature");
         int id = intent.getIntExtra("pid", 0);
@@ -45,17 +46,22 @@ public class PostBrowseActivity extends FragmentActivity {
         mPost.setTitle(title);
         mPost.setSignature(signature);
 
-        mContentFrame = (ContentFrameFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
-        mContentFrame.setPostContent(mPost);
+        mContentFrame = (TitlePostFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame);
 
         mHeaderFrame = (HeaderFragment) getSupportFragmentManager().findFragmentById(R.id.common_header);
-        mHeaderFrame.setTitle(mContentFrame.getContentName());
         mHeaderFrame.setOnButtonListener(new HeaderFragment.OnButtonListener() {
             @Override
             public void onBtnCLicked(HeaderFragment.BtnId id) {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mContentFrame.setPostContent(mPost);
+        mHeaderFrame.setTitle(mContentFrame.getContentName());
     }
 
     private void onReply() {
@@ -79,25 +85,37 @@ public class PostBrowseActivity extends FragmentActivity {
         dialog.setCancelable(false);
         dialog.show();
 
+        mEtxReply.getText().clear();
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
         PostManager.getInstance().replyPost(content, mPost.getSignature(), new OnUpdateListener() {
             @Override
             public void onUpdate() {
-                dialog.dismiss();
-                Intent intent = new Intent(PostBrowseActivity.this, PostBrowseActivity.class);
-                intent.putExtra("from", mFrom);
-                intent.putExtra("title", mPost.getTitle());
-                intent.putExtra("pid", mPost.getId());
-                intent.putExtra("signature", mPost.getSignature());
-                startActivity(intent);
-                finish();
+                mContentFrame.updateContent(new OnUpdateListener() {
+                    @Override
+                    public void onUpdate() {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onError() {
+                        dialog.dismiss();
+                        showErrorToast();
+                    }
+                });
             }
 
             @Override
             public void onError() {
                 dialog.dismiss();
-                Toast toast = Toast.makeText(PostBrowseActivity.this, R.string.error_network, Toast.LENGTH_LONG);
-                toast.show();
+                showErrorToast();
             }
         });
+    }
+
+    private void showErrorToast() {
+        Toast toast = Toast.makeText(PostBrowseActivity.this, R.string.error_network, Toast.LENGTH_LONG);
+        toast.show();
     }
 }

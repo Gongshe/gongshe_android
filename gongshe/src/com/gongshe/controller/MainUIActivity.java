@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import com.gongshe.R;
 import com.gongshe.model.GongSheConstant;
@@ -26,7 +24,7 @@ public class MainUIActivity extends FragmentActivity {
 
     private HeaderFragment mTitleFrame;
     private MessageFragment mMessageFrame;
-    private ContentFrameFragment mContentFrame;
+    private GroupPostFragment mContentFrame;
     private FriendsFragment mFriendsFrame;
     private SettingFragment mSettingFrame;
 
@@ -52,7 +50,6 @@ public class MainUIActivity extends FragmentActivity {
             } else if (menuType == MenuListFragment.SpecialMenuType.GROUP_MANAGE) {
                 Intent intent = new Intent(MainUIActivity.this, GroupManageActivity.class);
                 intent.setAction(GroupManageActivity.ACTION_MANAGE);
-                intent.putExtra("from", getString(R.string.txt_home_page));
                 startActivity(intent);
                 return;
             }
@@ -70,7 +67,7 @@ public class MainUIActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         mTitleFrame = (HeaderFragment) fragmentManager.findFragmentById(R.id.common_header);
 
-        mContentFrame = new ContentFrameFragment();
+        mContentFrame = new GroupPostFragment();
 
         mFriendsFrame = new FriendsFragment();
         mFriendsFrame.setDisplayMode(FriendListAdapter.DisplayMode.MESSAGE);
@@ -136,10 +133,8 @@ public class MainUIActivity extends FragmentActivity {
                                 intent.setAction(GroupManageActivity.ACTION_SELECT);
                             } else {
                                 intent = new Intent(MainUIActivity.this, EditPostActivity.class);
+                                intent.putExtra("gid", group.getId());
                             }
-                            intent.putExtra("from", getString(R.string.txt_home_page));
-                            intent.putExtra("gid", group.getId());
-                            MainUIActivity.this.startActivity(intent);
                         } else if (fragment == mFriendsFrame) {
                             intent = new Intent(MainUIActivity.this, ImportFriendActivity.class);
                         }

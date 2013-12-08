@@ -2,13 +2,117 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:background="@color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <Button android:id="@+id/btn_log_out"
-            android:layout_width="200dp"
-            android:layout_height="80dp"
-            android:text="log out"
-            android:layout_gravity="center"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="76dp"
+                  android:minHeight="76dp"
+                  android:orientation="horizontal">
+
+        <com.gongshe.view.CirceImageView
+                android:id="@+id/icon_avatar"
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="left|center_vertical"
+                android:scaleType="fitXY"
+                android:src="@drawable/test_circle"/>
+
+        <TextView android:id="@+id/txv_name"
+                  android:layout_height="wrap_content"
+                  android:layout_width="180dp"
+                  android:layout_weight="1"
+                  android:layout_marginLeft="12dp"
+                  android:singleLine="true"
+                  android:ellipsize="end"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_vertical"
+                  android:textColor="@color/text_dark"
+                  android:textSize="18sp"/>
+        
+        <ImageView android:id="@+id/icon_to_profile"
+                   android:layout_width="15dp"
+                   android:layout_height="30dp"
+                   android:src="@drawable/icon_right_more"
+                   android:scaleType="centerInside"
+                   android:layout_gravity="right|center_vertical"
+                   android:layout_marginRight="20dp"
+                   android:contentDescription="@string/dummy_blind"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/group_divider"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="54dp"
+                  android:minHeight="54dp"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_marginLeft="20dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_vertical"
+                  android:layout_weight="1"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
+                  android:text="@string/txt_change_password"/>
+
+        <ImageView android:id="@+id/icon_to_password"
+                   android:layout_width="15dp"
+                   android:layout_height="30dp"
+                   android:src="@drawable/icon_right_more"
+                   android:scaleType="centerInside"
+                   android:layout_gravity="right|center_vertical"
+                   android:layout_marginRight="20dp"
+                   android:contentDescription="@string/dummy_blind"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/group_divider"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="54dp"
+                  android:minHeight="54dp"
+                  android:orientation="horizontal">
+
+        <TextView android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:layout_marginLeft="20dp"
+                  android:layout_gravity="left|center_vertical"
+                  android:gravity="left|center_vertical"
+                  android:layout_weight="1"
+                  android:textColor="@color/txt_content"
+                  android:textSize="20sp"
+                  android:text="@string/txt_about"/>
+
+        <ImageView android:id="@+id/icon_to_about"
+                   android:layout_width="15dp"
+                   android:layout_height="30dp"
+                   android:src="@drawable/icon_right_more"
+                   android:scaleType="centerInside"
+                   android:layout_gravity="right|center_vertical"
+                   android:layout_marginRight="20dp"
+                   android:contentDescription="@string/dummy_blind"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/group_divider"/>
+
+    <RelativeLayout android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1">
+
+        <Button android:id="@+id/btn_log_out"
+                android:layout_width="263dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_log_out"
+                android:layout_marginBottom="33dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="@string/txt_log_out"
+                android:gravity="center"/>
+    </RelativeLayout>
 
 </LinearLayout>

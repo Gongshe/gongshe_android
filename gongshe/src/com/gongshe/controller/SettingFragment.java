@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import com.gongshe.R;
 import com.gongshe.model.UserManager;
 
@@ -20,6 +21,12 @@ public class SettingFragment extends Fragment {
                 onLogOut();
             }
         });
+
+        TextView textView = (TextView) view.findViewById(R.id.txv_name);
+        textView.setText(UserManager.getInstance().getUser().getName());
+
+        //TODO: set user's Avatar
+
         return view;
     }
 

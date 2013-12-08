@@ -14,6 +14,7 @@ public class FriendListActivity extends FragmentActivity {
             @Override
             public void onBtnCLicked(HeaderFragment.BtnId id) {
                 if (id == HeaderFragment.BtnId.LEFT) {
+                    setResult(RESULT_OK);
                     onBackPressed();
                 } else {
                     Intent intent = new Intent(FriendListActivity.this, ImportFriendActivity.class);
@@ -22,4 +23,5 @@ public class FriendListActivity extends FragmentActivity {
             }
         });
     }
+
 }
