@@ -4,3 +4,6 @@
 [submodule "HorizontalVariableListView"]
 	path = HorizontalVariableListView
 	url = https://github.com/sephiroth74/HorizontalVariableListView.git
+[submodule "android-swipelistview"]
+	path = android-swipelistview
+	url = https://github.com/47deg/android-swipelistview.git

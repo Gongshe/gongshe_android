@@ -70,7 +70,7 @@ public class MainUIActivity extends FragmentActivity {
         mContentFrame = new GroupPostFragment();
 
         mFriendsFrame = new FriendsFragment();
-        mFriendsFrame.setDisplayMode(FriendListAdapter.DisplayMode.MESSAGE);
+        mFriendsFrame.setDisplayMode(FriendListAdapter.DisplayMode.NORMAL);
 
         mMessageFrame = new MessageFragment();
 
@@ -185,7 +185,7 @@ public class MainUIActivity extends FragmentActivity {
     private void setUpSlideMenu() {
         mSlideMenu = new SlidingMenu(this);
         mSlideMenu.setMode(SlidingMenu.LEFT);
-        mSlideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mSlideMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         mSlideMenu.setShadowWidthRes(R.dimen.shadow_width);
         mSlideMenu.setShadowDrawable(R.drawable.shadow);
         mSlideMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);

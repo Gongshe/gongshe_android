@@ -52,7 +52,7 @@ public class ImportFriendActivity extends FragmentActivity {
         mPotentialFriendList = new ArrayList<User>();
         mContactInfoList = new ArrayList<FetchContactWorker.ContactInfo>();
         mAdapter = new FriendListAdapter(getApplicationContext(), mPotentialFriendList);
-        mAdapter.setDisplayMode(FriendListAdapter.DisplayMode.NONE);
+        mAdapter.setDisplayMode(FriendListAdapter.DisplayMode.NORMAL);
         mContactListView = (ListView) findViewById(R.id.contact_list);
         mContactListView.setAdapter(mAdapter);
 

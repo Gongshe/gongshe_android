@@ -15,6 +15,9 @@
     <string name="btn_settings">设置</string>
     <string name="txt_home_page">我的主页</string>
 
+    <!-- FriendFragment -->
+    <string name="txt_delete">删除</string>
+
     <!-- SettingFragment -->
     <string name="txt_change_password">修改密码</string>
     <string name="txt_about">关于西山</string>
